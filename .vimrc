@@ -356,6 +356,10 @@ let g:UltiSnipsMappingsToIgnore=['autocomplete']
 let g:UltiSnipsSnippetsDir='~/.vim/ultisnips'
 let g:UltiSnipsSnippetDirectories=['ultisnips']
 
+"" Ack.vim
+" Use Ag with Ack.vim (requires Ag [brew install the_silver_searcher])
+let g:ackprg = 'ag --vimgrep'
+
 "*****************************************************************************
 "" Key Maps
 "*****************************************************************************
