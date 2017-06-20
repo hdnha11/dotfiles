@@ -369,7 +369,7 @@ let g:ackprg = 'ag --vimgrep'
 "*****************************************************************************
 "" Key Maps
 "*****************************************************************************
-nnoremap <C-e> :NERDTreeTabsToggle<CR>
+nnoremap <Leader>f :NERDTreeTabsToggle<CR>
 nnoremap <Leader>\ :NERDTreeTabsFind<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <silent> <ESC> :noh<CR>
