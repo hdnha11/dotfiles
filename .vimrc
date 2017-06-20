@@ -159,6 +159,12 @@ set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
 
+"" Alias unnamed register to the * register
+set clipboard=unnamed
+
+"" Alias unnamed register to the + register, which is the X Window clipboard
+" set clipboard=unnamedplus
+
 "" Fix backspace indent
 set backspace=indent,eol,start
 
