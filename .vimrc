@@ -353,9 +353,9 @@ let g:vimshell_prompt='$ '
 
 "" UltiSnips
 " YouCompleteMe and UltiSnips compatibility
-let g:UltiSnipsExpandTrigger='<c-l>'
-let g:UltiSnipsJumpForwardTrigger='<c-l>'
-let g:UltiSnipsJumpBackwardTrigger='<c-z>'
+let g:UltiSnipsExpandTrigger='<C-l>'
+let g:UltiSnipsJumpForwardTrigger='<C-l>'
+let g:UltiSnipsJumpBackwardTrigger='<C-z>'
 " Prevent UltiSnips from removing our carefully-crafted mappings.
 let g:UltiSnipsMappingsToIgnore=['autocomplete']
 " Additional UltiSnips => add ultisnips folder in .vim
