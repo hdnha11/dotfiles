@@ -1,7 +1,11 @@
-hs.window.animationDuration = 0.3
+windowModal = hs.hotkey.modal.new()
+local modalPackage = {}
+modalPackage.id = 'windowModal'
+modalPackage.modal = windowModal
+table.insert(modalList, modalPackage)
 
-local sizes = {2, 3, 3/2}
-local fullScreenSizes = {1, 4/3, 2}
+local sizes = {2, 3, 3 / 2}
+local fullScreenSizes = {1, 4 / 3, 2}
 
 local GRID = {w = 24, h = 24}
 hs.grid.setGrid(GRID.w .. 'x' .. GRID.h)
@@ -15,6 +19,39 @@ local pressed = {
     right = false
 }
 
+function windowModal:entered()
+    for i = 1, #modalList do
+        if modalList[i].id == 'windowModal' then
+            table.insert(activeModals, modalList[i])
+        end
+    end
+
+    if hotkeyText then
+        hotkeyText:delete()
+        hotkeyText = nil
+        hotkeyBackground:delete()
+        hotkeyBackground = nil
+    end
+
+    if showWindowTips == nil then showWindowTips = true end
+    if showWindowTips == true then showAvailableHotkey() end
+end
+
+function windowModal:exited()
+    for i = 1, #activeModals do
+        if activeModals[i].id == 'windowModal' then
+            table.remove(activeModals, i)
+        end
+    end
+
+    if hotkeyText then
+        hotkeyText:delete()
+        hotkeyText = nil
+        hotkeyBackground:delete()
+        hotkeyBackground = nil
+    end
+end
+
 function nextStep(dim, offs, cb)
     if hs.window.focusedWindow() then
         local axis = dim == 'w' and 'x' or 'y'
@@ -27,10 +64,10 @@ function nextStep(dim, offs, cb)
         cell = hs.grid.get(win, screen)
 
         local nextSize = sizes[1]
-        for i=1,#sizes do
+        for i = 1, #sizes do
             if cell[dim] == GRID[dim] / sizes[i] and
                 (cell[axis] + (offs and cell[dim] or 0)) == (offs and GRID[dim] or 0)
-                then
+            then
                 nextSize = sizes[(i % #sizes) + 1]
                 break
             end
@@ -55,7 +92,7 @@ function nextFullScreenStep()
         cell = hs.grid.get(win, screen)
 
         local nextSize = fullScreenSizes[1]
-        for i=1,#fullScreenSizes do
+        for i = 1, #fullScreenSizes do
             if cell.w == GRID.w / fullScreenSizes[i] and
                 cell.h == GRID.h / fullScreenSizes[i] and
                 cell.x == (GRID.w - GRID.w / fullScreenSizes[i]) / 2 and
@@ -109,12 +146,33 @@ function move(direction)
     win:setFrame(f)
 end
 
-hs.hotkey.bind(leader, 'J', function ()
+function isInScreen(screen, win)
+    return win:screen() == screen
+end
+
+function focusScreen(screen)
+    local windows = hs.fnutils.filter(
+        hs.window.orderedWindows(),
+        hs.fnutils.partial(isInScreen, screen)
+    )
+    local windowToFocus = #windows > 0 and windows[1] or hs.window.desktop()
+    windowToFocus:focus()
+
+    -- Move mouse to center of screen
+    local pt = geometry.rectMidPoint(screen:fullFrame())
+    mouse.setAbsolutePosition(pt)
+end
+
+windowModal:bind('', 'escape', function() windowModal:exit() end)
+windowModal:bind('', 'Q', function() windowModal:exit() end)
+windowModal:bind('', 'tab', function() showAvailableHotkey() end)
+
+windowModal:bind('', 'J', 'Downhalf of Screen', function ()
     pressed.down = true
     if pressed.up then
         fullDimension('h')
     else
-        nextStep('h', true, function (cell, nextSize)
+        nextStep('h', true, function(cell, nextSize)
             cell.y = GRID.h - GRID.h / nextSize
             cell.h = GRID.h / nextSize
         end)
@@ -123,12 +181,12 @@ end, function ()
     pressed.down = false
 end)
 
-hs.hotkey.bind(leader, 'L', function ()
+windowModal:bind('', 'L', 'Righthalf of Screen', function ()
     pressed.right = true
     if pressed.left then
         fullDimension('w')
     else
-        nextStep('w', true, function (cell, nextSize)
+        nextStep('w', true, function(cell, nextSize)
             cell.x = GRID.w - GRID.w / nextSize
             cell.w = GRID.w / nextSize
         end)
@@ -137,12 +195,12 @@ end, function ()
     pressed.right = false
 end)
 
-hs.hotkey.bind(leader, 'H', function ()
+windowModal:bind('', 'H', 'Lefthalf of Screen', function ()
     pressed.left = true
     if pressed.right then
         fullDimension('w')
     else
-        nextStep('w', false, function (cell, nextSize)
+        nextStep('w', false, function(cell, nextSize)
             cell.x = 0
             cell.w = GRID.w / nextSize
         end)
@@ -151,12 +209,12 @@ end, function ()
     pressed.left = false
 end)
 
-hs.hotkey.bind(leader, 'K', function ()
+windowModal:bind('', 'K', 'Uphalf of Screen', function ()
     pressed.up = true
     if pressed.down then
         fullDimension('h')
     else
-        nextStep('h', false, function (cell, nextSize)
+        nextStep('h', false, function(cell, nextSize)
             cell.y = 0
             cell.h = GRID.h / nextSize
         end)
@@ -165,11 +223,11 @@ end, function ()
     pressed.up = false
 end)
 
-hs.hotkey.bind(leader, 'F', function ()
+windowModal:bind('', 'F', 'Fullscreen', function ()
     nextFullScreenStep()
 end)
 
-hs.hotkey.bind(leader, 'I', function ()
+windowModal:bind('', 'I', 'Get Info', function ()
     local win = hs.window.frontmostWindow()
     local id = win:id()
     local screen = win:screen()
@@ -177,39 +235,47 @@ hs.hotkey.bind(leader, 'I', function ()
     hs.alert.show(cell)
 end)
 
-hs.hotkey.bind(leadershift, 'Y', function ()
+windowModal:bind('shift', 'Y', 'Move NorthWest', function ()
     move('t')
     move('l')
 end)
 
-hs.hotkey.bind(leadershift, 'K', function ()
+windowModal:bind('shift', 'K', 'Move Move Upward', function ()
     move('t')
 end)
 
-hs.hotkey.bind(leadershift, 'U', function ()
+windowModal:bind('shift', 'U', 'Move NorthEast', function ()
     move('t')
     move('r')
 end)
 
-hs.hotkey.bind(leadershift, 'H', function ()
+windowModal:bind('shift', 'H', 'Move Leftward', function ()
     move('l')
 end)
 
-hs.hotkey.bind(leadershift, 'L', function ()
+windowModal:bind('shift', 'L', 'Move Rightward', function ()
     move('r')
 end)
 
-hs.hotkey.bind(leadershift, 'B', function ()
+windowModal:bind('shift', 'B', 'Move SouthWest', function ()
     move('b')
     move('l')
 end)
 
-hs.hotkey.bind(leadershift, 'J', function ()
+windowModal:bind('shift', 'J', 'Move Downward', function ()
     move('b')
 end)
 
-hs.hotkey.bind(leadershift, 'N', function ()
+windowModal:bind('shift', 'N', 'Move SouthEast', function ()
     move('b')
     move('r')
+end)
+
+windowModal:bind('', 'N', 'Focus to next display', function ()
+    focusScreen(hs.window.focusedWindow():screen():next())
+end)
+
+windowModal:bind('', 'P', 'Focus to previous display', function ()
+    focusScreen(hs.window.focusedWindow():screen():previous())
 end)
 
