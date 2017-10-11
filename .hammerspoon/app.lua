@@ -17,10 +17,10 @@ local appList = {
     {shortcut = 'D', name = 'Sequel Pro'},
     {shortcut = 'K', name = 'Sketch'},
     {shortcut = 'S', name = 'Slack'},
-    {shortcut = 'Y', name = 'Skype'},
+    {shortcut = 'P', name = 'Franz'},
     {shortcut = 'V', name = 'Viber'},
     {shortcut = 'B', name = 'iBooks'},
-    {shortcut = 'T', name = 'iTunes'},
+    {shortcut = 'W', name = 'Station'},
     {shortcut = 'A', name = 'Atom'},
 }
 
