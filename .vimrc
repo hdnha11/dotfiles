@@ -45,6 +45,7 @@ Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'burnettk/vim-angular'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'heavenshell/vim-jsdoc', { 'on': '<Plug>(jsdoc)' }
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
 "" Ruby
 Plug 'vim-ruby/vim-ruby'
@@ -364,10 +365,16 @@ let g:UltiSnipsSnippetDirectories=['ultisnips']
 " Use Ag with Ack.vim (requires Ag [brew install the_silver_searcher])
 let g:ackprg = 'ag --vimgrep'
 
+"" ALE
+" After this is configured, :ALEFix will try and fix your JS code with ESLint.
+let g:ale_fixers = { 'javascript': ['eslint'] }
+
 "*****************************************************************************
 "" Key Maps
 "*****************************************************************************
-nnoremap <Leader>f :NERDTreeTabsToggle<CR>
+nnoremap <Leader>t :NERDTreeTabsToggle<CR>
 nnoremap <Leader>\ :NERDTreeTabsFind<CR>
+nnoremap <Leader>p :PrettierAsync<CR>
+nnoremap <Leader>f :ALEFix<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <silent> <ESC> :noh<CR>
