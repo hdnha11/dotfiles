@@ -1,5 +1,5 @@
 git clone --bare git@github.com:hdnha11/dotfiles.git $HOME/.dotfiles
-function config {
+function dotfiles {
   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
 }
 mkdir -p .dotfiles-backup
