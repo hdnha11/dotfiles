@@ -1,3 +1,7 @@
+if &compatible
+  set nocompatible
+endif
+
 "*****************************************************************************
 "" Plugins
 "*****************************************************************************
@@ -26,7 +30,6 @@ Plug 'tpope/vim-commentary'
 
 "" Git
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-git'
 
 "" Shows a git diff in the gutter (sign column) and stages/undoes hunks.
 Plug 'airblade/vim-gitgutter'
@@ -35,52 +38,32 @@ Plug 'airblade/vim-gitgutter'
 Plug 'sheerun/vim-polyglot'
 
 "" Javascript
-Plug 'pangloss/vim-javascript'
 Plug 'moll/vim-node'
-Plug 'leshill/vim-json'
-Plug 'mustache/vim-mustache-handlebars'
-Plug 'mxw/vim-jsx'
-Plug 'briancollins/vim-jst'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'burnettk/vim-angular'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'heavenshell/vim-jsdoc', { 'on': '<Plug>(jsdoc)' }
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
 "" Ruby
-Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
 Plug 'thoughtbot/vim-rspec'
 
 "" HTML
-Plug 'othree/html5.vim'
 Plug 'vim-scripts/HTML-AutoCloseTag'
-Plug 'tpope/vim-haml'
-Plug 'digitaltoad/vim-jade'
 
 "" CSS
-Plug 'wavded/vim-stylus'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'groenewege/vim-less'
 Plug 'gorodinskiy/vim-coloresque'
 
 "" TypeScript
-Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript', { 'for': 'typescript' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
 "" Go
 Plug 'fatih/vim-go'
 
-"" Elm
-Plug 'ElmCast/elm-vim'
-
 "" Markdown
-Plug 'tpope/vim-markdown'
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-
-"" Elixir
-Plug 'elixir-lang/vim-elixir'
 
 "" Snippets
 Plug 'SirVer/ultisnips'
@@ -122,9 +105,6 @@ Plug 'majutsushi/tagbar'
 Plug 'christoomey/vim-tmux-runner'
 Plug 'christoomey/vim-tmux-navigator'
 
-"" Provides a :Rbenv command that wraps !rbenv with tab complete
-Plug 'tpope/vim-rbenv'
-
 "" Helpers for UNIX (:Delete, :Move, :Chmod,...)
 Plug 'tpope/vim-eunuch'
 
@@ -151,10 +131,6 @@ call plug#end()
 "*****************************************************************************
 "" Basic Setup
 "*****************************************************************************
-
-if &compatible
-  set nocompatible
-endif
 
 filetype plugin indent on
 
@@ -190,6 +166,9 @@ set hlsearch
 set incsearch
 set ignorecase
 set smartcase
+
+"" Completion Options
+set completeopt-=preview
 
 "" Directories for swp files
 set nobackup
