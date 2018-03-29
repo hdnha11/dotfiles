@@ -1,0 +1,14 @@
+# ~/.tmuxinator/project.yml
+
+name: <%= @args[0] %>
+root: <%= @settings['baseDir'] %>/<%= @args[0] %>
+startup_pane: 1
+
+windows:
+  - console:
+      layout: main-vertical
+      panes:
+        - #empty
+        - #empty
+        - #empty
+  - editor: vim

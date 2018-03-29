@@ -1,0 +1,11 @@
+# ~/.tmuxinator/dotfiles.yml
+
+name: dotfiles
+root: ~/
+startup_pane: 1
+
+windows:
+  - dotfiles: dotfiles status
+  - vim: vim ~/.vimrc
+  - tmux: vim ~/.tmux.conf
+  - zsh: vim ~/.zshrc
