@@ -60,7 +60,8 @@ Plug 'peitalin/vim-jsx-typescript', { 'for': 'typescript' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
 "" Go
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'AndrewRadev/splitjoin.vim'
 
 "" Markdown
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
@@ -178,11 +179,18 @@ set fileformats=unix,dos,mac
 set showcmd
 set shell=/bin/sh
 
-" session management
-let g:session_directory="~/.vim/session"
-let g:session_autoload="no"
-let g:session_autosave="no"
-let g:session_command_aliases=1
+"" Session management
+let g:session_directory = '~/.vim/session'
+let g:session_autoload = 'no'
+let g:session_autosave = 'no'
+let g:session_command_aliases = 1
+
+"" Persistent undo
+if has('persistent_undo')
+  set undofile
+  " Run mkdir ~/.vim/undo if undo folder is not exists
+  set undodir=~/.vim/undo
+endif
 
 "*****************************************************************************
 "" Visual Settings
@@ -191,7 +199,7 @@ syntax enable
 set ruler
 set number
 
-let no_buffers_menu=1
+let no_buffers_menu = 1
 
 colorscheme one
 set background=dark
@@ -202,13 +210,13 @@ set t_Co=256
 set guioptions=egmrti
 set gfn=Monospace\ 10
 
-if has("gui_running")
-  if has("gui_mac") || has("gui_macvim")
+if has('gui_running')
+  if has('gui_mac') || has('gui_macvim')
     set guifont=Menlo:h12
     set transparency=7
   endif
 else
-  let g:CSApprox_loaded=1
+  let g:CSApprox_loaded = 1
 
 
   if $COLORTERM == 'gnome-terminal'
@@ -225,12 +233,11 @@ if &term =~ '256color'
   set t_ut=
 endif
 
-" Highlight line
-set cursorline
+"" Highlight line
+" Disable to speed up highlighting
+" set cursorline
 hi cursorline cterm=none term=none
 highlight CursorLine ctermbg=235
-autocmd WinEnter * setlocal cursorline
-autocmd WinLeave * setlocal nocursorline
 
 "" Disable the blinking cursor.
 set gcr=a:blinkon0
@@ -244,12 +251,12 @@ set modeline
 set modelines=10
 
 set title
-set titleold="Terminal"
+set titleold=
 set titlestring=%F
 
 set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 
-if exists("*fugitive#statusline")
+if exists('*fugitive#statusline')
   set statusline+=%{fugitive#statusline()}
 endif
 
@@ -293,52 +300,53 @@ augroup vimrc-make-cmake
 augroup END
 
 set autoread
+set autowrite
 
 "*****************************************************************************
 "" Plugins Configuration
 "*****************************************************************************
 "" NERDTree configuration
-let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowBookmarks=1
-let g:nerdtree_tabs_focus_on_files=1
-let g:NERDTreeMapOpenInTabSilent='<RightMouse>'
-let g:NERDTreeWinSize=30
+let g:NERDTreeChDirMode = 2
+let g:NERDTreeIgnore = ['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder = ['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks = 1
+let g:nerdtree_tabs_focus_on_files = 1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+let g:NERDTreeWinSize = 30
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 
 "" Airline
-let g:airline_powerline_fonts=1
-let g:airline_theme='one'
-let g:airline#extensions#tabline#enabled=1
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'one'
+let g:airline#extensions#tabline#enabled = 1
 
 "" One-Dark
 "Use 24-bit (true-color) mode in Vim/Neovim (http://sunaku.github.io/tmux-24bit-color.html#usage)
 "For Neovim 0.1.3 and 0.1.4 (https://github.com/neovim/neovim/pull/2198)
-if (has("nvim"))
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+if (has('nvim'))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
 endif
 "For Neovim > 0.1.5 and Vim > patch 7.4.1799 (https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162)
 "Based on Vim patch 7.4.1770 (`guicolors` option) (https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd)
 "(https://github.com/neovim/neovim/wiki/Following-HEAD#20160511)
-if (has("termguicolors"))
+if (has('termguicolors'))
   set termguicolors
 endif
 
 "" vimshell.vim
-let g:vimshell_user_prompt='fnamemodify(getcwd(), ":~")'
-let g:vimshell_prompt='$ '
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+let g:vimshell_prompt = '$ '
 
 "" UltiSnips
 " YouCompleteMe and UltiSnips compatibility
-let g:UltiSnipsExpandTrigger='<C-l>'
-let g:UltiSnipsJumpForwardTrigger='<C-l>'
-let g:UltiSnipsJumpBackwardTrigger='<C-z>'
+let g:UltiSnipsExpandTrigger = '<C-l>'
+let g:UltiSnipsJumpForwardTrigger = '<C-l>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-z>'
 " Prevent UltiSnips from removing our carefully-crafted mappings.
-let g:UltiSnipsMappingsToIgnore=['autocomplete']
+let g:UltiSnipsMappingsToIgnore = ['autocomplete']
 " Additional UltiSnips => add ultisnips folder in .vim
-let g:UltiSnipsSnippetsDir='~/.vim/ultisnips'
-let g:UltiSnipsSnippetDirectories=['ultisnips']
+let g:UltiSnipsSnippetsDir = '~/.vim/ultisnips'
+let g:UltiSnipsSnippetDirectories = ['ultisnips']
 
 "" Ack.vim
 " Use Ag with Ack.vim (requires Ag [brew install the_silver_searcher])
@@ -348,12 +356,85 @@ let g:ackprg = 'ag --vimgrep'
 " After this is configured, :ALEFix will try and fix your JS code with ESLint.
 let g:ale_fixers = { 'javascript': ['eslint'] }
 
+"" vim-go
+let g:go_fmt_command = 'goimports'
+let g:go_autodetect_gopath = 1
+let g:go_list_type = 'quickfix'
+let g:go_addtags_transform = 'camelcase'
+
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
+
+" Open :GoDeclsDir with ctrl-g
+nmap <C-g> :GoDeclsDir<cr>
+imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
+
+augroup go
+  autocmd!
+
+  " Show by default 4 spaces for a tab
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+
+  " :GoBuild and :GoTestCompile
+  autocmd FileType go nmap <leader>b :<C-u>call <SID>buildGoFiles()<CR>
+
+  " :GoTest
+  autocmd FileType go nmap <leader>t <Plug>(go-test)
+
+  " :GoRun
+  autocmd FileType go nmap <leader>r <Plug>(go-run)
+
+  " :GoDoc
+  autocmd FileType go nmap <Leader>d <Plug>(go-doc)
+
+  " :GoCoverageToggle
+  autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+
+  " :GoInfo
+  autocmd FileType go nmap <Leader>i <Plug>(go-info)
+
+  " :GoMetaLinter
+  autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
+
+  " :GoDef but opens in a vertical split
+  autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
+  " :GoDef but opens in a horizontal split
+  autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
+
+  " :GoAlternate  commands :A, :AV, :AS and :AT
+  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+augroup END
+
+" buildGoFiles is a custom function that builds or compiles the test file.
+" It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
+function! s:buildGoFiles()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
 "*****************************************************************************
 "" Key Maps
 "*****************************************************************************
-nnoremap <Leader>t :NERDTreeTabsToggle<CR>
+nnoremap <Leader>\| :NERDTreeTabsToggle<CR>
 nnoremap <Leader>\ :NERDTreeTabsFind<CR>
 nnoremap <Leader>p :PrettierAsync<CR>
 nnoremap <Leader>f :ALEFix<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <silent> <ESC> :noh<CR>
+
+" Jump to next error with Ctrl-n and previous error with Ctrl-m
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
+" Close the quickfix window with <leader>a
+nnoremap <leader>a :cclose<CR>
