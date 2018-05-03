@@ -53,7 +53,7 @@ Plug 'vim-scripts/HTML-AutoCloseTag'
 
 "" CSS
 Plug 'hail2u/vim-css3-syntax'
-Plug 'gorodinskiy/vim-coloresque'
+Plug 'griffinqiu/vim-coloresque'
 
 "" TypeScript
 Plug 'peitalin/vim-jsx-typescript', { 'for': 'typescript' }
