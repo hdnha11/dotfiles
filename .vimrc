@@ -50,6 +50,7 @@ Plug 'thoughtbot/vim-rspec'
 
 "" HTML
 Plug 'vim-scripts/HTML-AutoCloseTag'
+Plug 'mattn/emmet-vim'
 
 "" CSS
 Plug 'hail2u/vim-css3-syntax'
