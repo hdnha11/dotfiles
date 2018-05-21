@@ -128,6 +128,9 @@ Plug 'jordwalke/VimAutoMakeDirectory'
 "" Combine with netrw to create a delicious salad dressing
 Plug 'tpope/vim-vinegar'
 
+"" Helpers
+Plug 'phongnh/vim-search-helpers'
+
 call plug#end()
 
 "*****************************************************************************
@@ -433,6 +436,14 @@ nnoremap <Leader>p :PrettierAsync<CR>
 nnoremap <Leader>f :ALEFix<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <silent> <ESC> :noh<CR>
+
+" Search
+nnoremap <Leader>S :Ack! <C-r>=expand("<cword>")<CR><CR>
+xnoremap <Leader>S <Esc>:Ack! "<C-r>=escape(GetSelectedText(), '"%#*$(){}')<CR>"<CR>
+
+" Replace
+nnoremap <Leader>R :%s/<C-r>=GetWordForSubstitute()<CR>/gcI<Left><Left><Left><Left>
+xnoremap <Leader>R <Esc>:%s/<C-r>=GetSelectedTextForSubstitute()<CR>//gcI<Left><Left><Left><Left>
 
 " Jump to next error with Ctrl-n and previous error with Ctrl-m
 map <C-n> :cnext<CR>
