@@ -245,7 +245,7 @@ highlight CursorLine ctermbg=235
 
 "" Disable the blinking cursor.
 set gcr=a:blinkon0
-set scrolloff=3
+set scrolloff=0
 
 "" Status bar
 set laststatus=2
