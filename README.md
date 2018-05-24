@@ -30,6 +30,7 @@ https://raw.githubusercontent.com/hdnha11/dotfiles/master/.bin/dotfiles-install.
 
 ![Tmux Screenshot](https://user-images.githubusercontent.com/1773032/37331963-053cb30e-26d8-11e8-8b5a-55185a0a482c.png)
 
+> `$ brew install reattach-to-user-namespace`\
 > **For iTerm2 3.1.6+** Disable *Use Unicode Version 9 Widths* in *Preferences/Profiles/Text*
 
 ### Hammerspoon
