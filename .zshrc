@@ -49,7 +49,7 @@ ZSH_THEME="bira"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(bower brew git mercurial mvn npm svn zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(bower brew git mercurial mvn npm svn docker docker-compose docker-machine zsh-autosuggestions zsh-syntax-highlighting)
 
 # User configuration
 
