@@ -59,6 +59,7 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export JAVA_HOME=$(/usr/libexec/java_home)
 export GOPATH=$HOME/workspaces/go
 export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:~/.bin
 
 source $ZSH/oh-my-zsh.sh
 
