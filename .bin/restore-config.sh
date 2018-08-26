@@ -8,11 +8,11 @@ function restoreHomebrew() {
     brew tap $repo
   done
 
-  showStep "Restore Homebrew packages"
-  brew install $(cat $BACKUP_PATH/brew-package-list)
-
   showStep "Restore Homebrew cask"
   brew cask install $(cat $BACKUP_PATH/brew-cask-list)
+
+  showStep "Restore Homebrew packages"
+  brew install $(cat $BACKUP_PATH/brew-package-list)
 }
 
 function restoreProfile() {
