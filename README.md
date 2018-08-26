@@ -67,9 +67,7 @@ $ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh 
 
 # Install Oh My Zsh (https://github.com/robbyrussell/oh-my-zsh)
 $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-# Reset dotfiles
-$ dotfiles checkout .
+$ mv .zshrc.pre-oh-my-zsh .zshrc
 
 # Install zsh-syntax-highlighting (https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md)
 $ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
@@ -82,4 +80,10 @@ $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Open Vim and run :PlugInstall
+
+# Install Node LTS
+$ nvm install --lts
+
+# Install tmuxinator
+$ gem install tmuxinator
 ```
