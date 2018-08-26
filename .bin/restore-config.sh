@@ -46,9 +46,8 @@ function printHeader() {
 }
 
 # Get the command line options
-while getopts ":p" opt;
-do
-  case "$opt" in
+while getopts ":p:" opt; do
+  case $opt in
     p)
       if [[ $OPTARG != "" ]]; then
         BACKUP_PATH=$OPTARG
@@ -57,6 +56,10 @@ do
     \?)
       printHelp
       exit 0
+    ;;
+    :)
+      echo -e "${RED}Option -$OPTARG requires an argument." >&2
+      exit 1
     ;;
   esac
 done
