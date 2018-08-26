@@ -1,13 +1,20 @@
 #!/bin/bash
 
-. ~/.bin/dotfiles-common.sh
+BLUE='\033[1;34m'
+RESET='\033[0m'
 
-showStep "Clone configuration repository"
-git clone --bare git@github.com:hdnha11/dotfiles.git $HOME/.dotfiles
+function showStep() {
+  echo ""
+  echo -e "${BLUE}$*${RESET}"
+  echo ""
+}
 
 function dotfiles {
   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
 }
+
+showStep "Clone configuration repository"
+git clone --bare git@github.com:hdnha11/dotfiles.git $HOME/.dotfiles
 
 dotfiles checkout
 

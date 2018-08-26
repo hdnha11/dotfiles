@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ~/.bin/dotfiles-common.sh
+. ~/.bin/common-utils.sh
 
 REMOVE_OLD_BACKUP=false
 
