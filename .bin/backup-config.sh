@@ -39,6 +39,11 @@ function backupHistory() {
   cp $HOME/.zsh_history $BACKUP_PATH/zsh_history
 }
 
+function backupSSH() {
+  showStep "Backup ssh"
+  cp -R $HOME/.ssh $BACKUP_PATH/ssh
+}
+
 function printHelp() {
   echo ""
   echo -e "${RESET}Usage: backup-config.sh [OPTIONS]"
@@ -92,6 +97,7 @@ case "$choice" in
     backupHomebrew
     backupProfile
     backupHistory
+    backupSSH
 
     showStep "Complete!"
   ;;
