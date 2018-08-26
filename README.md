@@ -88,5 +88,5 @@ $ nvm install --lts
 $ gem install tmuxinator
 
 # To install useful key bindings and fuzzy completion (fzf):
-$(brew --prefix)/opt/fzf/install
+$ $(brew --prefix)/opt/fzf/install
 ```
