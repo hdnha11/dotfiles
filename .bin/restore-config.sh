@@ -3,6 +3,9 @@
 . ~/.bin/common-utils.sh
 
 function restoreHomebrew() {
+  showStep "Update the formulae and Homebrew itself"
+  brew update
+
   showStep "Restore Homebrew tap"
   for repo in $(cat $BACKUP_PATH/brew-tap-list); do
     brew tap $repo

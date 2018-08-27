@@ -19,6 +19,9 @@ function createBackupDir() {
 }
 
 function backupHomebrew() {
+  showStep "Update the formulae and Homebrew itself"
+  brew update
+
   showStep "Backup Homebrew tap"
   brew tap > $BACKUP_PATH/brew-tap-list
 
