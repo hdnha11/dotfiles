@@ -52,26 +52,41 @@ $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/inst
 # Install Git, cURL
 $ brew install git curl
 
+# Grab backup folder from Dropbox
+
+# Set up github ssh key (from backup)
+
 # Get dotfiles
 $ curl -Lks git.io/vHjm6 | /bin/bash
 
-# Get backup folder from Dropbox
-
 # Restore backup
-$ restore-config.sh -p [backup-path]
+$ .bin/restore-config.sh -p [backup-path]
 
 # Install nvm (https://github.com/creationix/nvm#install-script)
 $ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
 # Install Oh My Zsh (https://github.com/robbyrussell/oh-my-zsh)
 $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-# Reset dotfiles
-$ dotfiles checkout .
+$ mv .zshrc.pre-oh-my-zsh .zshrc
 
 # Install zsh-syntax-highlighting (https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md)
 $ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 # Install zsh-autosuggestions (https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md)
 $ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+# Install vim-plug (https://github.com/junegunn/vim-plug)
+$ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# Open Vim and run :PlugInstall
+
+# Install Node LTS
+$ nvm install --lts
+
+# Install tmuxinator
+$ gem install tmuxinator
+
+# To install useful key bindings and fuzzy completion (fzf):
+$ $(brew --prefix)/opt/fzf/install
 ```
