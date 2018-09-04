@@ -8,13 +8,13 @@ rbenv_version() {
   rbenv version 2>/dev/null | awk '{print $1}'
 }
 
-purple="$FG[177]"
+purple="$FG[169]"
 red="$FG[009]"
 green="$FG[034]"
-cyan="$FG[039]"
+turquoise="$FG[038]"
 
 PROMPT='
-%{$cyan%}$FX[bold]${PWD/#$HOME/~}%{$reset_color%}$(git_prompt_info)
+%{$turquoise%}$FX[bold]${PWD/#$HOME/~}%{$reset_color%}$(git_prompt_info)
 $ '
 
 # Must use Powerline font, for \uE0A0 to render.
