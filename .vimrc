@@ -215,6 +215,10 @@ set t_Co=256
 set guioptions=egmrti
 set gfn=Monospace\ 10
 
+if has('mouse_sgr')
+  set ttymouse=sgr
+endif
+
 if has('gui_running')
   if has('gui_mac') || has('gui_macvim')
     set guifont=Menlo:h12
@@ -437,6 +441,7 @@ nnoremap <Leader>p :PrettierAsync<CR>
 nnoremap <Leader>f :ALEFix<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <silent> <ESC> :noh<CR>
+nnoremap <ESC>^[ <ESC>^[
 
 " Search
 nnoremap <Leader>S :Ack! <C-r>=expand("<cword>")<CR><CR>
