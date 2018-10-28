@@ -10,8 +10,11 @@ call plug#begin('~/.vim/plugged')
 "" Themes
 Plug 'rakr/vim-one'
 Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'liuchengxu/space-vim-dark'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'cocopon/iceberg.vim'
+Plug 'altercation/vim-colors-solarized'
 
 "" Visual tab {bottom}
 Plug 'vim-airline/vim-airline'
@@ -209,7 +212,7 @@ set number
 
 let no_buffers_menu = 1
 
-colorscheme one
+colorscheme iceberg
 set background=dark
 
 set mouse=a
@@ -342,7 +345,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 
 "" Airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'one'
+let g:airline_theme = 'iceberg'
 let g:airline#extensions#tabline#enabled = 1
 
 "" vimshell.vim
