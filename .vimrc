@@ -15,6 +15,7 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'cocopon/iceberg.vim'
 Plug 'altercation/vim-colors-solarized'
+Plug 'KeitaNakamura/neodark.vim'
 
 "" Visual tab {bottom}
 Plug 'vim-airline/vim-airline'
