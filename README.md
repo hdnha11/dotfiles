@@ -21,14 +21,27 @@ https://raw.githubusercontent.com/hdnha11/dotfiles/master/.bin/dotfiles-install.
 
 ### Vim
 
-![Vim Screenshot](https://user-images.githubusercontent.com/1773032/37331937-f4e1cbb6-26d7-11e8-8b13-7706066c5849.png)
+![Vim Screenshot #1](https://user-images.githubusercontent.com/1773032/37331937-f4e1cbb6-26d7-11e8-8b13-7706066c5849.png)
 
+> Color Scheme: `rakr/vim-one`\
 > Font: 16pt Fira Code\
 > Non-ASCII Font: 17pt DejaVu Sans Mono for Powerline
 
+![Vim Screenshot #2](https://user-images.githubusercontent.com/1773032/47627237-85eccf00-db61-11e8-9995-567fdb788c31.png)
+
+> Color Scheme: `cocopon/iceberg.vim`\
+> Font: 15pt Iosevka\
+> Non-ASCII Font: 16pt DejaVu Sans Mono for Powerline
+
 ### Tmux
 
-![Tmux Screenshot](https://user-images.githubusercontent.com/1773032/37331963-053cb30e-26d8-11e8-8b5a-55185a0a482c.png)
+![Tmux Screenshot #1](https://user-images.githubusercontent.com/1773032/37331963-053cb30e-26d8-11e8-8b5a-55185a0a482c.png)
+
+> iTerm2 Color: `Dark Background`
+
+![Tmux Screenshot #2](https://user-images.githubusercontent.com/1773032/47627248-8c7b4680-db61-11e8-9982-94ae4aaa59b3.png)
+
+> iTerm2 Color: `Iceberg`
 
 > `$ brew install reattach-to-user-namespace`\
 > **For iTerm2 3.1.6+** Disable *Use Unicode Version 9 Widths* in *Preferences/Profiles/Text*
