@@ -75,6 +75,9 @@ Plug 'AndrewRadev/splitjoin.vim'
 "" Markdown
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 
+"" Log
+Plug 'mtdl9/vim-log-highlighting'
+
 "" Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -138,6 +141,7 @@ Plug 'tpope/vim-vinegar'
 
 "" Helpers
 Plug 'phongnh/vim-search-helpers'
+Plug 'kristijanhusak/vim-carbon-now-sh'
 
 call plug#end()
 
