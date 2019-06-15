@@ -46,8 +46,6 @@ Plug 'sheerun/vim-polyglot'
 
 "" Javascript
 Plug 'moll/vim-node'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'maxmellon/vim-jsx-pretty'
 Plug 'heavenshell/vim-jsdoc', { 'on': '<Plug>(jsdoc)' }
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
@@ -83,7 +81,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 "" A code-completion engine for Vim
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --go-completer --js-completer --java-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --go-completer --ts-completer --java-completer' }
 
 "" Asynchronous Lint Engine
 Plug 'w0rp/ale'
@@ -367,6 +365,52 @@ let g:UltiSnipsMappingsToIgnore = ['autocomplete']
 " Additional UltiSnips => add ultisnips folder in .vim
 let g:UltiSnipsSnippetsDir = '~/.vim/ultisnips'
 let g:UltiSnipsSnippetDirectories = ['ultisnips']
+
+"" YouCompleteMe
+" Disable auto_triggering ycm suggestions pane and instead
+" use semantic completion only on Ctrl+n
+let ycm_trigger_key = '<C-n>'
+let g:ycm_auto_trigger = 0
+let g:ycm_key_invoke_completion = ycm_trigger_key
+
+" This is some arcane magic to allow cycling through the YCM options
+" with the same key that opened it.
+" See http://vim.wikia.com/wiki/Improve_completion_popup_menu for more info.
+let g:ycm_key_list_select_completion = ['<TAB>', '<C-j>']
+inoremap <expr> ycm_trigger_key pumvisible() ? "<C-j>" : ycm_trigger_key;
+
+" Show autocomplete suggestions only when typing more than 2 characters
+let g:ycm_min_num_of_chars_for_completion = 2
+
+" Show at most 20 completion candidates at a time (more than this would be
+" ridiculous, you'd press TAB so many times it would be better to simply type
+" the entire thing lol)
+" this applies only to the semantic-based engine
+let g:ycm_max_num_candidates = 20
+
+" This is the same as above, but only for the identifier-based engine
+let g:ycm_max_num_identifier_candidates = 10
+
+" Blacklist of filetypes in which autocomplete should be disabled
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar': 1,
+      \ 'qf': 1,
+      \ 'notes': 1,
+      \ 'markdown': 1,
+      \ 'unite': 1,
+      \ 'text': 1,
+      \ 'vimwiki': 1,
+      \ 'pandoc': 1,
+      \ 'infolog': 1,
+      \ 'mail': 1
+      \}
+
+" Blacklist of filepaths in which autocomplete should be disabled
+let g:ycm_filepath_blacklist = {
+      \ 'html': 1,
+      \ 'jsx': 1,
+      \ 'xml': 1,
+      \}
 
 "" Ack.vim
 " Use Ag with Ack.vim (requires Ag [brew install the_silver_searcher])

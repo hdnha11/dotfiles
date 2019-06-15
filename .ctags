@@ -1,7 +1,19 @@
 --exclude=.git
 --exclude=.hg
+--exclude=node_modules
 --exclude=log
+--exclude=vendor
 --exclude=tmp
+--exclude=dist
+--exclude=build
+--exclude=publish
+--exclude=public
+--exclude=libs
+--exclude=db
+--exclude=tags
+--exclude=\*.class
+--exclude=\*.cache
+--exclude=\*.tar.\*
 
 --languages=-javascript,sql
 
