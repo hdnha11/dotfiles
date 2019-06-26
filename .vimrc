@@ -215,7 +215,7 @@ set number
 
 let no_buffers_menu = 1
 
-colorscheme iceberg
+colorscheme nord
 set background=dark
 
 set mouse=a
@@ -348,8 +348,12 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 
 "" Airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'iceberg'
+let g:airline_theme = 'nord'
 let g:airline#extensions#tabline#enabled = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.dirty='!'
 
 "" vimshell.vim
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
