@@ -392,24 +392,24 @@ let g:ycm_max_num_identifier_candidates = 10
 
 " Blacklist of filetypes in which autocomplete should be disabled
 let g:ycm_filetype_blacklist = {
-      \ 'tagbar': 1,
-      \ 'qf': 1,
-      \ 'notes': 1,
-      \ 'markdown': 1,
-      \ 'unite': 1,
-      \ 'text': 1,
-      \ 'vimwiki': 1,
-      \ 'pandoc': 1,
-      \ 'infolog': 1,
-      \ 'mail': 1
-      \}
+\ 'tagbar': 1,
+\ 'qf': 1,
+\ 'notes': 1,
+\ 'markdown': 1,
+\ 'unite': 1,
+\ 'text': 1,
+\ 'vimwiki': 1,
+\ 'pandoc': 1,
+\ 'infolog': 1,
+\ 'mail': 1
+\}
 
 " Blacklist of filepaths in which autocomplete should be disabled
 let g:ycm_filepath_blacklist = {
-      \ 'html': 1,
-      \ 'jsx': 1,
-      \ 'xml': 1,
-      \}
+\ 'html': 1,
+\ 'jsx': 1,
+\ 'xml': 1,
+\}
 
 "" Ack.vim
 " Use Ag with Ack.vim (requires Ag [brew install the_silver_searcher])
@@ -417,7 +417,11 @@ let g:ackprg = 'ag --vimgrep'
 
 "" ALE
 " After this is configured, :ALEFix will try and fix your JS code with ESLint.
-let g:ale_fixers = { 'javascript': ['eslint'] }
+let g:ale_fixers = {
+\ '*': ['remove_trailing_lines', 'trim_whitespace'],
+\ 'javascript': ['eslint'],
+\}
+let g:ale_fix_on_save = 1
 
 "" vim-go
 let g:go_fmt_command = 'goimports'
