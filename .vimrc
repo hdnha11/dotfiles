@@ -23,7 +23,6 @@ Plug 'vim-airline/vim-airline-themes'
 
 "" Tree
 Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
 
 "" Fuzzy Finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -44,11 +43,6 @@ Plug 'airblade/vim-gitgutter'
 "" A collection of language packs for Vim.
 Plug 'sheerun/vim-polyglot'
 
-"" Javascript
-Plug 'moll/vim-node'
-Plug 'heavenshell/vim-jsdoc', { 'on': '<Plug>(jsdoc)' }
-Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-
 "" Ruby
 Plug 'tpope/vim-rails'
 Plug 'thoughtbot/vim-rspec'
@@ -68,7 +62,6 @@ Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
 "" Go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'AndrewRadev/splitjoin.vim'
 
 "" Markdown
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
@@ -76,15 +69,8 @@ Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 "" Log
 Plug 'mtdl9/vim-log-highlighting'
 
-"" Snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-
-"" A code-completion engine for Vim
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --go-completer --ts-completer --java-completer' }
-
-"" Asynchronous Lint Engine
-Plug 'w0rp/ale'
+"" Intellisense engine
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "" A set of mappings for HTML, XML, PHP, ASP, eRuby, JSP, and more
 Plug 'tpope/vim-surround'
@@ -106,36 +92,14 @@ Plug 'bronson/vim-trailing-whitespace'
 "" Insert or delete brackets, parens, quotes in pair.
 Plug 'jiangmiao/auto-pairs'
 
-"" A Vim plugin that manages your tag files
-Plug 'ludovicchabant/vim-gutentags'
-
-"" Tagbar displays the tags of the current file in a sidebar,
-Plug 'majutsushi/tagbar'
-
-"" Vim and tmux, sittin' in a tree
-Plug 'christoomey/vim-tmux-runner'
-Plug 'christoomey/vim-tmux-navigator'
-
-"" Helpers for UNIX (:Delete, :Move, :Chmod,...)
-Plug 'tpope/vim-eunuch'
-
 "" Enable repeating supported plugin maps with '.'
 Plug 'tpope/vim-repeat'
 
 "" EditorConfig plugin for Vim
 Plug 'editorconfig/editorconfig-vim'
 
-"" Interactive command execution in Vim.
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-
-"" Improved integration between Vim and its environment
-Plug 'Shougo/vimshell.vim'
-
 "" Asks to create directories in Vim when needed
 Plug 'jordwalke/VimAutoMakeDirectory'
-
-"" Combine with netrw to create a delicious salad dressing
-Plug 'tpope/vim-vinegar'
 
 "" Helpers
 Plug 'phongnh/vim-search-helpers'
@@ -183,7 +147,11 @@ set ignorecase
 set smartcase
 
 "" Completion Options
-set completeopt-=preview
+set completeopt+=preview
+set shortmess+=c
+
+"" Turn off folding
+set nofoldenable
 
 "" Directories for swp files
 set nobackup
@@ -236,7 +204,6 @@ if has('gui_running')
 else
   let g:CSApprox_loaded = 1
 
-
   if $COLORTERM == 'gnome-terminal'
     set term=gnome-256color
   else
@@ -244,7 +211,6 @@ else
       set term=xterm-256color
     endif
   endif
-
 endif
 
 if &term =~ '256color'
@@ -273,6 +239,12 @@ highlight CursorLine ctermbg=235
 "" Disable the blinking cursor.
 set gcr=a:blinkon0
 set scrolloff=0
+
+"" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+"" Always show signcolumns
+set signcolumn=yes
 
 "" Status bar
 set laststatus=2
@@ -341,7 +313,6 @@ let g:NERDTreeChDirMode = 2
 let g:NERDTreeIgnore = ['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder = ['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks = 1
-let g:nerdtree_tabs_focus_on_files = 1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 30
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
@@ -355,73 +326,17 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_symbols.dirty='!'
 
-"" vimshell.vim
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-let g:vimshell_prompt = '$ '
-
-"" UltiSnips
-" YouCompleteMe and UltiSnips compatibility
-let g:UltiSnipsExpandTrigger = '<C-l>'
-let g:UltiSnipsJumpForwardTrigger = '<C-l>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-z>'
-" Prevent UltiSnips from removing our carefully-crafted mappings.
-let g:UltiSnipsMappingsToIgnore = ['autocomplete']
-" Additional UltiSnips => add ultisnips folder in .vim
-let g:UltiSnipsSnippetsDir = '~/.vim/ultisnips'
-let g:UltiSnipsSnippetDirectories = ['ultisnips']
-
-"" YouCompleteMe
-" Disable auto_triggering ycm suggestions pane and instead
-" use semantic completion only on Ctrl+n
-let g:ycm_auto_trigger = 0
-let g:ycm_key_invoke_completion = '<C-n>'
-
-let g:ycm_key_list_select_completion = ['<TAB>', '<C-j>']
-
-" Show autocomplete suggestions only when typing more than 2 characters
-let g:ycm_min_num_of_chars_for_completion = 2
-
-" Show at most 20 completion candidates at a time (more than this would be
-" ridiculous, you'd press TAB so many times it would be better to simply type
-" the entire thing lol)
-" this applies only to the semantic-based engine
-let g:ycm_max_num_candidates = 20
-
-" This is the same as above, but only for the identifier-based engine
-let g:ycm_max_num_identifier_candidates = 10
-
-" Blacklist of filetypes in which autocomplete should be disabled
-let g:ycm_filetype_blacklist = {
-\ 'tagbar': 1,
-\ 'qf': 1,
-\ 'notes': 1,
-\ 'markdown': 1,
-\ 'unite': 1,
-\ 'text': 1,
-\ 'vimwiki': 1,
-\ 'pandoc': 1,
-\ 'infolog': 1,
-\ 'mail': 1
-\}
-
-" Blacklist of filepaths in which autocomplete should be disabled
-let g:ycm_filepath_blacklist = {
-\ 'html': 1,
-\ 'jsx': 1,
-\ 'xml': 1,
-\}
-
 "" Ack.vim
 " Use Ag with Ack.vim (requires Ag [brew install the_silver_searcher])
 let g:ackprg = 'ag --vimgrep'
 
-"" ALE
-" After this is configured, :ALEFix will try and fix your JS code with ESLint.
-let g:ale_fixers = {
-\ '*': ['remove_trailing_lines', 'trim_whitespace'],
-\ 'javascript': ['eslint'],
-\}
-let g:ale_fix_on_save = 1
+"" Coc
+let g:coc_global_extensions = [
+\ 'coc-prettier',
+\ 'coc-eslint'
+\]
+
+command! -nargs=0 Format :call CocAction('format')
 
 "" vim-go
 let g:go_fmt_command = 'goimports'
@@ -493,13 +408,19 @@ endfunction
 "*****************************************************************************
 "" Key Maps
 "*****************************************************************************
-nnoremap <Leader>\| :NERDTreeTabsToggle<CR>
-nnoremap <Leader>\ :NERDTreeTabsFind<CR>
-nnoremap <Leader>p :PrettierAsync<CR>
-nnoremap <Leader>f :ALEFix<CR>
+nnoremap <Leader>\| :NERDTreeToggle<CR>
+nnoremap <Leader>\ :NERDTreeFind<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <silent> <ESC> :noh<CR>
 nnoremap <ESC>^[ <ESC>^[
+
+" Format
+xmap <Leader>f <Plug>(coc-format-selected)
+nmap <Leader>f <Plug>(coc-format-selected)
+nnoremap <Leader>F :Format<CR>
+
+" Remap for rename current word
+nmap <Leader>rn <Plug>(coc-rename)
 
 " Search
 nnoremap <Leader>S :Ack! <C-r>=expand("<cword>")<CR><CR>
