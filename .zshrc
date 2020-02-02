@@ -49,7 +49,21 @@ ZSH_THEME="amuse"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew git mvn npm yarn tmux tmuxinator docker docker-compose docker-machine zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(
+    brew
+    docker
+    docker-compose
+    docker-machine
+    git
+    mvn
+    npm
+    pip
+    tmux
+    tmuxinator
+    yarn
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
 
 # User configuration
 
