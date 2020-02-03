@@ -332,8 +332,14 @@ let g:ackprg = 'ag --vimgrep'
 
 "" Coc
 let g:coc_global_extensions = [
+\ 'coc-css',
+\ 'coc-eslint',
+\ 'coc-html',
+\ 'coc-java',
+\ 'coc-json',
 \ 'coc-prettier',
-\ 'coc-eslint'
+\ 'coc-python',
+\ 'coc-tsserver'
 \]
 
 command! -nargs=0 Format :call CocAction('format')
@@ -421,6 +427,12 @@ nnoremap <Leader>F :Format<CR>
 
 " Remap for rename current word
 nmap <Leader>rn <Plug>(coc-rename)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " Search
 nnoremap <Leader>S :Ack! <C-r>=expand("<cword>")<CR><CR>
