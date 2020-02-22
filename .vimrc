@@ -442,8 +442,5 @@ xnoremap <Leader>S <Esc>:Ack! "<C-r>=escape(GetSelectedText(), '"%#*$(){}')<CR>"
 nnoremap <Leader>R :%s/<C-r>=GetWordForSubstitute()<CR>/gcI<Left><Left><Left><Left>
 xnoremap <Leader>R <Esc>:%s/<C-r>=GetSelectedTextForSubstitute()<CR>//gcI<Left><Left><Left><Left>
 
-" Jump to next error with Ctrl-n and previous error with Ctrl-m
-map <C-n> :cnext<CR>
-map <C-m> :cprevious<CR>
 " Close the quickfix window with <leader>a
 nnoremap <leader>a :cclose<CR>
