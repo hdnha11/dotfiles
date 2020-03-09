@@ -8,14 +8,15 @@ endif
 call plug#begin('~/.vim/plugged')
 
 "" Themes
-Plug 'rakr/vim-one'
-Plug 'tyrannicaltoucan/vim-deep-space'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'drewtempelmeyer/palenight.vim'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'altercation/vim-colors-solarized'
 Plug 'arcticicestudio/nord-vim'
 Plug 'cocopon/iceberg.vim'
-Plug 'altercation/vim-colors-solarized'
-Plug 'KeitaNakamura/neodark.vim'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'nanotech/jellybeans.vim'
+Plug 'rakr/vim-one'
+Plug 'tyrannicaltoucan/vim-deep-space'
 
 "" Visual tab {bottom}
 Plug 'vim-airline/vim-airline'
@@ -66,9 +67,6 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "" Markdown
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 
-"" Log
-Plug 'mtdl9/vim-log-highlighting'
-
 "" Intellisense engine
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -82,9 +80,6 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 "" Type vv inside pairs objects such as () to select content
 Plug 'gorkunov/smartpairs.vim'
-
-"" Type * to search the word under the cursor or selected text
-Plug 'thinca/vim-visualstar'
 
 "" This plugin causes all trailing whitespace to be highlighted in red.
 Plug 'bronson/vim-trailing-whitespace'
@@ -101,10 +96,6 @@ Plug 'editorconfig/editorconfig-vim'
 "" Asks to create directories in Vim when needed
 Plug 'jordwalke/VimAutoMakeDirectory'
 
-"" Helpers
-Plug 'phongnh/vim-search-helpers'
-Plug 'kristijanhusak/vim-carbon-now-sh'
-
 call plug#end()
 
 "*****************************************************************************
@@ -118,14 +109,8 @@ set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
 
-"" Alias unnamed register to the * register
+"" Make the unnamed register same as the "* register
 set clipboard=unnamed
-
-"" Alias unnamed register to the + register, which is the X Window clipboard
-" set clipboard=unnamedplus
-
-"" Fix backspace indent
-set backspace=indent,eol,start
 
 "" Tabs. May be overriten by autocmd rules
 set tabstop=4
@@ -135,7 +120,7 @@ set smarttab
 set expandtab
 
 "" Map leader to space
-let mapleader=' '
+let mapleader = ' '
 
 "" Enable hidden buffers
 set hidden
@@ -150,6 +135,10 @@ set smartcase
 set completeopt+=preview
 set shortmess+=c
 
+"" Command-line completion operates in an enhanced
+set wildmenu
+set wildmode=full
+
 "" Turn off folding
 set nofoldenable
 
@@ -160,6 +149,9 @@ set noswapfile
 set fileformats=unix,dos,mac
 set showcmd
 set shell=/bin/sh
+
+set autoread
+set autowrite
 
 "" Session management
 let g:session_directory = '~/.vim/session'
@@ -188,57 +180,17 @@ set background=dark
 
 set mouse=a
 set mousemodel=popup
-set t_Co=256
-set guioptions=egmrti
-set gfn=Monospace\ 10
 
 if has('mouse_sgr')
   set ttymouse=sgr
 endif
 
-if has('gui_running')
-  if has('gui_mac') || has('gui_macvim')
-    set guifont=Menlo:h12
-    set transparency=7
-  endif
-else
-  let g:CSApprox_loaded = 1
-
-  if $COLORTERM == 'gnome-terminal'
-    set term=gnome-256color
-  else
-    if $TERM == 'xterm'
-      set term=xterm-256color
-    endif
-  endif
-endif
-
-if &term =~ '256color'
-  set t_ut=
-endif
+set term=$TERM
 
 "" True Color
-"Use 24-bit (true-color) mode in Vim/Neovim (http://sunaku.github.io/tmux-24bit-color.html#usage)
-"For Neovim 0.1.3 and 0.1.4 (https://github.com/neovim/neovim/pull/2198)
-if (has('nvim'))
-  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
-endif
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799 (https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162)
-"Based on Vim patch 7.4.1770 (`guicolors` option) (https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd)
-"(https://github.com/neovim/neovim/wiki/Following-HEAD#20160511)
 if (has('termguicolors'))
   set termguicolors
 endif
-
-"" Highlight line
-" Disable to speed up highlighting
-" set cursorline
-hi cursorline cterm=none term=none
-highlight CursorLine ctermbg=235
-
-"" Disable the blinking cursor.
-set gcr=a:blinkon0
-set scrolloff=0
 
 "" You will have bad experience for diagnostic messages when it's default 4000.
 set updatetime=300
@@ -302,9 +254,6 @@ augroup vimrc-make-cmake
   autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
 augroup END
 
-set autoread
-set autowrite
-
 "*****************************************************************************
 "" Plugins Configuration
 "*****************************************************************************
@@ -324,7 +273,7 @@ let g:airline#extensions#tabline#enabled = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-let g:airline_symbols.dirty='!'
+let g:airline_symbols.dirty = '!'
 
 "" Ack.vim
 " Use Ag with Ack.vim (requires Ag [brew install the_silver_searcher])
@@ -368,13 +317,13 @@ augroup go
   autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 
   " :GoBuild and :GoTestCompile
-  autocmd FileType go nmap <leader>b :<C-u>call <SID>buildGoFiles()<CR>
+  autocmd FileType go nmap <Leader>b :<C-u>call <SID>buildGoFiles()<CR>
 
   " :GoTest
-  autocmd FileType go nmap <leader>t <Plug>(go-test)
+  autocmd FileType go nmap <Leader>t <Plug>(go-test)
 
   " :GoRun
-  autocmd FileType go nmap <leader>r <Plug>(go-run)
+  autocmd FileType go nmap <Leader>r <Plug>(go-run)
 
   " :GoDoc
   autocmd FileType go nmap <Leader>d <Plug>(go-doc)
@@ -430,17 +379,6 @@ nmap <Leader>rn <Plug>(coc-rename)
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
-" Search
-nnoremap <Leader>S :Ack! <C-r>=expand("<cword>")<CR><CR>
-xnoremap <Leader>S <Esc>:Ack! "<C-r>=escape(GetSelectedText(), '"%#*$(){}')<CR>"<CR>
-
-" Replace
-nnoremap <Leader>R :%s/<C-r>=GetWordForSubstitute()<CR>/gcI<Left><Left><Left><Left>
-xnoremap <Leader>R <Esc>:%s/<C-r>=GetSelectedTextForSubstitute()<CR>//gcI<Left><Left><Left><Left>
-
-" Close the quickfix window with <leader>a
-nnoremap <leader>a :cclose<CR>
+" Close the quickfix window with <Leader>a
+nnoremap <Leader>a :cclose<CR>
