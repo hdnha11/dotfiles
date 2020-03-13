@@ -109,9 +109,6 @@ set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
 
-"" Make the unnamed register same as the "* register
-set clipboard=unnamed
-
 "" Tabs. May be overriten by autocmd rules
 set tabstop=4
 set shiftwidth=4
