@@ -356,8 +356,6 @@ endfunction
 "*****************************************************************************
 "" Key Maps
 "*****************************************************************************
-nnoremap <Leader>\| :NERDTreeToggle<CR>
-nnoremap <Leader>\ :NERDTreeFind<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <silent> <ESC> :noh<CR>
 nnoremap <ESC>^[ <ESC>^[
