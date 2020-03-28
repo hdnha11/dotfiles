@@ -357,8 +357,7 @@ endfunction
 "" Key Maps
 "*****************************************************************************
 nnoremap <C-p> :Files<CR>
-nnoremap <silent> <ESC> :noh<CR>
-nnoremap <ESC>^[ <ESC>^[
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 
 " Format
 xmap <Leader>f <Plug>(coc-format-selected)
