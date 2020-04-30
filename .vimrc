@@ -29,8 +29,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-"" Vim plugin for the Perl module / CLI script 'ack'
-Plug 'mileszs/ack.vim'
+"" Grep
+Plug 'mhinz/vim-grepper'
 
 "" Smart comments
 Plug 'tpope/vim-commentary'
@@ -223,6 +223,12 @@ if !exists('*s:setupWrapping')
   endfunction
 endif
 
+function! SetupCommandAlias(input, output)
+  exec 'cabbrev <expr> '.a:input
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:input.'")'
+        \ .'? ("'.a:output.'") : ("'.a:input.'"))'
+endfunction
+
 "*****************************************************************************
 "" Autocmd Rules
 "*****************************************************************************
@@ -272,9 +278,10 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_symbols.dirty = '!'
 
-"" Ack.vim
-" Use Ag with Ack.vim (requires Ag [brew install the_silver_searcher])
-let g:ackprg = 'ag --vimgrep'
+"" Grepper
+let g:grepper = {
+\ 'tools': ['rg', 'ag', 'git', 'grep']
+\}
 
 "" Coc
 let g:coc_global_extensions = [
@@ -354,10 +361,23 @@ function! s:buildGoFiles()
 endfunction
 
 "*****************************************************************************
+"" Command Aliases
+"*****************************************************************************
+call SetupCommandAlias('grep', 'GrepperRg')
+call SetupCommandAlias('search', 'CocSearch')
+
+"*****************************************************************************
 "" Key Maps
 "*****************************************************************************
 nnoremap <C-p> :Files<CR>
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+
+" Search for the current word
+nnoremap <Leader>* :Grepper -cword -noprompt<CR>
+
+" Search for the current selection
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
 
 " Format
 xmap <Leader>f <Plug>(coc-format-selected)
