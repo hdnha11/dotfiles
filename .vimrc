@@ -96,6 +96,9 @@ Plug 'editorconfig/editorconfig-vim'
 "" Asks to create directories in Vim when needed
 Plug 'jordwalke/VimAutoMakeDirectory'
 
+"" Start a * or # search from a visual block
+Plug 'nelstrom/vim-visual-star-search'
+
 call plug#end()
 
 "*****************************************************************************
