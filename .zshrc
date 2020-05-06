@@ -74,6 +74,7 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 export GOPATH=$HOME/workspaces/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:~/.bin
+export PATH="/usr/local/opt/llvm/bin:$PATH"
 
 source $ZSH/oh-my-zsh.sh
 

@@ -295,7 +295,8 @@ let g:coc_global_extensions = [
 \ 'coc-json',
 \ 'coc-prettier',
 \ 'coc-python',
-\ 'coc-tsserver'
+\ 'coc-tsserver',
+\ 'coc-clangd'
 \]
 
 command! -nargs=0 Format :call CocAction('format')
