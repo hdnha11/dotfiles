@@ -3,6 +3,5 @@
   "diagnostic.warningSign": "•",
   "diagnostic.infoSign": "•",
   "diagnostic.signOffset": 9999999,
-  "diagnostic.messageTarget": "echo",
   "prettier.eslintIntegration": true
 }

@@ -58,8 +58,7 @@ Plug 'griffinqiu/vim-coloresque'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 "" TypeScript
-Plug 'peitalin/vim-jsx-typescript', { 'for': 'typescript' }
-Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
+Plug 'HerringtonDarkholme/yats.vim'
 
 "" Go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -226,10 +225,18 @@ if !exists('*s:setupWrapping')
   endfunction
 endif
 
-function! SetupCommandAlias(input, output)
+function! s:setupCommandAlias(input, output)
   exec 'cabbrev <expr> '.a:input
         \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:input.'")'
         \ .'? ("'.a:output.'") : ("'.a:input.'"))'
+endfunction
+
+function! s:showDocumentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
 endfunction
 
 "*****************************************************************************
@@ -367,8 +374,8 @@ endfunction
 "*****************************************************************************
 "" Command Aliases
 "*****************************************************************************
-call SetupCommandAlias('grep', 'GrepperRg')
-call SetupCommandAlias('search', 'CocSearch')
+call s:setupCommandAlias('grep', 'GrepperRg')
+call s:setupCommandAlias('search', 'CocSearch')
 
 "*****************************************************************************
 "" Key Maps
@@ -391,11 +398,17 @@ nnoremap <Leader>F :Format<CR>
 " Remap for rename current word
 nmap <Leader>rn <Plug>(coc-rename)
 
+" Perform code actions on the word under the cursor
+nmap <Leader>do <Plug>(coc-codeaction)
+
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>showDocumentation()<CR>
 
 " Close the quickfix window with <Leader>a
 nnoremap <Leader>a :cclose<CR>
