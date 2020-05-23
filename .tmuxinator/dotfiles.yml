@@ -6,6 +6,6 @@ startup_pane: 1
 
 windows:
   - dotfiles: dotfiles status
-  - vim: vim ~/.vimrc
-  - tmux: vim ~/.tmux.conf
-  - zsh: vim ~/.zshrc
+  - vimrc: vim ~/.vimrc
+  - tmux.conf: vim ~/.tmux.conf
+  - zshrc: vim ~/.zshrc
