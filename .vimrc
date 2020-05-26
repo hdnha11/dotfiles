@@ -295,17 +295,18 @@ let g:grepper = {
 
 "" Coc
 let g:coc_global_extensions = [
+\ 'coc-clangd',
 \ 'coc-css',
 \ 'coc-eslint',
+\ 'coc-flutter',
+\ 'coc-go',
 \ 'coc-html',
 \ 'coc-java',
 \ 'coc-json',
 \ 'coc-prettier',
 \ 'coc-python',
+\ 'coc-svelte',
 \ 'coc-tsserver',
-\ 'coc-clangd',
-\ 'coc-flutter',
-\ 'coc-svelte'
 \]
 
 command! -nargs=0 Format :call CocAction('format')
@@ -331,35 +332,6 @@ augroup go
 
   " :GoBuild and :GoTestCompile
   autocmd FileType go nmap <Leader>b :<C-u>call <SID>buildGoFiles()<CR>
-
-  " :GoTest
-  autocmd FileType go nmap <Leader>t <Plug>(go-test)
-
-  " :GoRun
-  autocmd FileType go nmap <Leader>r <Plug>(go-run)
-
-  " :GoDoc
-  autocmd FileType go nmap <Leader>d <Plug>(go-doc)
-
-  " :GoCoverageToggle
-  autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
-
-  " :GoInfo
-  autocmd FileType go nmap <Leader>i <Plug>(go-info)
-
-  " :GoMetaLinter
-  autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
-
-  " :GoDef but opens in a vertical split
-  autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
-  " :GoDef but opens in a horizontal split
-  autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
-
-  " :GoAlternate  commands :A, :AV, :AS and :AT
-  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 augroup END
 
 " buildGoFiles is a custom function that builds or compiles the test file.
@@ -400,8 +372,11 @@ nnoremap <Leader>F :Format<CR>
 " Remap for rename current word
 nmap <Leader>rn <Plug>(coc-rename)
 
-" Perform code actions on the word under the cursor
-nmap <Leader>do <Plug>(coc-codeaction)
+" Remap keys for applying codeAction to the current buffer
+nmap <Leader>ca <Plug>(coc-codeaction)
+
+" Apply AutoFix to problem on the current line
+nmap <Leader>qf <Plug>(coc-fix-current)
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -411,6 +386,13 @@ nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>showDocumentation()<CR>
+
+" Mappings using CocList
+nnoremap <silent> <Leader>cd :<C-u>CocList diagnostics<CR>
+nnoremap <silent> <Leader>ce :<C-u>CocList extensions<CR>
+nnoremap <silent> <Leader>cc :<C-u>CocList commands<CR>
+nnoremap <silent> <Leader>co :<C-u>CocList outline<CR>
+nnoremap <silent> <Leader>cs :<C-u>CocList -I symbols<CR>
 
 " Close the quickfix window with <Leader>a
 nnoremap <Leader>a :cclose<CR>
