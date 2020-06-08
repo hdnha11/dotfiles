@@ -369,14 +369,16 @@ xmap <Leader>f <Plug>(coc-format-selected)
 nmap <Leader>f <Plug>(coc-format-selected)
 nnoremap <Leader>F :Format<CR>
 
-" Remap for rename current word
-nmap <Leader>rn <Plug>(coc-rename)
-
-" Remap keys for applying codeAction to the current buffer
-nmap <Leader>ca <Plug>(coc-codeaction)
+" Code actions
+xmap <Leader>a <Plug>(coc-codeaction-selected)
+nmap <Leader>a v<Plug>(coc-codeaction-selected)
+nmap <Leader>A <Plug>(coc-codeaction)
 
 " Apply AutoFix to problem on the current line
 nmap <Leader>qf <Plug>(coc-fix-current)
+
+" Remap for rename current word
+nmap <Leader>rn <Plug>(coc-rename)
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -395,4 +397,4 @@ nnoremap <silent> <Leader>co :<C-u>CocList outline<CR>
 nnoremap <silent> <Leader>cs :<C-u>CocList -I symbols<CR>
 
 " Close the quickfix window with <Leader>a
-nnoremap <Leader>a :cclose<CR>
+nnoremap <Leader>Q :cclose<CR>
