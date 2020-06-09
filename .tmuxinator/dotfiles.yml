@@ -2,10 +2,11 @@
 
 name: dotfiles
 root: ~/
+startup_window: dotfiles
 startup_pane: 1
 
 windows:
-  - dotfiles: dotfiles status
-  - vimrc: vim ~/.vimrc
-  - tmux.conf: vim ~/.tmux.conf
-  - zshrc: vim ~/.zshrc
+  - console: dotfiles status
+  - dotfiles:
+      panes:
+        - vim -O ~/.vimrc ~/.tmux.conf ~/.zshrc
