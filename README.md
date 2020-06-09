@@ -97,9 +97,6 @@ $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 # Install Node LTS
 $ nvm install --lts
 
-# Install tmuxinator
-$ gem install tmuxinator
-
 # To install useful key bindings and fuzzy completion (fzf):
 $ $(brew --prefix)/opt/fzf/install
 ```
