@@ -57,9 +57,6 @@ Plug 'hail2u/vim-css3-syntax'
 Plug 'griffinqiu/vim-coloresque'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
-"" TypeScript
-Plug 'HerringtonDarkholme/yats.vim'
-
 "" Go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
