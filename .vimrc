@@ -135,7 +135,8 @@ set shortmess+=c
 set wildmenu
 set wildmode=full
 
-"" Turn off folding
+"" Folding
+set foldmethod=syntax
 set nofoldenable
 
 "" Directories for swp files
