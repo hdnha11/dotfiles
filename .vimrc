@@ -136,7 +136,7 @@ set wildmenu
 set wildmode=full
 
 "" Folding
-set foldmethod=syntax
+set foldmethod=indent
 set nofoldenable
 
 "" Directories for swp files
