@@ -12,7 +12,7 @@ function restoreHomebrew() {
   done
 
   showStep "Restore Homebrew cask"
-  brew cask install $(cat $BACKUP_PATH/brew-cask-list)
+  brew install --cask $(cat $BACKUP_PATH/brew-cask-list)
 
   showStep "Restore Homebrew packages"
   brew install $(cat $BACKUP_PATH/brew-package-list)

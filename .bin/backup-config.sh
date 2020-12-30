@@ -26,10 +26,10 @@ function backupHomebrew() {
   brew tap > $BACKUP_PATH/brew-tap-list
 
   showStep "Backup Homebrew cask"
-  brew cask list > $BACKUP_PATH/brew-cask-list
+  brew list --cask > $BACKUP_PATH/brew-cask-list
 
   showStep "Backup Homebrew packages"
-  brew list > $BACKUP_PATH/brew-package-list
+  brew list --formula > $BACKUP_PATH/brew-package-list
 }
 
 function backupProfile() {
