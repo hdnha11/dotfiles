@@ -305,6 +305,7 @@ let g:coc_global_extensions = [
 \ 'coc-python',
 \ 'coc-svelte',
 \ 'coc-tsserver',
+\ 'coc-rls',
 \]
 
 command! -nargs=0 Format :call CocAction('format')
