@@ -74,6 +74,7 @@ plugins=(
     docker
     docker-compose
     docker-machine
+    dotnet
     flutter
     gcloud
     git

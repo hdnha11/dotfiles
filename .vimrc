@@ -297,15 +297,16 @@ let g:coc_global_extensions = [
 \ 'coc-css',
 \ 'coc-eslint',
 \ 'coc-flutter',
+\ 'coc-fsharp',
 \ 'coc-go',
 \ 'coc-html',
 \ 'coc-java',
 \ 'coc-json',
 \ 'coc-prettier',
 \ 'coc-python',
+\ 'coc-rls',
 \ 'coc-svelte',
 \ 'coc-tsserver',
-\ 'coc-rls',
 \]
 
 command! -nargs=0 Format :call CocAction('format')
