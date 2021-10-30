@@ -307,6 +307,7 @@ let g:coc_global_extensions = [
 \ 'coc-rls',
 \ 'coc-svelte',
 \ 'coc-tsserver',
+\ 'https://github.com/rodrigore/coc-tailwind-intellisense',
 \]
 
 command! -nargs=0 Format :call CocAction('format')
