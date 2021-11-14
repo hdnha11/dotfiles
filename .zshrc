@@ -78,7 +78,7 @@ plugins=(
     flutter
     gcloud
     git
-    go
+    golang
     mvn
     npm
     pip
