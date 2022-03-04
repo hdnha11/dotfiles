@@ -2,5 +2,5 @@
   "diagnostic.errorSign": "•",
   "diagnostic.warningSign": "•",
   "diagnostic.infoSign": "•",
-  "prettier.eslintIntegration": true
+  "flutter.sdk.flutter-lookup": "asdf which flutter"
 }

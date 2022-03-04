@@ -95,6 +95,12 @@ Plug 'jordwalke/VimAutoMakeDirectory'
 "" Start a * or # search from a visual block
 Plug 'nelstrom/vim-visual-star-search'
 
+"" Table mode
+Plug 'dhruvasagar/vim-table-mode'
+
+"" WakaTime for productivity metrics, goals, leaderboards, and automatic time tracking
+Plug 'wakatime/vim-wakatime'
+
 call plug#end()
 
 "*****************************************************************************
@@ -290,6 +296,10 @@ let g:airline_symbols.dirty = '!'
 let g:grepper = {
 \ 'tools': ['rg', 'ag', 'git', 'grep']
 \}
+
+"" Table mode
+" Markdown-compatible tables
+let g:table_mode_corner = '|'
 
 "" Coc
 let g:coc_global_extensions = [
