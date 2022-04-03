@@ -398,7 +398,7 @@ nnoremap <Leader>F :Format<CR>
 
 " Code actions
 xmap <Leader>a <Plug>(coc-codeaction-selected)
-nmap <Leader>a v<Plug>(coc-codeaction-selected)
+nmap <Leader>a <Plug>(coc-codeaction-selected)
 nmap <Leader>A <Plug>(coc-codeaction)
 
 " Apply AutoFix to problem on the current line

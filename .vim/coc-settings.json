@@ -2,5 +2,9 @@
   "diagnostic.errorSign": "•",
   "diagnostic.warningSign": "•",
   "diagnostic.infoSign": "•",
+  "go.goplsPath": "~/workspaces/go/bin/gopls",
+  "go.goplsOptions": {
+    "staticcheck": true
+  },
   "flutter.sdk.flutter-lookup": "asdf which flutter"
 }
