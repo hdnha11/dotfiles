@@ -2,11 +2,14 @@
 
 name: dotfiles
 root: ~/
-startup_window: dotfiles
+startup_window: neovim
 startup_pane: 1
 
 windows:
   - console: dotfiles status
-  - dotfiles:
+  - neovim:
+      root: ~/.config/nvim
       panes:
-        - vim -O ~/.vimrc ~/.tmux.conf ~/.zshrc
+        - nvim
+  - tmux: nvim ~/.tmux.conf
+  - zsh: nvim ~/.zshrc

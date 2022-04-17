@@ -11,4 +11,4 @@ windows:
         - #empty
         - #empty
         - #empty
-  - editor: vim
+  - editor: nvim
