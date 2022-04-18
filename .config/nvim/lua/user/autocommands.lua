@@ -28,10 +28,11 @@ vim.cmd [[
     autocmd!
     autocmd User AlphaReady set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
     autocmd User AlphaReady set laststatus=0 | autocmd BufUnload <buffer> set laststatus=2
+    autocmd User AlphaReady set noruler | autocmd BufUnload <buffer> set ruler
   augroup end
 
   augroup _lsp
     autocmd!
-    autocmd BufWritePre * lua vim.lsp.buf.formatting()
+    autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
   augroup end
 ]]
