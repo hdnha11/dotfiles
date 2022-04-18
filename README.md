@@ -46,6 +46,16 @@ https://raw.githubusercontent.com/hdnha11/dotfiles/master/.bin/dotfiles-install.
 > `$ brew install reattach-to-user-namespace`\
 > **For iTerm2 3.1.6+** Disable *Use Unicode Version 9 Widths* in *Preferences/Profiles/Text*
 
+#### tmux-256color for macOS
+
+```sh
+$ curl -OJ https://gist.githubusercontent.com/nicm/ea9cf3c93f22e0246ec858122d9abea1/raw/37ae29fc86e88b48dbc8a674478ad3e7a009f357/tmux-256color
+$ tic -x tmux-256color
+$ rm tmux-256color
+```
+
+Source: https://gist.github.com/bbqtd/a4ac060d6f6b9ea6fe3aabe735aa9d95
+
 ### Hammerspoon
 
 #### Application Mode
