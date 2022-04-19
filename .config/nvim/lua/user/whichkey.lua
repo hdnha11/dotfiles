@@ -153,13 +153,14 @@ local mappings = {
       'Prev Diagnostic',
     },
     l = { '<Cmd>lua vim.lsp.codelens.run()<CR>', 'CodeLens Action' },
-    q = { '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', 'Quickfix' },
+    q = { '<Cmd>lua vim.diagnostic.setloclist()<CR>', 'Quickfix' },
     r = { '<Cmd>lua vim.lsp.buf.rename()<CR>', 'Rename' },
     s = { '<Cmd>Telescope lsp_document_symbols<CR>', 'Document Symbols' },
     S = {
       '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>',
       'Workspace Symbols',
     },
+    e = { '<Cmd>Telescope quickfix<CR>', 'Telescope Quickfix' },
   },
 
   s = {
@@ -172,6 +173,7 @@ local mappings = {
     R = { '<Cmd>Telescope registers<CR>', 'Registers' },
     k = { '<Cmd>Telescope keymaps<CR>', 'Keymaps' },
     C = { '<Cmd>Telescope commands<CR>', 'Commands' },
+    w = { "<Cmd>lua require('telescope.builtin').grep_string()<CR>", 'Word Under Cursor', },
   },
 
   t = {

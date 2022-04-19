@@ -59,6 +59,9 @@ return packer.startup(function(use)
 
   -- Colorschemes
   use 'shaunsingh/nord.nvim'
+  use 'folke/tokyonight.nvim'
+  use 'EdenEast/nightfox.nvim'
+  use { 'catppuccin/nvim', as = 'catppuccin' }
 
   -- Completion
   use 'hrsh7th/nvim-cmp' -- completion plugin
@@ -84,7 +87,7 @@ return packer.startup(function(use)
   use 'nvim-telescope/telescope-media-files.nvim'
 
   -- Treesitter
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', }
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'JoosepAlviste/nvim-ts-context-commentstring'
   use 'nvim-treesitter/playground'
 
