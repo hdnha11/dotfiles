@@ -41,7 +41,7 @@ indent_blankline.setup {
     'for',
     'jsx_element',
     'jsx_self_closing_element',
-    'literal_value',
+    'composite_literal',
     'method',
     'object',
     'operation_type',

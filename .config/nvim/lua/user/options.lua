@@ -30,7 +30,7 @@ local options = {
   showmode = false, -- we don't want to see things like -- TERMINAL --
   showtabline = 2, -- always show tabs
   conceallevel = 0, -- so that `` is visible in markdown files
-  wrap = false, -- display lines as one long line
+  wrap = true, -- wrap lines longer than the window width
 }
 
 for k, v in pairs(options) do
