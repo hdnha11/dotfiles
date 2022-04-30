@@ -78,8 +78,10 @@ local function lsp_keymaps(bufnr)
   keymap(bufnr, 'n', '<Leader>D', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   keymap(bufnr, 'n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
   keymap(bufnr, 'n', '<Leader>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  keymap(bufnr, 'v', '<Leader>ra', '<Esc><Cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
   keymap(bufnr, 'n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
   keymap(bufnr, 'n', '<Leader>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  keymap(bufnr, 'v', '<Leader>f', '<Esc><Cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
