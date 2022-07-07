@@ -1,25 +1,4 @@
 -- `:help nvim-tree.OPTION_NAME`
-vim.g.nvim_tree_icons = {
-  default = '',
-  symlink = '',
-  git = {
-    unstaged = '',
-    staged = 'S',
-    unmerged = '',
-    renamed = '➜',
-    deleted = '',
-    untracked = 'U',
-    ignored = '◌',
-  },
-  folder = {
-    default = '',
-    open = '',
-    empty = '',
-    empty_open = '',
-    symlink = '',
-    symlink_open = '',
-  },
-}
 
 local status_ok, nvim_tree = pcall(require, 'nvim-tree')
 if not status_ok then
@@ -61,6 +40,29 @@ nvim_tree.setup {
         corner = '└ ',
         edge = '│ ',
         none = '  ',
+      },
+    },
+    icons = {
+      glyphs = {
+        default = '',
+        symlink = '',
+        git = {
+          unstaged = '',
+          staged = 'S',
+          unmerged = '',
+          renamed = '➜',
+          deleted = '',
+          untracked = 'U',
+          ignored = '◌',
+        },
+        folder = {
+          default = '',
+          open = '',
+          empty = '',
+          empty_open = '',
+          symlink = '',
+          symlink_open = '',
+        },
       },
     },
   },
