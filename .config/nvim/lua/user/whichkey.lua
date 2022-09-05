@@ -194,6 +194,7 @@ local mappings = {
     H = { '<Cmd>lua _HASKELL_TOGGLE()<CR>', 'Haskell' },
     l = { '<Cmd>lua _LUA_TOGGLE()<CR>', 'Lua' },
     P = { '<Cmd>lua _POSTSCRIPT_TOGGLE()<CR>', 'Postscript' },
+    c = { '<Cmd>lua _CLOJURE_TOGGLE()<CR>', 'Clojure' },
   },
 }
 

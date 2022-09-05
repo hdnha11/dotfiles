@@ -163,3 +163,13 @@ local postscript = Terminal:new {
 function _POSTSCRIPT_TOGGLE()
   postscript:toggle()
 end
+
+local clojure = Terminal:new {
+  cmd = 'clj',
+  count = 13,
+  direction = 'horizontal',
+}
+
+function _CLOJURE_TOGGLE()
+  clojure:toggle()
+end
