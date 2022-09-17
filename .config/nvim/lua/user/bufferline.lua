@@ -11,7 +11,10 @@ bufferline.setup {
     right_mouse_command = 'bdelete! %d', -- can be a string | function, see "Mouse actions"
     left_mouse_command = 'buffer %d', -- can be a string | function, see "Mouse actions"
     middle_mouse_command = nil, -- can be a string | function, see "Mouse actions"
-    indicator_icon = '▐',
+    indicator = {
+      icon = '▎',
+      style = 'icon',
+    },
     buffer_close_icon = '',
     modified_icon = '●',
     close_icon = '',
@@ -35,83 +38,196 @@ bufferline.setup {
     sort_by = 'id',
   },
   highlights = (function()
-    local normal_bg = { highlight = 'Normal', attribute = 'bg' }
-    local selected_bg = { highlight = 'StatusLineNC', attribute = 'bg' }
-    local highlight_bg = { highlight = 'LspDiagnosticsDefaultHint', attribute = 'fg' }
+    local nord0 = '#2E3440'
+    local nord1 = '#3B4252'
+    local nord9 = '#81A1C1'
+    local fill = nord0
+    local indicator = nord9
+    local bg = nord0
+    local buffer_bg = nord0
+    local buffer_bg_selected = nord1
+    local buffer_bg_visible = '#2A2F3A'
 
     return {
+      fill = {
+        bg = fill
+      },
       background = {
-        guibg = normal_bg,
-      },
-      tab = {
-        guibg = normal_bg,
-      },
-      tab_selected = {
-        guibg = selected_bg,
-      },
-      tab_close = {
-        guibg = normal_bg,
-      },
-      close_button = {
-        guibg = normal_bg,
-      },
-      close_button_visible = {
-        guibg = selected_bg,
-      },
-      close_button_selected = {
-        guibg = selected_bg,
-      },
-      buffer = {
-        guibg = normal_bg,
-      },
-      buffer_visible = {
-        guibg = selected_bg,
+        bg = bg,
       },
       buffer_selected = {
-        guibg = selected_bg,
+        bg = buffer_bg_selected,
+      },
+      buffer_visible = {
+        bg = buffer_bg_visible,
+        italic = true
+      },
+      numbers = {
+        bg = buffer_bg,
+      },
+      numbers_selected = {
+        bg = buffer_bg_selected,
+      },
+      numbers_visible = {
+        bg = buffer_bg_visible,
+        italic = true
+      },
+      diagnostic = {
+        bg = buffer_bg,
+      },
+      diagnostic_selected = {
+        bg = buffer_bg_selected,
+        bold = true,
+        italic = true,
+      },
+      diagnostic_visible = {
+        bg = buffer_bg_visible
+      },
+      hint = {
+        bg = buffer_bg,
+      },
+      hint_visible = {
+        bg = buffer_bg_visible,
+      },
+      hint_selected = {
+        bg = buffer_bg_selected,
+        bold = true,
+        italic = true,
+      },
+      hint_diagnostic = {
+        bg = buffer_bg,
+      },
+      hint_diagnostic_visible = {
+        bg = buffer_bg_visible,
+      },
+      hint_diagnostic_selected = {
+        bg = buffer_bg_selected,
+        bold = true,
+        italic = true,
+      },
+      info = {
+        bg = buffer_bg;
+      },
+      info_visible = {
+        bg = buffer_bg_visible,
+      },
+      info_selected = {
+        bg = buffer_bg_selected,
+        bold = true,
+        italic = true,
+      },
+      info_diagnostic = {
+        bg = buffer_bg,
+      },
+      info_diagnostic_visible = {
+        bg = buffer_bg_visible,
+      },
+      info_diagnostic_selected = {
+        bg = buffer_bg_selected,
+        bold = true,
+        italic = true,
+      },
+      warning = {
+        bg = buffer_bg,
+      },
+      warning_visible = {
+        bg = buffer_bg_visible,
+      },
+      warning_selected = {
+        bg = buffer_bg_selected,
+        bold = true,
+        italic = true,
+      },
+      warning_diagnostic = {
+        bg = buffer_bg,
+      },
+      warning_diagnostic_visible = {
+        bg = buffer_bg_visible,
+      },
+      warning_diagnostic_selected = {
+        bg = buffer_bg_selected,
+        bold = true,
+        italic = true,
+      },
+      error = {
+        bg = buffer_bg,
+      },
+      error_visible = {
+        bg = buffer_bg_visible,
+      },
+      error_selected = {
+        bg = buffer_bg_selected,
+        bold = true,
+        italic = true,
+      },
+      error_diagnostic = {
+        bg = buffer_bg,
+      },
+      error_diagnostic_visible = {
+        bg = buffer_bg_visible,
+      },
+      error_diagnostic_selected = {
+        bg = buffer_bg_selected,
+        bold = true,
+        italic = true,
+      },
+      close_button = {
+        bg = buffer_bg,
+      },
+      close_button_visible = {
+        bg = buffer_bg_visible,
+      },
+      close_button_selected = {
+        bg = buffer_bg_selected,
       },
       duplicate = {
-        guibg = normal_bg,
+        bg = buffer_bg,
       },
       duplicate_selected = {
-        guibg = selected_bg,
+        bg = buffer_bg_selected,
       },
       duplicate_visible = {
-        guibg = selected_bg,
-      },
-      modified = {
-        guibg = normal_bg,
-      },
-      modified_visible = {
-        guibg = selected_bg,
-      },
-      modified_selected = {
-        guibg = selected_bg,
-      },
-      pick = {
-        guibg = normal_bg,
-      },
-      pick_selected = {
-        guibg = selected_bg,
-      },
-      pick_visible = {
-        guibg = selected_bg,
+        bg = buffer_bg_visible,
       },
       separator = {
-        guifg = normal_bg,
-        guibg = normal_bg,
+        fg = fill,
+        bg = buffer_bg,
       },
       separator_selected = {
-        guifg = normal_bg,
-        guibg = selected_bg,
+        fg = fill,
+        bg = buffer_bg_selected,
       },
       separator_visible = {
-        guifg = normal_bg,
-        guibg = selected_bg,
+        fg = fill,
+        bg = buffer_bg_visible,
+      },
+      modified = {
+        bg = buffer_bg,
+      },
+      modified_selected = {
+        bg = buffer_bg_selected,
+      },
+      modified_visible = {
+        bg = buffer_bg_visible,
       },
       indicator_selected = {
-        guifg = highlight_bg,
-        guibg = normal_bg,
+        fg = indicator,
+        bg = buffer_bg_selected,
+      },
+      pick = {
+        bg = buffer_bg,
+        bold = true,
+        italic = true,
+      },
+      pick_selected = {
+        bg = buffer_bg_selected,
+        bold = true,
+        italic = true,
+      },
+      pick_visible = {
+        bg = buffer_bg_visible,
+        bold = true,
+        italic = true,
       },
     }
   end)(),
