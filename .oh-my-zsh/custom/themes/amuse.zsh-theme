@@ -45,7 +45,7 @@ turquoise="$FG[038]"
 
 PROMPT='
 %{$turquoise%}$FX[bold]${PWD/#$HOME/~}%{$reset_color%}$(git_prompt_info) %{$green%}$(node_version_prompt_info)%{$reset_color%}%{$red%}$(ruby_version_prompt_info)%{$reset_color%}
-$ '
+%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )'
 
 # Must use Powerline font, for \uE0A0 to render.
 ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$purple%}\uE0A0 "
