@@ -94,6 +94,9 @@ return packer.startup(function(use)
   -- Git
   use 'lewis6991/gitsigns.nvim'
 
+  -- LISP
+  use 'Olical/conjure'
+
   -- Automatically set up the configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then
