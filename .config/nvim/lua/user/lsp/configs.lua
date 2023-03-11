@@ -22,7 +22,7 @@ local servers = {
   'rust_analyzer', -- Rust
   'solargraph', -- Ruby
   'sqlls', -- SQL
-  'sumneko_lua', -- Lua
+  'lua_ls', -- Lua
   'svelte', -- Svelte
   'tailwindcss', -- Tailwind CSS
   'tsserver', -- JavaScript/TypeScript
