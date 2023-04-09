@@ -33,6 +33,6 @@ vim.cmd [[
 
   augroup _lsp
     autocmd!
-    autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
+    autocmd BufWritePre *.go lua vim.lsp.buf.format { async = true }
   augroup end
 ]]
