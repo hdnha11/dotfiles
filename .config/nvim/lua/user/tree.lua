@@ -5,6 +5,20 @@ if not status_ok then
   return
 end
 
+local function on_attach(bufnr)
+  local api = require('nvim-tree.api')
+
+  local function opts(desc)
+    return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  -- Default mappings
+  api.config.mappings.default_on_attach(bufnr)
+
+  -- Custom mappings
+  vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
+end
+
 nvim_tree.setup {
   auto_reload_on_write = true,
   disable_netrw = false,
@@ -12,6 +26,7 @@ nvim_tree.setup {
   hijack_netrw = true,
   hijack_unnamed_buffer_when_opening = false,
   open_on_tab = false,
+  on_attach = on_attach,
   sort_by = 'name',
   update_cwd = false,
   view = {
@@ -22,12 +37,6 @@ nvim_tree.setup {
     number = false,
     relativenumber = false,
     signcolumn = 'yes',
-    mappings = {
-      custom_only = false,
-      list = {
-        { key = 'v', action = 'vsplit' },
-      },
-    },
   },
   renderer = {
     indent_markers = {
