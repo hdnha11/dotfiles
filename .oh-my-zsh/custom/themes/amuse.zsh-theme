@@ -38,13 +38,28 @@ node_version_prompt_info() {
   echo "‹node-$node_version›" 2>/dev/null
 }
 
+golang_version_prompt_info() {
+  [[ -f go.mod ]] || return
+
+  local 'golang_version'
+
+  if cmd_exists go; then
+    golang_version=$(go version | awk '{print substr($3, 3)}')
+  else
+    return
+  fi
+
+  echo "‹go$golang_version›" 2>/dev/null
+}
+
 purple="$FG[169]"
 red="$FG[009]"
 green="$FG[034]"
 turquoise="$FG[038]"
+cyan="$FG[123]"
 
 PROMPT='
-%{$turquoise%}$FX[bold]${PWD/#$HOME/~}%{$reset_color%}$(git_prompt_info) %{$green%}$(node_version_prompt_info)%{$reset_color%}%{$red%}$(ruby_version_prompt_info)%{$reset_color%}
+%{$turquoise%}$FX[bold]${PWD/#$HOME/~}%{$reset_color%}$(git_prompt_info) %{$green%}$(node_version_prompt_info)%{$reset_color%}%{$cyan%}$(golang_version_prompt_info)%{$reset_color%}%{$red%}$(ruby_version_prompt_info)%{$reset_color%}
 %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )'
 
 # Must use Powerline font, for \uE0A0 to render.
