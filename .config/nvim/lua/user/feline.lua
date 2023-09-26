@@ -65,10 +65,10 @@ local vi = {
 }
 
 local icons = {
-  locker = '',    -- #f023
+  locker = '',    -- f023
   page = '☰',      -- 2630
   line_number = '', -- e0a1
-  connected = '', -- f817
+  connected = '󰌘', -- f0318
   dos = '',       -- e70f
   unix = '',      -- f17c
   mac = '',       -- f179

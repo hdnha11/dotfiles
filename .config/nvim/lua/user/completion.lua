@@ -16,33 +16,33 @@ local check_backspace = function()
 end
 
 -- Find more icons here: https://www.nerdfonts.com/cheat-sheet
--- E.g., , m, , , , , , , , , , , , , , , , , ﬥ, ﬦ, , , , 
+-- E.g., 󰀬, m, 󰊕, 󰉿, , , , 󰌗, , 󰌋, 󰅨, 󰅩, 󰅪, 󰅲, 󰅳, 󰅴, 󰊪, 󰋙, 󰘦, 󰘧, 󰍁, 󰏗, , 󰏿
 local kind_icons = {
-  Class = 'ﴯ',
-  Color = '',
+  Class = '󰠱',
+  Color = '󰏘',
   Constant = '',
   Constructor = '',
   Enum = 'Σ',
   EnumMember = '',
   Event = '',
-  Field = 'ﰠ',
-  File = '',
-  Folder = '',
+  Field = '󰜢',
+  File = '󰈙',
+  Folder = '󰉋',
   Function = 'ƒ',
   Interface = '',
-  Keyword = '',
-  Method = '',
+  Keyword = '󰌆',
+  Method = '󰆧',
   Module = '',
-  Operator = '',
+  Operator = '󰆕',
   Property = '',
   Reference = '',
   Snippet = '',
-  Struct = 'פּ',
+  Struct = '󰙅',
   Text = '',
-  TypeParameter = '',
+  TypeParameter = '󰊄',
   Unit = '',
-  Value = '',
-  Variable = '',
+  Value = '󰎠',
+  Variable = '󰀫',
 }
 
 cmp.setup {
