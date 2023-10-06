@@ -6,27 +6,27 @@ end
 local lspconfig = require('lspconfig')
 
 local servers = {
-  'asm_lsp', -- Assembly (GAS/NASM, GO)
-  'clangd', -- C/C++
-  'clojure_lsp', -- Clojure
-  'cssls', -- CSS
-  'dartls', -- Dart
+  'asm_lsp',        -- Assembly (GAS/NASM, GO)
+  'clangd',         -- C/C++
+  'clojure_lsp',    -- Clojure
+  'cssls',          -- CSS
+  'dartls',         -- Dart
   'fsautocomplete', -- F#
-  'gopls', -- Go
-  'graphql', -- GraphQL
-  'hls', -- Haskell
-  'html', -- HTML
-  'jdtls', -- Java
-  'jsonls', -- JSON
-  'lua_ls', -- Lua
-  'ocamllsp', -- OCaml
-  'pyright', -- Python
-  'rust_analyzer', -- Rust
-  'solargraph', -- Ruby
-  'sqlls', -- SQL
-  'svelte', -- Svelte
-  'tailwindcss', -- Tailwind CSS
-  'tsserver', -- JavaScript/TypeScript
+  'gopls',          -- Go
+  'graphql',        -- GraphQL
+  'hls',            -- Haskell
+  'html',           -- HTML
+  'jdtls',          -- Java
+  'jsonls',         -- JSON
+  'lua_ls',         -- Lua
+  'ocamllsp',       -- OCaml
+  'pyright',        -- Python
+  'rust_analyzer',  -- Rust
+  'solargraph',     -- Ruby
+  'sqlls',          -- SQL
+  'svelte',         -- Svelte
+  'tailwindcss',    -- Tailwind CSS
+  'tsserver',       -- JavaScript/TypeScript
 }
 
 lsp_installer.setup {
