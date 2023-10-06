@@ -18,11 +18,12 @@ local servers = {
   'html', -- HTML
   'jdtls', -- Java
   'jsonls', -- JSON
+  'lua_ls', -- Lua
+  'ocamllsp', -- OCaml
   'pyright', -- Python
   'rust_analyzer', -- Rust
   'solargraph', -- Ruby
   'sqlls', -- SQL
-  'lua_ls', -- Lua
   'svelte', -- Svelte
   'tailwindcss', -- Tailwind CSS
   'tsserver', -- JavaScript/TypeScript
