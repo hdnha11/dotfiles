@@ -7,30 +7,30 @@ function restoreHomebrew() {
   brew update
 
   showStep "Restore Homebrew tap"
-  for repo in $(cat $BACKUP_PATH/brew-tap-list); do
+  for repo in $(cat "$BACKUP_PATH/brew-tap-list"); do
     brew tap $repo
   done
 
   showStep "Restore Homebrew cask"
-  brew install --cask $(cat $BACKUP_PATH/brew-cask-list)
+  brew install --cask $(cat "$BACKUP_PATH/brew-cask-list")
 
   showStep "Restore Homebrew packages"
-  brew install $(cat $BACKUP_PATH/brew-package-list)
+  brew install $(cat "$BACKUP_PATH/brew-package-list")
 }
 
 function restoreProfile() {
   showStep "Restore profile"
-  cp $BACKUP_PATH/profile $HOME/.profile
+  cp "$BACKUP_PATH/profile" $HOME/.profile
 }
 
 function restoreHistory() {
   showStep "Restore history"
-  cp $BACKUP_PATH/zsh_history $HOME/.zsh_history
+  cp "$BACKUP_PATH/zsh_history" $HOME/.zsh_history
 }
 
 function restoreSSH() {
   showStep "Restore ssh"
-  cp -R $BACKUP_PATH/ssh $HOME/.ssh
+  cp -R "$BACKUP_PATH/ssh" $HOME/.ssh
 }
 
 function printHelp() {

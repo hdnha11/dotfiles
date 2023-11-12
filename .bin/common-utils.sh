@@ -7,7 +7,7 @@ BLUE='\033[1;34m'
 PURPLE='\033[1;35m'
 RESET='\033[0m'
 
-BACKUP_PATH="${HOME}/Dropbox/Backup/macOS"
+BACKUP_PATH="${HOME}/Google Drive/My Drive/Backup/macOS"
 
 # Indent text on echo
 function indent() {

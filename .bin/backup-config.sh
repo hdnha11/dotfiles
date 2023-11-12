@@ -5,16 +5,16 @@
 REMOVE_OLD_BACKUP=false
 
 function removeOldBackup() {
-  if [ -d $BACKUP_PATH ]; then
+  if [ -d "$BACKUP_PATH" ]; then
     showStep "Remove old backup $BACKUP_PATH"
     rm -R "$BACKUP_PATH"
   fi
 }
 
 function createBackupDir() {
-  if [ ! -d $BACKUP_PATH ]; then
+  if [ ! -d "$BACKUP_PATH" ]; then
     showStep "Create backup directory $BACKUP_PATH"
-    mkdir -p $BACKUP_PATH
+    mkdir -p "$BACKUP_PATH"
   fi
 }
 
@@ -23,28 +23,28 @@ function backupHomebrew() {
   brew update
 
   showStep "Backup Homebrew tap"
-  brew tap > $BACKUP_PATH/brew-tap-list
+  brew tap > "$BACKUP_PATH/brew-tap-list"
 
   showStep "Backup Homebrew cask"
-  brew list --cask > $BACKUP_PATH/brew-cask-list
+  brew list --cask > "$BACKUP_PATH/brew-cask-list"
 
   showStep "Backup Homebrew packages"
-  brew list --formula > $BACKUP_PATH/brew-package-list
+  brew list --formula > "$BACKUP_PATH/brew-package-list"
 }
 
 function backupProfile() {
   showStep "Backup profile"
-  cp $HOME/.profile $BACKUP_PATH/profile
+  cp $HOME/.profile "$BACKUP_PATH/profile"
 }
 
 function backupHistory() {
   showStep "Backup history"
-  cp $HOME/.zsh_history $BACKUP_PATH/zsh_history
+  cp $HOME/.zsh_history "$BACKUP_PATH/zsh_history"
 }
 
 function backupSSH() {
   showStep "Backup ssh"
-  cp -R $HOME/.ssh $BACKUP_PATH/ssh
+  cp -R $HOME/.ssh "$BACKUP_PATH/ssh"
 }
 
 function printHelp() {
