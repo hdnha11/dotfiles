@@ -1,16 +1,29 @@
-local status_ok, lsp_installer = pcall(require, 'nvim-lsp-installer')
+local status_ok, mason = pcall(require, 'mason')
 if not status_ok then
   return
 end
 
+local mason_lspconfig = require('mason-lspconfig')
 local lspconfig = require('lspconfig')
 
-local servers = {
+local function merge(tbl1, tbl2)
+  local result = {}
+  for _, item in pairs(tbl1) do
+    table.insert(result, item)
+  end
+  for _, item in pairs(tbl2) do
+    table.insert(result, item)
+  end
+  return result
+end
+
+
+local auto_install_servers = {
   'asm_lsp',        -- Assembly (GAS/NASM, GO)
   'clangd',         -- C/C++
   'clojure_lsp',    -- Clojure
   'cssls',          -- CSS
-  'dartls',         -- Dart
+  'eslint',         -- ESLint
   'fsautocomplete', -- F#
   'gopls',          -- Go
   'graphql',        -- GraphQL
@@ -27,10 +40,29 @@ local servers = {
   'svelte',         -- Svelte
   'tailwindcss',    -- Tailwind CSS
   'tsserver',       -- JavaScript/TypeScript
+  'zls',            -- Zig
 }
 
-lsp_installer.setup {
-  ensure_installed = servers
+local no_auto_install_servers = {
+  'dartls',            -- Dart
+  'racket_langserver', -- Racket
+}
+
+local servers = merge(auto_install_servers, no_auto_install_servers)
+
+mason.setup {
+  ui = {
+    border = 'rounded',
+    icons = {
+      package_installed = '✓',
+      package_pending = '➜',
+      package_uninstalled = '✗'
+    },
+  },
+}
+
+mason_lspconfig.setup {
+  ensure_installed = auto_install_servers,
 }
 
 for _, server in pairs(servers) do

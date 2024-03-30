@@ -61,7 +61,7 @@ dashboard.section.buttons.val = {
   dashboard.button('r', '  Recently used files', ':Telescope oldfiles<CR>'),
   dashboard.button('f', '󱎸  Find text', ':Telescope live_grep<CR>'),
   dashboard.button('u', '󰚰  Update plugins', ':PackerSync<CR> :TSUpdate<CR>'),
-  dashboard.button('s', '  Language servers', ':LspInstallInfo<CR>'),
+  dashboard.button('s', '  Language servers', ':Mason<CR>'),
   dashboard.button('c', '  Configuration', ':edit ~/.config/nvim/init.lua<CR>'),
   dashboard.button('q', '  Quit Neovim', ':qa<CR>'),
 }

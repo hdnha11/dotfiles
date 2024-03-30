@@ -65,13 +65,13 @@ local vi = {
 }
 
 local icons = {
-  locker = '',    -- f023
-  page = '☰',      -- 2630
+  locker = '', -- f023
+  page = '☰', -- 2630
   line_number = '', -- e0a1
   connected = '󰌘', -- f0318
-  dos = '',       -- e70f
-  unix = '',      -- f17c
-  mac = '',       -- f179
+  dos = '', -- e70f
+  unix = '', -- f17c
+  mac = '', -- f179
   mathematical_L = '𝑳',
   vertical_bar = '┃',
   vertical_bar_thin = '│',
@@ -116,23 +116,6 @@ local function vi_sep_hl()
   return vi.sep[vim.fn.mode()] or 'UserSLBlack'
 end
 
----Get the path of the file relative to the cwd
----@return string
-local function file_info()
-  local list = {}
-  if vim.bo.readonly then
-    table.insert(list, '🔒')
-  end
-
-  if vim.bo.modified then
-    table.insert(list, '●')
-  end
-
-  table.insert(list, vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':~:.'))
-
-  return table.concat(list, ' ')
-end
-
 -- Create a table that contians every status line commonent
 local c = {
   vimode = {
@@ -142,9 +125,9 @@ local c = {
     hl = vi_mode_hl,
     right_sep = { str = ' ', hl = vi_sep_hl },
   },
-  gitbranch = {
+  git_branch = {
     provider = 'git_branch',
-    icon = ' ',
+    icon = { str = ' ', hl = 'UserSLGitBranch' },
     hl = 'UserSLGitBranch',
     right_sep = { str = '  ', hl = 'UserSLGitBranch' },
     enabled = function()
@@ -157,8 +140,14 @@ local c = {
     end,
     hl = 'UserSLAlt',
   },
-  fileinfo = {
-    provider = { name = 'file_info', opts = { type = 'relative' } },
+  file_info = {
+    provider = function()
+      local file_info, icon = require('feline.providers.file').file_info({}, { type = 'relative' })
+      if icon then
+        icon.hl.bg = require('user.colors').get_highlight('UserSLAlt').bg
+      end
+      return file_info, icon
+    end,
     hl = 'UserSLAlt',
     left_sep = { str = ' ', hl = 'UserSLAltSep' },
     right_sep = { str = ' ', hl = 'UserSLAltSep' },
@@ -181,7 +170,7 @@ local c = {
   },
   cur_percent = {
     provider = function()
-      return ' ' .. require('feline.providers.cursor').line_percentage() .. '  '
+      return ' ' .. require('feline.providers.cursor').line_percentage(_, { padding = true }) .. '  '
     end,
     hl = vi_mode_hl,
     left_sep = { str = icons.left, hl = vi_mode_hl },
@@ -228,7 +217,7 @@ local c = {
     right_sep = { str = '', hl = 'UserSLFtHint', always_visible = true },
   },
 
-  in_fileinfo = {
+  in_file_info = {
     provider = 'file_info',
     hl = 'StatusLine',
   },
@@ -236,17 +225,13 @@ local c = {
     provider = 'position',
     hl = 'StatusLine',
   },
-  file_winbar = {
-    provider = file_info,
-    hl = 'Comment',
-  },
 }
 
 local active = {
   { -- left
     c.vimode,
-    c.gitbranch,
-    c.fileinfo,
+    c.git_branch,
+    c.file_info,
     c.default, -- must be last
   },
   {            -- right
@@ -263,8 +248,8 @@ local active = {
 }
 
 local inactive = {
-  { c.in_fileinfo }, -- left
-  { c.in_position }, -- right
+  { c.in_file_info }, -- left
+  { c.in_position },  -- right
 }
 
 feline.setup {
