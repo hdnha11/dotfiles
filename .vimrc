@@ -64,7 +64,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 
 "" Intellisense engine
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 "" A set of mappings for HTML, XML, PHP, ASP, eRuby, JSP, and more
 Plug 'tpope/vim-surround'
@@ -319,7 +319,7 @@ let g:coc_global_extensions = [
 \ 'coc-rls',
 \ 'coc-svelte',
 \ 'coc-tsserver',
-\ 'https://github.com/rodrigore/coc-tailwind-intellisense',
+\ '@yaegassy/coc-tailwindcss3',
 \]
 
 command! -nargs=0 Format :call CocAction('format')
