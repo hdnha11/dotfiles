@@ -73,7 +73,6 @@ plugins=(
     brew
     docker
     docker-compose
-    docker-machine
     dotnet
     gcloud
     git

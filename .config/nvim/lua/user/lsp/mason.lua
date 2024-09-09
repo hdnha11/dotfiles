@@ -39,7 +39,7 @@ local auto_install_servers = {
   'sqlls',          -- SQL
   'svelte',         -- Svelte
   'tailwindcss',    -- Tailwind CSS
-  'tsserver',       -- JavaScript/TypeScript
+  'ts_ls',          -- JavaScript/TypeScript
   'zls',            -- Zig
 }
 
