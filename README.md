@@ -1,15 +1,21 @@
 # My Dotfiles
 
-## Requirements
-
-- Git
-- cURL
+This repo contains the configuration to setup my machines. This is using [Chezmoi](https://chezmoi.io), the dotfile manager to setup the install.
 
 ## Install
 
+### Using Chezmoi
+
+```shell
+export GITHUB_USERNAME=hdnha11
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+```
+
+### Git bare repo (Deprecated)
+
 Install config tracking in your $HOME by running:
 
-```sh
+```shell
 $ curl -Lks git.io/vHjm6 | /bin/bash
 ```
 
@@ -66,7 +72,7 @@ Source: https://gist.github.com/bbqtd/a4ac060d6f6b9ea6fe3aabe735aa9d95
 
 ![Window Management](https://user-images.githubusercontent.com/1773032/37332091-4d74230a-26d8-11e8-9040-065049360dea.png)
 
-## Set up a new Mac
+## Set up a new Mac (Deprecated)
 
 ```sh
 # Install Homebrew (https://brew.sh/)

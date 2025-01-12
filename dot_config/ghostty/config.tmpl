@@ -1,6 +1,10 @@
 # Empty values reset the configuration to the default value
 font-family = Iosevka
 # Font size in points
+{{- if eq .chezmoi.os "darwin" }}
 font-size = 16
+{{- else if eq .chezmoi.os "linux" }}
+font-size = 13
+{{- end }}
 # ghostty +list-themes
 theme = nightfox

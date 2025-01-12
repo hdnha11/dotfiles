@@ -6,7 +6,7 @@ startup_window: neovim
 startup_pane: 1
 
 windows:
-  - console: dotfiles status
+  - console: chezmoi status
   - neovim:
       root: ~/.config/nvim
       panes:

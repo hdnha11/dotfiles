@@ -1,0 +1,51 @@
+# ASDF
+. "$HOME/.asdf/asdf.sh"
+
+# FZF
+source <(fzf --zsh)
+
+# Golang
+export GOPATH=$HOME/workspaces/go
+export PATH=$PATH:$GOPATH/bin
+
+# Rust
+. "$HOME/.cargo/env"
+
+# OCaml
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+test -r "$HOME/.opam/opam-init/init.zsh" && . "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null || true
+# END opam configuration
+
+# Haskell
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
+
+{{- if eq .chezmoi.os "darwin" }}
+
+## macOS
+
+export LC_ALL=en_US.UTF-8
+
+# My bin
+export PATH=$PATH:~/.bin
+
+# Java
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+# Google Cloud SDK
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+
+# Testcontainers
+export TESTCONTAINERS_RYUK_DISABLED=true
+
+# Ninja Van
+export GOPRIVATE=bitbucket.ninjavan.co
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+# Windsurf
+export PATH="/Users/nhahoang/.codeium/windsurf/bin:$PATH"
+{{- end }}

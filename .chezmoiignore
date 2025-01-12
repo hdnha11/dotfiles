@@ -1,0 +1,7 @@
+README.md
+
+# macOS only
+{{- if ne .chezmoi.os "darwin" }}
+.bin
+.hammerspoon
+{{- end }}
