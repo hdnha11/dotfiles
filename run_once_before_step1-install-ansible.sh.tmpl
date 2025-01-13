@@ -1,0 +1,14 @@
+#!/bin/bash
+
+{{- if eq .chezmoi.os "darwin" }}
+brew install ansible
+{{- else if eq .chezmoi.os "linux" }}
+{{-   if eq .chezmoi.osRelease.id "debian" }}
+sudo apt-get update
+sudo apt-get install -y ansible
+{{-   else if eq .chezmoi.osRelease.id "fedora" }}
+sudo dnf install -y ansible
+{{-   end }}
+{{- end }}
+
+echo "Ansible installation complete."

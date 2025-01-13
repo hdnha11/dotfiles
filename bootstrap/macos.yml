@@ -1,0 +1,278 @@
+---
+- name: macOS machine setup
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: true
+  vars:
+    install_homebrew_if_missing: false
+
+  pre_tasks:
+    - name: Ensuring Homebrew is installed
+      ansible.builtin.stat:
+        path: /opt/homebrew/bin/brew
+      register: homebrew_check
+
+    - name: Fail if Homebrew is not installed and install_homebrew_if_missing is false
+      ansible.builtin.fail:
+        msg: Homebrew is missing...Install from http://brew.sh/
+      when:
+        - not homebrew_check.stat.exists
+        - not install_homebrew_if_missing
+
+    - name: Installing Homebrew
+      ansible.builtin.shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      when:
+        - not homebrew_check.stat.exists
+        - install_homebrew_if_missing
+
+  tasks:
+    - name: Updating Homebrew
+      ansible.builtin.homebrew:
+        update_homebrew: yes
+      when: homebrew_check.stat.exists
+
+    - name: Upgrading Homebrew packages
+      homebrew:
+        upgrade_all: yes
+      register: result
+      until: result is successful
+      when: homebrew_check.stat.exists
+
+    - name: Installing Homebrew cask packages
+      ansible.builtin.homebrew_cask:
+        state: present
+        name:
+          - adobe-acrobat-reader
+          - alacritty
+          - android-file-transfer
+          - android-studio
+          - atom
+          - basictex
+          - bitwarden
+          - blackhole-16ch
+          - boost-note
+          - calibre
+          - dbeaver-community
+          - dotnet-sdk
+          - dropbox
+          - evkey
+          - figma
+          - firefox
+          - font-fantasque-sans-mono
+          - font-fira-code
+          - font-iosevka
+          - font-jetbrains-mono
+          - font-symbols-only-nerd-font
+          - font-victor-mono
+          - framer
+          - ghidra
+          - ghostty
+          - google-chrome
+          - google-cloud-sdk
+          - google-drive
+          - hammerspoon
+          - handbrake
+          - hyper
+          - imhex
+          - iterm2
+          - kitty
+          - lapce
+          - logitech-options
+          - microsoft-auto-update
+          - mockoon
+          - neovide
+          - ngrok
+          - obsidian
+          - omnidisksweeper
+          - postico
+          - postman
+          - postman-agent
+          - pritunl
+          - qmk-toolbox
+          - racket
+          - robo-3t
+          - sequel-ace
+          - sketch
+          - skype
+          - slack
+          - smlnj
+          - sourcetree
+          - spotify
+          - standard-notes
+          - teamviewer
+          - telegram
+          - the-unarchiver
+          - visual-studio-code
+          - whatsapp
+          - windows-app
+          - wireshark
+          - wkhtmltopdf
+          - zalo
+          - zed
+          - zoom
+          - zotero
+      register: result
+      until: result is successful
+      when: homebrew_check.stat.exists
+
+    - name: Install Homebrew taps
+      ansible.builtin.homebrew_tap:
+        name:
+          - browsh-org/browsh
+          - clojure/tools
+          - dart-lang/dart
+          - domq/gdb
+          - goles/battery
+          - helix-editor/helix
+          - heroku/brew
+          - homebrew/services
+          - lokalise/cli-2
+          - mongodb/brew
+          - osx-cross/avr
+          - px4/px4
+      when: homebrew_check.stat.exists
+
+    - name: Install Homebrew packages
+      ansible.builtin.homebrew:
+        state: present
+        name:
+          - adns
+          - asciinema
+          - automake
+          - avrdude
+          - bat
+          - berkeley-db
+          - bitwarden-cli
+          - black
+          - ccat
+          - chezmoi
+          - cloc
+          - clojure
+          - cmake
+          - colima
+          - coreutils
+          - croc
+          - csvq
+          - ctags
+          - curl
+          - dfu-programmer
+          - docker
+          - docker-compose
+          - docker-credential-helper
+          - evince
+          - exercism
+          - fastfetch
+          - fd
+          - ffmpeg
+          - flyway
+          - folderify
+          - fzf
+          - git
+          - gnu-typist
+          - go
+          - gobject-introspection
+          - gocloc
+          - gradle
+          - gtk+
+          - gtk-mac-integration
+          - guile
+          - haskell-stack
+          - helix
+          - htop
+          - httpie
+          - jansson
+          - jmeter
+          - jq
+          - jsoncpp
+          - k9s
+          - lazygit
+          - leiningen
+          - libffi
+          - libmaxminddb
+          - libproxy
+          - libsmi
+          - libtermkey
+          - libxml2
+          - llvm
+          - lua-language-server
+          - lynx
+          - maven
+          - mercurial
+          - minikube
+          - mlton
+          - mysql
+          - mysql-client@8.4
+          - nasm
+          - nghttp2
+          - nomad
+          - nushell
+          - opam
+          - openapi-generator
+          - openjdk@17
+          - openldap
+          - openssl@1.1
+          - openvino
+          - pandoc
+          - perl
+          - podman
+          - polyml
+          - postgresql@14
+          - pre-commit
+          - protobuf@21
+          - protoc-gen-go
+          - pv
+          - python-tk@3.10
+          - python@3.9
+          - qemu
+          - qt
+          - qt@5
+          - radare2
+          - rclone
+          - reattach-to-user-namespace
+          - redis
+          - ripgrep
+          - ruby-build
+          - rustup
+          - sbt
+          - sops
+          - syncthing
+          - tcl-tk
+          - telnet
+          - texinfo
+          - the_silver_searcher
+          - tig
+          - tmuxinator
+          - tokei
+          - tree
+          - unixodbc
+          - vala
+          - vim
+          - wakatime-cli
+          - watch
+          - watchman
+          - wget
+          - whalebrew
+          - yarn
+          - zig
+          - zsh-autosuggestions
+          - zsh-syntax-highlighting
+          - browsh-org/browsh/browsh
+          - goles/battery/battery
+          - heroku/brew/heroku
+          - osx-cross/avr/avr-gcc@9
+          - lokalise/cli-2/lokalise2
+          - mongodb/brew/mongodb-community-shell
+          - px4/px4/gcc-arm-none-eabi
+      register: result
+      until: result is successful
+      when: homebrew_check.stat.exists
+
+    - name: Ensuring Oh My Zsh is installed
+      ansible.builtin.stat:
+        path: ~/.oh-my-zsh
+      register: oh_my_zsh_check
+
+    - name: Install Oh My Zsh
+      ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc --skip-chsh
+      when: not oh_my_zsh_check.stat.exists

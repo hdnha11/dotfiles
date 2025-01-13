@@ -1,7 +1,26 @@
+# Custom template variables
+{{- $osid := .chezmoi.os -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+# All systems
+bootstrap
 README.md
 
 # macOS only
-{{- if ne .chezmoi.os "darwin" }}
+{{- if ne $osid "darwin" }}
 .bin
 .hammerspoon
+.bootstrap/macos.yml
+{{- end }}
+
+# Debian only
+{{- if ne $osid "linux-debian" }}
+.bootstrap/debian.yml
+{{- end }}
+
+# Fedora only
+{{- if ne $osid "linux-fedora" }}
+.bootstrap/fedora.yml
 {{- end }}
