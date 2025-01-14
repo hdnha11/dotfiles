@@ -1,0 +1,15 @@
+# ~/.tmuxinator/dotfiles.yml
+
+name: dotfiles
+root: {{ .chezmoi.sourceDir }}
+startup_window: neovim
+startup_pane: 1
+
+windows:
+  - console: chezmoi status
+  - neovim:
+      root: {{ .chezmoi.sourceDir }}/dot_config/nvim
+      panes:
+        - nvim init.lua
+  - tmux: nvim {{ .chezmoi.sourceDir }}/dot_tmux.conf
+  - zsh: nvim {{ .chezmoi.sourceDir }}/dot_zshrc
