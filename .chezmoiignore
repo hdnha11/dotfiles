@@ -10,17 +10,18 @@ README.md
 
 # macOS only
 {{- if ne $osid "darwin" }}
-.bin
 .hammerspoon
-.bootstrap/macos.yml
+{{- end }}
+
+# Linux only
+{{- if ne .chezmoi.os "linux" }}
+bin
 {{- end }}
 
 # Debian only
 {{- if ne $osid "linux-debian" }}
-.bootstrap/debian.yml
 {{- end }}
 
 # Fedora only
 {{- if ne $osid "linux-fedora" }}
-.bootstrap/fedora.yml
 {{- end }}

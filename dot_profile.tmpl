@@ -1,15 +1,15 @@
 # ASDF
-. "$HOME/.asdf/asdf.sh"
+[ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
 
 # FZF
-source <(fzf --zsh)
+[ -x "$(command -v fzf)" ] && source <(fzf --zsh)
 
 # Golang
 export GOPATH=$HOME/workspaces/go
 export PATH=$PATH:$GOPATH/bin
 
 # Rust
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 # OCaml
 # BEGIN opam configuration

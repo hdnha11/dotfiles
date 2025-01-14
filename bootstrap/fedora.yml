@@ -4,271 +4,299 @@
   connection: local
   become: true
   gather_facts: true
-  vars:
-    # flyctl_version: "0.1.130"
-    # pulumi_version: "v3.94.2"
 
   tasks:
     - name: Get my user
       ansible.builtin.set_fact:
         remote_regular_user: "{{ ansible_env.SUDO_USER or ansible_user_id }}"
 
-    - debug: var={{ remote_regular_user }}
+    - name: Install the RPM Fusion and Fonts repo packages
+      ansible.builtin.dnf:
+        state: present
+        disable_gpg_check: yes
+        name:
+          - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts.distribution_version }}.noarch.rpm
+          - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts.distribution_version }}.noarch.rpm
 
-    # - name: Install packages
-    #   ansible.builtin.dnf:
-    #     name:
-    #       - git
-    #       - htop
-    #       - vim
-    #       - firefox
-    #       - gh
-    #       - gnome-tweaks
-    #       - gcc
-    #       - helm
-    #       - go-task
-    #       - ripgrep
-    #       - poetry
-    #       - zsh
-    #       - fzf
-    #       - tmux
-    #       - ffmpeg-free
-    #       - zlib
-    #       - zlib-devel
-    #       - make
-    #       - patch
-    #       - bzip2
-    #       - bzip2-devel
-    #       - readline-devel
-    #       - sqlite
-    #       - sqlite-devel
-    #       - openssl-devel
-    #       - tk-devel
-    #       - libffi-devel
-    #       - xz-devel
-    #       - libuuid-devel
-    #       - gdbm-libs
-    #       - libnsl2
-    #       - luarocks
-    #       - wl-clipboard
-    #       - fd-find
-    #       - gcc-c++
-    #       - doctl
-    #       - helix
-    #       - "@Development Tools"
-    #       - "@C Development Tools and Libraries"
-    #       - autoconf
-    #       - ncurses-devel
-    #       - wxGTK-devel
-    #       - wxBase
-    #       - java-1.8.0-openjdk-devel
-    #       - libiodbc
-    #       - unixODBC-devel.x86_64
-    #       - erlang-odbc.x86_64
-    #       - libxslt
-    #       - fop
-    #       - podman-compose
-    #       - inotify-tools
-    #       - blender
-    #       - toilet
-    #       - dotnet-sdk-8.0
-    #       - unar
-    #     state: present
-    #
-    # - name: Change shell to zsh
-    #   ansible.builtin.user:
-    #     name: "{{ remote_regular_user }}"
-    #     shell: /usr/bin/zsh
-    #
-    # - name: Install DNF plugins core
-    #   ansible.builtin.dnf:
-    #     name: dnf-plugins-core
-    #     state: present
-    #
-    # - name: Add Brave Browser Repo
-    #   ansible.builtin.yum_repository:
-    #     name: brave-browser
-    #     description: Brave Browser
-    #     baseurl: https://brave-browser-rpm-release.s3.brave.com/x86_64/
-    #     gpgkey: https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-    #     gpgcheck: true
-    #     enabled: true
-    #
-    # - name: Import Brave Browser GPG Key
-    #   ansible.builtin.rpm_key:
-    #     key: https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-    #     state: present
-    #
-    # - name: Install Brave Browser
-    #   ansible.builtin.dnf:
-    #     name: brave-browser
-    #     state: present
-    #
-    # - name: Import Microsoft GPG Key
-    #   ansible.builtin.rpm_key:
-    #     key: https://packages.microsoft.com/keys/microsoft.asc
-    #     state: present
-    #
-    # - name: Add Visual Studio Code Repo
-    #   ansible.builtin.yum_repository:
-    #     name: vscode
-    #     description: Visual Studio Code
-    #     baseurl: https://packages.microsoft.com/yumrepos/vscode
-    #     gpgkey: https://packages.microsoft.com/keys/microsoft.asc
-    #     gpgcheck: true
-    #     enabled: true
-    #
-    # - name: Install VS Code
-    #   ansible.builtin.dnf:
-    #     name: code
-    #     state: present
-    #
-    # - name: Add Docker repo
-    #   ansible.builtin.yum_repository:
-    #     name: docker
-    #     description: Docker repo
-    #     baseurl: "https://download.docker.com/linux/fedora/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/stable"
-    #     gpgkey: "https://download.docker.com/linux/fedora/gpg"
-    #     gpgcheck: true
-    #     enabled: true
-    #
-    # - name: Install Docker
-    #   ansible.builtin.dnf:
-    #     name:
-    #       - docker-ce
-    #       - docker-ce-cli
-    #       - containerd.io
-    #       - docker-buildx-plugin
-    #       - docker-compose-plugin
-    #     state: present
-    #
-    # - name: Add Docker group
-    #   ansible.builtin.group:
-    #     name: docker
-    #     state: present
-    #
-    # - name: Add user to docker group
-    #   ansible.builtin.user:
-    #     name: "{{ remote_regular_user }}"
-    #     groups: docker
-    #     append: true
-    #
-    # - name: Add rtx config manager
-    #   ansible.builtin.yum_repository:
-    #     name: rtx
-    #     description: RTX Repo
-    #     baseurl: https://rtx.pub/rpm
-    #     gpgkey: https://rtx.pub/gpg-key.pub
-    #     gpgcheck: true
-    #     enabled: true
-    #
-    # - name: Install RTX
-    #   ansible.builtin.dnf:
-    #     name: rtx
-    #     state: present
-    #
-    # - name: Add kubectl repo
-    #   ansible.builtin.yum_repository:
-    #     name: Kubernetes
-    #     description: Kubernetes repo
-    #     baseurl: https://pkgs.k8s.io/core:/stable:/v1.28/rpm/
-    #     gpgkey: https://pkgs.k8s.io/core:/stable:/v1.28/rpm/repodata/repomd.xml.key
-    #     gpgcheck: true
-    #     enabled: true
-    #
-    # - name: Install kubectl
-    #   ansible.builtin.dnf:
-    #     name: kubectl
-    #     state: present
-    #
-    # - name: Add Hashicorp Repo
-    #   ansible.builtin.yum_repository:
-    #     name: hashicorp
-    #     description: Hashicorp repo
-    #     baseurl: https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable
-    #     gpgkey: https://rpm.releases.hashicorp.com/gpg
-    #     gpgcheck: true
-    #     enabled: true
-    #
-    # - name: Install Terraform
-    #   ansible.builtin.dnf:
-    #     name: terraform
-    #     state: present
-    #
-    # - name: Check if Pulumi is installed
-    #   ansible.builtin.command:
-    #     cmd: pulumi version
-    #   register: pulumi_installed
-    #   ignore_errors: true
-    #   changed_when: false
-    #
-    # - name: Download Pulumi SDK
-    #   ansible.builtin.get_url:
-    #     url: "https://get.pulumi.com/releases/sdk/pulumi-{{ pulumi_version }}-linux-x64.tar.gz"
-    #     dest: "/tmp/pulumi-{{ pulumi_version }}-linux-x64.tar.gz"
-    #     mode: "0644"
-    #   when: pulumi_installed is failed or pulumi_installed.stdout is not search(pulumi_version)
-    #
-    # - name: Extract Pulumi to /usr/local/bin
-    #   ansible.builtin.unarchive:
-    #     src: "/tmp/pulumi-{{ pulumi_version }}-linux-x64.tar.gz"
-    #     dest: /usr/local/bin
-    #     extra_opts: [--strip-components=1]
-    #     creates: /usr/local/bin/pulumi
-    #   when: pulumi_installed is failed or pulumi_installed.stdout is not search(pulumi_version)
-    #
-    # - name: Check if the targeted version of flyctl is installed
-    #   ansible.builtin.command: flyctl version
-    #   register: installed_flyctl_version
-    #   ignore_errors: true
-    #   changed_when: false
-    #
-    # - name: Download flyctl tar.gz
-    #   ansible.builtin.get_url:
-    #     url: "https://github.com/superfly/flyctl/releases/download/v{{ flyctl_version }}/flyctl_{{ flyctl_version }}_Linux_x86_64.tar.gz"
-    #     dest: "/tmp/flyctl_{{ flyctl_version }}_Linux_x86_64.tar.gz"
-    #     mode: "0644"
-    #   when: flyctl_version not in installed_flyctl_version.stdout
-    #
-    # - name: Extract flyctl to /usr/local/bin
-    #   ansible.builtin.unarchive:
-    #     src: "/tmp/flyctl_{{ flyctl_version }}_Linux_x86_64.tar.gz"
-    #     dest: "/usr/local/bin"
-    #     remote_src: true
-    #   when: flyctl_version not in installed_flyctl_version.stdout
-    #
-    # - name: Install Flatpak packages
-    #   community.general.flatpak:
-    #     name:
-    #       - com.obsproject.Studio
-    #       - org.videolan.VLC
-    #       - org.tenacityaudio.Tenacity
-    #       - md.obsidian.Obsidian
-    #       - org.gimp.GIMP
-    #       - rest.insomnia.Insomnia
-    #       - com.github.johnfactotum.Foliate
-    #       - org.gnome.meld
-    #       - org.sqlitebrowser.sqlitebrowser
-    #     state: present
-    #
-    # - name: Ensure fonts directory
-    #   ansible.builtin.file:
-    #     path: "~{{ remote_regular_user }}/.fonts"
-    #     state: directory
-    #     mode: "0755"
-    #     owner: "{{ remote_regular_user }}"
-    #
-    # - name: Check if Jetbrains Mono exists
-    #   ansible.builtin.shell: "ls ~{{ remote_regular_user }}/.fonts/JetBrainsMonoNerd*FontMono*"
-    #   register: jetbrains_mono_exists
-    #   ignore_errors: true
-    #   changed_when: false
-    #
-    # - name: Download Jetbrains mono
-    #   when: jetbrains_mono_exists is failed
-    #   ansible.builtin.unarchive:
-    #     src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
-    #     dest: "~{{ remote_regular_user }}/.fonts/"
-    #     remote_src: true
-    #     mode: "0755"
-    #     owner: "{{ remote_regular_user }}"
+    - name: Install packages
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - autoconf
+          - bat
+          - blender
+          - bzip2
+          - bzip2-devel
+          - "@C Development Tools and Libraries"
+          - croc
+          - "@Development Tools"
+          - dotnet-sdk-9.0
+          - fastfetch
+          - fd-find
+          - ffmpeg-free
+          - firefox
+          - fzf
+          - git
+          - gnome-tweaks
+          - go
+          - go-task
+          - gparted
+          - "@Haskell"
+          - helix
+          - htop
+          - ImageMagick
+          - java-latest-openjdk-devel
+          - kitty
+          - "@multimedia"
+          - nasm
+          - ncurses-devel
+          - neovim
+          - opam
+          - openssl-devel
+          - patch
+          - podman-compose
+          - poetry
+          - readline-devel
+          - remove-retired-packages
+          - ripgrep
+          - ruby
+          - ruby-devel
+          - sqlite
+          - sqlite-devel
+          - syncthing
+          - tig
+          - tk-devel
+          - tmux
+          - toilet
+          - unar
+          - vim
+          - "@virtualization"
+          - wl-clipboard
+          - xxd
+          - xz-devel
+          - yarnpkg
+          - zig
+          - zlib
+          - zlib-devel
+          - zsh
+
+    - name: Change shell to zsh
+      ansible.builtin.user:
+        name: "{{ remote_regular_user }}"
+        shell: /usr/bin/zsh
+
+    - name: Ensuring Oh My Zsh is installed
+      ansible.builtin.stat:
+        path: "~{{ remote_regular_user }}/.oh-my-zsh"
+      register: oh_my_zsh_check
+
+    - name: Install Oh My Zsh
+      ansible.builtin.git:
+        repo: https://github.com/ohmyzsh/ohmyzsh.git
+        dest: "~{{ remote_regular_user }}/.oh-my-zsh"
+        depth: 1
+      when: not oh_my_zsh_check.stat.exists
+
+    - name: Ensuring Oh My Zsh zsh-autosuggestions installed
+      ansible.builtin.stat:
+        path: "~{{ remote_regular_user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+      register: zsh_autosuggestions_check
+
+    - name: Install Oh My Zsh zsh-autosuggestions
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
+        dest: "~{{ remote_regular_user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        depth: 1
+      when: not zsh_autosuggestions_check.stat.exists
+
+    - name: Ensuring Oh My Zsh zsh-syntax-highlighting installed
+      ansible.builtin.stat:
+        path: "~{{ remote_regular_user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+      register: zsh_syntax_highlighting_check
+
+    - name: Install Oh My Zsh zsh-syntax-highlighting
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+        dest: "~{{ remote_regular_user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        depth: 1
+      when: not zsh_syntax_highlighting_check.stat.exists
+
+    - name: Install DNF plugins core
+      ansible.builtin.dnf:
+        name: dnf-plugins-core
+        state: present
+
+    - name: Add Google GPG key
+      ansible.builtin.rpm_key:
+        key: https://dl.google.com/linux/linux_signing_key.pub
+        state: present
+
+    - name: Add Google Chrome repo
+      ansible.builtin.yum_repository:
+        name: google-chrome
+        description: google-chrome repository
+        baseurl: http://dl.google.com/linux/chrome/rpm/stable/x86_64
+        enabled: true
+        gpgcheck: true
+        gpgkey: https://dl.google.com/linux/linux_signing_key.pub
+
+    - name: Install Google Chrome stable
+      ansible.builtin.yum:
+        name: "google-chrome-stable"
+        state: latest 
+        update_cache: true
+
+    - name: Import Microsoft GPG key
+      ansible.builtin.rpm_key:
+        key: https://packages.microsoft.com/keys/microsoft.asc
+        state: present
+
+    - name: Add Visual Studio Code repo
+      ansible.builtin.yum_repository:
+        name: vscode
+        description: Visual Studio Code
+        baseurl: https://packages.microsoft.com/yumrepos/vscode
+        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+        gpgcheck: true
+        enabled: true
+
+    - name: Install Visual Studio Code
+      ansible.builtin.dnf:
+        state: present
+        name: code
+
+    - name: Add Docker repo
+      ansible.builtin.yum_repository:
+        name: docker
+        description: Docker repo
+        baseurl: "https://download.docker.com/linux/fedora/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/stable"
+        gpgkey: "https://download.docker.com/linux/fedora/gpg"
+        gpgcheck: true
+        enabled: true
+
+    - name: Install Docker
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+
+    - name: Add Docker group
+      ansible.builtin.group:
+        state: present
+        name: docker
+
+    - name: Add user to docker group
+      ansible.builtin.user:
+        name: "{{ remote_regular_user }}"
+        groups: docker
+        append: true
+
+    - name: Ensuring ASDF is installed
+      ansible.builtin.stat:
+        path: "~{{ remote_regular_user }}/.asdf"
+      register: asdf_check
+
+    - name: Install ASDF
+      ansible.builtin.git:
+        repo: https://github.com/asdf-vm/asdf.git
+        dest: "~{{ remote_regular_user }}/.asdf"
+        depth: 1
+      when: not asdf_check.stat.exists
+
+    - name: Ensuring rustup is installed
+      ansible.builtin.stat:
+        path: "~{{ remote_regular_user }}/.rustup"
+      register: rustup_check
+
+    - name: Install rustup
+      ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      when: not rustup_check.stat.exists
+
+    - name: Ensuring GHCup is installed
+      ansible.builtin.stat:
+        path: "~{{ remote_regular_user }}/.ghcup"
+      register: ghcup_check
+
+    - name: Install GHCup
+      ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+      when: not ghcup_check.stat.exists
+
+    - name: Enable Fedora Copr for Lua Language Server
+      command: dnf copr enable -y yorickpeterse/lua-language-server
+
+    - name: Install Lua Language Server
+      ansible.builtin.dnf:
+        name: lua-language-server
+        state: present
+
+    - name: Enable Fedora Copr for Ghostty
+      command: dnf copr enable -y pgdev/ghostty
+
+    - name: Install Ghostty
+      ansible.builtin.dnf:
+        name: ghostty
+        state: present
+
+    - name: Enable Fedora Copr for Tmuxinator
+      command: dnf copr enable -y fcsm/tmuxinator
+
+    - name: Install Tmuxinator
+      ansible.builtin.dnf:
+        name: tmuxinator
+        state: present
+
+    - name: Enable Fedora Copr for Iosevka
+      command: dnf copr enable -y peterwu/iosevka
+
+    - name: Install Iosevka
+      ansible.builtin.dnf:
+        name: iosevka-fonts
+        state: present
+
+    - name: Install Flatpak packages
+      community.general.flatpak:
+        state: present
+        name:
+          - com.bitwarden.desktop
+          - com.calibre_ebook.calibre
+          - com.dropbox.Client
+          - com.getpostman.Postman
+          - com.google.AndroidStudio
+          - com.jetbrains.DataGrip
+          - com.jetbrains.IntelliJ-IDEA-Community
+          - com.obsproject.Studio
+          - com.spotify.Client
+          - com.valvesoftware.Steam
+          - edu.mit.Scratch
+          - fr.handbrake.ghb
+          - io.dbeaver.DBeaverCommunity
+          - io.github.Figma_Linux.figma_linux
+          - md.obsidian.Obsidian
+          - org.audacityteam.Audacity
+          - org.gimp.GIMP
+          - org.sqlitebrowser.sqlitebrowser
+          - org.standardnotes.standardnotes
+          - org.telegram.desktop
+          - org.videolan.VLC
+          - org.wireshark.Wireshark
+          - rest.insomnia.Insomnia
+          - us.zoom.Zoom
+
+    - name: Ensuring nerd-fonts is installed
+      ansible.builtin.stat:
+        path: "~{{ remote_regular_user }}/.nerd-fonts"
+      register: nerd_fonts_check
+
+    - name: Install nerd-fonts
+      ansible.builtin.git:
+        repo: https://github.com/ryanoasis/nerd-fonts.git
+        dest: "~{{ remote_regular_user }}/.nerd-fonts"
+        depth: 1
+      when: not nerd_fonts_check.stat.exists
+
+    - name: Enable syncthing service
+      ansible.builtin.shell: "systemctl enable syncthing@{{ remote_regular_user }}.service"
