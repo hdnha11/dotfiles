@@ -289,14 +289,5 @@
           ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           when: not rustup_check.stat.exists
 
-        - name: Ensuring GHCup is installed
-          ansible.builtin.stat:
-            path: "~{{ username }}/.ghcup"
-          register: ghcup_check
-
-        - name: Install GHCup
-          ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-          when: not ghcup_check.stat.exists
-
         - name: Enable syncthing service
           ansible.builtin.shell: "systemctl enable syncthing@{{ username }}.service"
