@@ -1,18 +1,21 @@
 #!/bin/bash
 
+{{- $playbook := "" }}
+
 if command -v ansible-playbook &> /dev/null; then
 {{- if eq .chezmoi.os "darwin" }}
   # bootstrap/macos.yml hash: {{ include "bootstrap/macos.yml" | sha256sum }}
-  ansible-playbook --ask-become-pass {{ joinPath .chezmoi.sourceDir "bootstrap/macos.yml" | quote }}
+  {{- $playbook = joinPath .chezmoi.sourceDir "bootstrap/macos.yml" | quote -}}
 {{- else if eq .chezmoi.os "linux" }}
 {{-   if eq .chezmoi.osRelease.id "debian" }}
   # bootstrap/debian.yml hash: {{ include "bootstrap/debian.yml" | sha256sum }}
-  ansible-playbook --ask-become-pass {{ joinPath .chezmoi.sourceDir "bootstrap/debian.yml" | quote }}
+  {{- $playbook = joinPath .chezmoi.sourceDir "bootstrap/debian.yml" | quote -}}
 {{-   else if eq .chezmoi.osRelease.id "fedora" }}
   # bootstrap/fedora.yml hash: {{ include "bootstrap/fedora.yml" | sha256sum }}
-  ansible-playbook --ask-become-pass {{ joinPath .chezmoi.sourceDir "bootstrap/fedora.yml" | quote }}
+  {{- $playbook = joinPath .chezmoi.sourceDir "bootstrap/fedora.yml" | quote -}}
 {{-   end }}
 {{- end }}
-fi
 
-echo "Run bootstrap playbook complete."
+  ansible-playbook --ask-become-pass --extra-vars "username={{ .chezmoi.username }}" {{ $playbook }}
+  echo "Run bootstrap playbook complete."
+fi

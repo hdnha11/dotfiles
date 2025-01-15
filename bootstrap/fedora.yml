@@ -6,10 +6,6 @@
   gather_facts: true
 
   tasks:
-    - name: Get my user
-      ansible.builtin.set_fact:
-        remote_regular_user: "{{ ansible_env.SUDO_USER or ansible_user_id }}"
-
     - name: Install the RPM Fusion and Fonts repo packages
       ansible.builtin.dnf:
         state: present
@@ -82,42 +78,42 @@
 
     - name: Change shell to zsh
       ansible.builtin.user:
-        name: "{{ remote_regular_user }}"
+        name: "{{ username }}"
         shell: /usr/bin/zsh
 
     - name: Ensuring Oh My Zsh is installed
       ansible.builtin.stat:
-        path: "~{{ remote_regular_user }}/.oh-my-zsh"
+        path: "~{{ username }}/.oh-my-zsh"
       register: oh_my_zsh_check
 
     - name: Install Oh My Zsh
       ansible.builtin.git:
         repo: https://github.com/ohmyzsh/ohmyzsh.git
-        dest: "~{{ remote_regular_user }}/.oh-my-zsh"
+        dest: "~{{ username }}/.oh-my-zsh"
         depth: 1
       when: not oh_my_zsh_check.stat.exists
 
     - name: Ensuring Oh My Zsh zsh-autosuggestions installed
       ansible.builtin.stat:
-        path: "~{{ remote_regular_user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        path: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
       register: zsh_autosuggestions_check
 
     - name: Install Oh My Zsh zsh-autosuggestions
       ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-autosuggestions.git
-        dest: "~{{ remote_regular_user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        dest: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
         depth: 1
       when: not zsh_autosuggestions_check.stat.exists
 
     - name: Ensuring Oh My Zsh zsh-syntax-highlighting installed
       ansible.builtin.stat:
-        path: "~{{ remote_regular_user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        path: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
       register: zsh_syntax_highlighting_check
 
     - name: Install Oh My Zsh zsh-syntax-highlighting
       ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-        dest: "~{{ remote_regular_user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        dest: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
         depth: 1
       when: not zsh_syntax_highlighting_check.stat.exists
 
@@ -191,39 +187,21 @@
 
     - name: Add user to docker group
       ansible.builtin.user:
-        name: "{{ remote_regular_user }}"
+        name: "{{ username }}"
         groups: docker
         append: true
 
     - name: Ensuring ASDF is installed
       ansible.builtin.stat:
-        path: "~{{ remote_regular_user }}/.asdf"
+        path: "~{{ username }}/.asdf"
       register: asdf_check
 
     - name: Install ASDF
       ansible.builtin.git:
         repo: https://github.com/asdf-vm/asdf.git
-        dest: "~{{ remote_regular_user }}/.asdf"
+        dest: "~{{ username }}/.asdf"
         depth: 1
       when: not asdf_check.stat.exists
-
-    - name: Ensuring rustup is installed
-      ansible.builtin.stat:
-        path: "~{{ remote_regular_user }}/.rustup"
-      register: rustup_check
-
-    - name: Install rustup
-      ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-      when: not rustup_check.stat.exists
-
-    - name: Ensuring GHCup is installed
-      ansible.builtin.stat:
-        path: "~{{ remote_regular_user }}/.ghcup"
-      register: ghcup_check
-
-    - name: Install GHCup
-      ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-      when: not ghcup_check.stat.exists
 
     - name: Enable Fedora Copr for Lua Language Server
       command: dnf copr enable -y yorickpeterse/lua-language-server
@@ -288,15 +266,37 @@
 
     - name: Ensuring nerd-fonts is installed
       ansible.builtin.stat:
-        path: "~{{ remote_regular_user }}/.nerd-fonts"
+        path: "~{{ username }}/.nerd-fonts"
       register: nerd_fonts_check
 
     - name: Install nerd-fonts
       ansible.builtin.git:
         repo: https://github.com/ryanoasis/nerd-fonts.git
-        dest: "~{{ remote_regular_user }}/.nerd-fonts"
+        dest: "~{{ username }}/.nerd-fonts"
         depth: 1
       when: not nerd_fonts_check.stat.exists
 
-    - name: Enable syncthing service
-      ansible.builtin.shell: "systemctl enable syncthing@{{ remote_regular_user }}.service"
+    - name: "Running tasks as {{ username }}"
+      become: true
+      become_user: "{{ username }}"
+      block:
+        - name: Ensuring rustup is installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.rustup"
+          register: rustup_check
+
+        - name: Install rustup
+          ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          when: not rustup_check.stat.exists
+
+        - name: Ensuring GHCup is installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.ghcup"
+          register: ghcup_check
+
+        - name: Install GHCup
+          ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+          when: not ghcup_check.stat.exists
+
+        - name: Enable syncthing service
+          ansible.builtin.shell: "systemctl enable syncthing@{{ username }}.service"
