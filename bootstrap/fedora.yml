@@ -76,7 +76,7 @@
           - zlib-devel
           - zsh
 
-    - name: Change shell to zsh
+    - name: Change shell to Zsh
       ansible.builtin.user:
         name: "{{ username }}"
         shell: /usr/bin/zsh
@@ -264,12 +264,12 @@
           - rest.insomnia.Insomnia
           - us.zoom.Zoom
 
-    - name: Ensuring nerd-fonts is installed
+    - name: Ensuring Nerd Fonts is installed
       ansible.builtin.stat:
         path: "~{{ username }}/.nerd-fonts"
       register: nerd_fonts_check
 
-    - name: Install nerd-fonts
+    - name: Install Nerd Fonts
       ansible.builtin.git:
         repo: https://github.com/ryanoasis/nerd-fonts.git
         dest: "~{{ username }}/.nerd-fonts"
@@ -280,14 +280,14 @@
       become: true
       become_user: "{{ username }}"
       block:
-        - name: Ensuring rustup is installed
+        - name: Ensuring Rustup is installed
           ansible.builtin.stat:
             path: "~{{ username }}/.rustup"
           register: rustup_check
 
-        - name: Install rustup
+        - name: Install Rustup
           ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           when: not rustup_check.stat.exists
 
-        - name: Enable syncthing service
+        - name: Enable Syncthing service
           ansible.builtin.shell: "systemctl enable syncthing@{{ username }}.service"

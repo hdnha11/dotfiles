@@ -2,7 +2,8 @@
 - name: macOS machine setup
   hosts: localhost
   connection: local
-  become: false
+  become: true
+  become_user: "{{ username }}"
   gather_facts: true
   vars:
     install_homebrew_if_missing: false
@@ -33,7 +34,7 @@
       when: homebrew_check.stat.exists
 
     - name: Upgrading Homebrew packages
-      homebrew:
+      ansible.builtin.homebrew:
         upgrade_all: yes
       register: result
       until: result is successful
