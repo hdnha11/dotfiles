@@ -107,6 +107,11 @@ export EDITOR='nvim'
 #   export EDITOR='nvim'
 # fi
 
+# Preferred key bindings
+# Zsh does not use readline, it does not read /etc/inputrc or ~/.inputrc
+bindkey -e # Emacs
+# bindkey -v # vi
+
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
 
