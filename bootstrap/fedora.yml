@@ -44,17 +44,24 @@
           - helix
           - htop
           - ImageMagick
+          - java-latest-openjdk
           - java-latest-openjdk-devel
           - kitty
           - "@multimedia"
           - nasm
+          - ncurses
+          - ncurses-compat-libs
           - ncurses-devel
           - neovim
           - opam
+          - openssl
           - openssl-devel
           - patch
+          - perl
+          - pkg-config
           - podman-compose
           - poetry
+          - readline
           - readline-devel
           - remove-retired-packages
           - ripgrep
@@ -64,6 +71,7 @@
           - sqlite-devel
           - syncthing
           - tig
+          - tk
           - tk-devel
           - tmux
           - toilet
@@ -72,6 +80,7 @@
           - "@virtualization"
           - wl-clipboard
           - xxd
+          - xz
           - xz-devel
           - yarnpkg
           - zig
