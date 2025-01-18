@@ -4,6 +4,8 @@
   connection: local
   become: true
   gather_facts: true
+  vars:
+    quick_setup: false
 
   tasks:
     - name: Install the RPM Fusion and Fonts repo packages
@@ -27,6 +29,7 @@
           - croc
           - "@Development Tools"
           - dotnet-sdk-9.0
+          - emacs
           - fastfetch
           - fd-find
           - ffmpeg-free
@@ -81,51 +84,17 @@
         name: "{{ username }}"
         shell: /usr/bin/zsh
 
-    - name: Ensuring Oh My Zsh is installed
-      ansible.builtin.stat:
-        path: "~{{ username }}/.oh-my-zsh"
-      register: oh_my_zsh_check
-
-    - name: Install Oh My Zsh
-      ansible.builtin.git:
-        repo: https://github.com/ohmyzsh/ohmyzsh.git
-        dest: "~{{ username }}/.oh-my-zsh"
-        depth: 1
-      when: not oh_my_zsh_check.stat.exists
-
-    - name: Ensuring Oh My Zsh zsh-autosuggestions installed
-      ansible.builtin.stat:
-        path: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-      register: zsh_autosuggestions_check
-
-    - name: Install Oh My Zsh zsh-autosuggestions
-      ansible.builtin.git:
-        repo: https://github.com/zsh-users/zsh-autosuggestions.git
-        dest: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-        depth: 1
-      when: not zsh_autosuggestions_check.stat.exists
-
-    - name: Ensuring Oh My Zsh zsh-syntax-highlighting installed
-      ansible.builtin.stat:
-        path: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-      register: zsh_syntax_highlighting_check
-
-    - name: Install Oh My Zsh zsh-syntax-highlighting
-      ansible.builtin.git:
-        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-        dest: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-        depth: 1
-      when: not zsh_syntax_highlighting_check.stat.exists
-
     - name: Install DNF plugins core
       ansible.builtin.dnf:
         name: dnf-plugins-core
         state: present
+      when: not quick_setup
 
     - name: Add Google GPG key
       ansible.builtin.rpm_key:
         key: https://dl.google.com/linux/linux_signing_key.pub
         state: present
+      when: not quick_setup
 
     - name: Add Google Chrome repo
       ansible.builtin.yum_repository:
@@ -135,17 +104,20 @@
         enabled: true
         gpgcheck: true
         gpgkey: https://dl.google.com/linux/linux_signing_key.pub
+      when: not quick_setup
 
     - name: Install Google Chrome stable
       ansible.builtin.yum:
         name: "google-chrome-stable"
         state: latest 
         update_cache: true
+      when: not quick_setup
 
     - name: Import Microsoft GPG key
       ansible.builtin.rpm_key:
         key: https://packages.microsoft.com/keys/microsoft.asc
         state: present
+      when: not quick_setup
 
     - name: Add Visual Studio Code repo
       ansible.builtin.yum_repository:
@@ -155,11 +127,13 @@
         gpgkey: https://packages.microsoft.com/keys/microsoft.asc
         gpgcheck: true
         enabled: true
+      when: not quick_setup
 
     - name: Install Visual Studio Code
       ansible.builtin.dnf:
         state: present
         name: code
+      when: not quick_setup
 
     - name: Add Docker repo
       ansible.builtin.yum_repository:
@@ -169,6 +143,7 @@
         gpgkey: "https://download.docker.com/linux/fedora/gpg"
         gpgcheck: true
         enabled: true
+      when: not quick_setup
 
     - name: Install Docker
       ansible.builtin.dnf:
@@ -179,29 +154,20 @@
           - containerd.io
           - docker-buildx-plugin
           - docker-compose-plugin
+      when: not quick_setup
 
     - name: Add Docker group
       ansible.builtin.group:
         state: present
         name: docker
+      when: not quick_setup
 
     - name: Add user to docker group
       ansible.builtin.user:
         name: "{{ username }}"
         groups: docker
         append: true
-
-    - name: Ensuring ASDF is installed
-      ansible.builtin.stat:
-        path: "~{{ username }}/.asdf"
-      register: asdf_check
-
-    - name: Install ASDF
-      ansible.builtin.git:
-        repo: https://github.com/asdf-vm/asdf.git
-        dest: "~{{ username }}/.asdf"
-        depth: 1
-      when: not asdf_check.stat.exists
+      when: not quick_setup
 
     - name: Enable Fedora Copr for Lua Language Server
       command: dnf copr enable -y yorickpeterse/lua-language-server
@@ -263,23 +229,72 @@
           - org.wireshark.Wireshark
           - rest.insomnia.Insomnia
           - us.zoom.Zoom
-
-    - name: Ensuring Nerd Fonts is installed
-      ansible.builtin.stat:
-        path: "~{{ username }}/.nerd-fonts"
-      register: nerd_fonts_check
-
-    - name: Install Nerd Fonts
-      ansible.builtin.git:
-        repo: https://github.com/ryanoasis/nerd-fonts.git
-        dest: "~{{ username }}/.nerd-fonts"
-        depth: 1
-      when: not nerd_fonts_check.stat.exists
+      when: not quick_setup
 
     - name: "Running tasks as {{ username }}"
       become: true
       become_user: "{{ username }}"
       block:
+        - name: Ensuring Oh My Zsh is installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.oh-my-zsh"
+          register: oh_my_zsh_check
+
+        - name: Install Oh My Zsh
+          ansible.builtin.git:
+            repo: https://github.com/ohmyzsh/ohmyzsh.git
+            dest: "~{{ username }}/.oh-my-zsh"
+            depth: 1
+          when: not oh_my_zsh_check.stat.exists
+
+        - name: Ensuring Oh My Zsh zsh-autosuggestions installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+          register: zsh_autosuggestions_check
+
+        - name: Install Oh My Zsh zsh-autosuggestions
+          ansible.builtin.git:
+            repo: https://github.com/zsh-users/zsh-autosuggestions.git
+            dest: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+            depth: 1
+          when: not zsh_autosuggestions_check.stat.exists
+
+        - name: Ensuring Oh My Zsh zsh-syntax-highlighting installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+          register: zsh_syntax_highlighting_check
+
+        - name: Install Oh My Zsh zsh-syntax-highlighting
+          ansible.builtin.git:
+            repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+            dest: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+            depth: 1
+          when: not zsh_syntax_highlighting_check.stat.exists
+
+        - name: Ensuring ASDF is installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.asdf"
+          register: asdf_check
+
+        - name: Install ASDF
+          ansible.builtin.git:
+            repo: https://github.com/asdf-vm/asdf.git
+            dest: "~{{ username }}/.asdf"
+            depth: 1
+          when: not asdf_check.stat.exists
+
+        - name: Ensuring Nerd Fonts is installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.nerd-fonts"
+          register: nerd_fonts_check
+
+        - name: Install Nerd Fonts
+          ansible.builtin.git:
+            repo: https://github.com/ryanoasis/nerd-fonts.git
+            dest: "~{{ username }}/.nerd-fonts"
+            depth: 1
+          when: not nerd_fonts_check.stat.exists
+
         - name: Ensuring Rustup is installed
           ansible.builtin.stat:
             path: "~{{ username }}/.rustup"
