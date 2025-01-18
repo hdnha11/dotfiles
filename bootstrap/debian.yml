@@ -1,0 +1,138 @@
+---
+- name: Debian machine setup
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  vars:
+    quick_setup: false
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install packages
+      apt:
+        name:
+          - autoconf
+          - build-essential
+          - emacs
+          - fd-find
+          - ffmpeg
+          - fzf
+          - git
+          - gnome-tweaks
+          - golang
+          - gparted
+          - default-jdk # Use default JDK instead of specifying version
+          - default-jre
+          - kitty
+          - libavcodec-extra # Multimedia support
+          - libavformat-dev
+          - libswscale-dev
+          - nasm
+          - ncurses-dev
+          - neovim
+          - opam
+          - perl
+          - pkg-config
+          - ripgrep
+          - ruby
+          - ruby-dev
+          - sqlite3
+          - libsqlite3-dev
+          - syncthing
+          - tig
+          - tmux
+          - vim
+          - qemu-kvm # Virtualization
+          - libvirt-daemon-system
+          - virt-manager
+          - wl-clipboard
+          - xxd
+          - xz-utils
+          - yarnpkg
+          - zsh
+        state: present
+
+    - name: Change shell to Zsh
+      ansible.builtin.user:
+        name: "{{ username }}"
+        shell: /usr/bin/zsh
+
+    - name: "Running tasks as {{ username }}"
+      become: true
+      become_user: "{{ username }}"
+      block:
+        - name: Ensuring Oh My Zsh is installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.oh-my-zsh"
+          register: oh_my_zsh_check
+
+        - name: Install Oh My Zsh
+          ansible.builtin.git:
+            repo: https://github.com/ohmyzsh/ohmyzsh.git
+            dest: "~{{ username }}/.oh-my-zsh"
+            depth: 1
+          when: not oh_my_zsh_check.stat.exists
+
+        - name: Ensuring Oh My Zsh zsh-autosuggestions installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+          register: zsh_autosuggestions_check
+
+        - name: Install Oh My Zsh zsh-autosuggestions
+          ansible.builtin.git:
+            repo: https://github.com/zsh-users/zsh-autosuggestions.git
+            dest: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+            depth: 1
+          when: not zsh_autosuggestions_check.stat.exists
+
+        - name: Ensuring Oh My Zsh zsh-syntax-highlighting installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+          register: zsh_syntax_highlighting_check
+
+        - name: Install Oh My Zsh zsh-syntax-highlighting
+          ansible.builtin.git:
+            repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+            dest: "~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+            depth: 1
+          when: not zsh_syntax_highlighting_check.stat.exists
+
+        - name: Ensuring ASDF is installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.asdf"
+          register: asdf_check
+
+        - name: Install ASDF
+          ansible.builtin.git:
+            repo: https://github.com/asdf-vm/asdf.git
+            dest: "~{{ username }}/.asdf"
+            depth: 1
+          when: not asdf_check.stat.exists
+
+        - name: Ensuring Nerd Fonts is installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.nerd-fonts"
+          register: nerd_fonts_check
+
+        - name: Install Nerd Fonts
+          ansible.builtin.git:
+            repo: https://github.com/ryanoasis/nerd-fonts.git
+            dest: "~{{ username }}/.nerd-fonts"
+            depth: 1
+          when: not nerd_fonts_check.stat.exists
+
+        - name: Ensuring Rustup is installed
+          ansible.builtin.stat:
+            path: "~{{ username }}/.rustup"
+          register: rustup_check
+
+        - name: Install Rustup
+          ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          when: not rustup_check.stat.exists
+
+        - name: Enable Syncthing service
+          ansible.builtin.shell: "systemctl enable syncthing@{{ username }}.service"
