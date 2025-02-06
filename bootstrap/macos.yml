@@ -29,19 +29,19 @@
 
   tasks:
     - name: Updating Homebrew
-      ansible.builtin.homebrew:
+      community.general.homebrew:
         update_homebrew: yes
       when: homebrew_check.stat.exists
 
     - name: Upgrading Homebrew packages
-      ansible.builtin.homebrew:
+      community.general.homebrew:
         upgrade_all: yes
       register: result
       until: result is successful
       when: homebrew_check.stat.exists
 
     - name: Installing Homebrew cask packages
-      ansible.builtin.homebrew_cask:
+      community.general.homebrew_cask:
         state: present
         name:
           - adobe-acrobat-reader
@@ -118,7 +118,7 @@
       when: homebrew_check.stat.exists
 
     - name: Install Homebrew taps
-      ansible.builtin.homebrew_tap:
+      community.general.homebrew_tap:
         name:
           - browsh-org/browsh
           - clojure/tools
@@ -135,7 +135,7 @@
       when: homebrew_check.stat.exists
 
     - name: Install Homebrew packages
-      ansible.builtin.homebrew:
+      community.general.homebrew:
         state: present
         name:
           - adns
@@ -240,6 +240,7 @@
           - syncthing
           - tcl-tk
           - telnet
+          - temporal
           - texinfo
           - the_silver_searcher
           - tig
