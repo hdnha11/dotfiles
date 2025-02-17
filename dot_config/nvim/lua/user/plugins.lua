@@ -47,7 +47,7 @@ return packer.startup(function(use)
   use 'kyazdani42/nvim-tree.lua'
   use 'nanozuki/tabby.nvim'
   use 'moll/vim-bbye'
-  use 'freddiehaddad/feline.nvim'
+  use 'nvim-lualine/lualine.nvim'
   use 'akinsho/toggleterm.nvim'
   use 'ahmedkhalf/project.nvim'
   use 'lewis6991/impatient.nvim'
