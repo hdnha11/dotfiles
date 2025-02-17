@@ -103,14 +103,15 @@
 
         - name: Ensuring ASDF is installed
           ansible.builtin.stat:
-            path: "~{{ username }}/.asdf"
+            path: "~{{ username }}/.local/bin/asdf"
           register: asdf_check
 
         - name: Install ASDF
-          ansible.builtin.git:
-            repo: https://github.com/asdf-vm/asdf.git
-            dest: "~{{ username }}/.asdf"
-            depth: 1
+          ansible.builtin.unarchive:
+            src: "{{ lookup('url', 'https://api.github.com/repos/asdf-vm/asdf/releases/latest', split_lines=false) | regex_search('browser_download_url.*(https://(.*?)-linux-amd64.tar.gz)', '\\1') | first }}"
+            dest: '~{{ username }}/.local/bin'
+            remote_src: true
+            include: 'asdf'
           when: not asdf_check.stat.exists
 
         - name: Ensuring Nerd Fonts is installed
