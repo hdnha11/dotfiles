@@ -1,5 +1,6 @@
 # ASDF
-[ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
+export ASDF_DATA_DIR=$HOME/.asdf
+export PATH=$ASDF_DATA_DIR/shims:$PATH
 
 # FZF
 [ -x "$(command -v fzf)" ] && source <(fzf --zsh)
@@ -36,8 +37,8 @@ export PATH=$PATH:~/.bin
 export JAVA_HOME=$(/usr/libexec/java_home)
 
 # Google Cloud SDK
-source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
-source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+source /opt/homebrew/share/google-cloud-sdk/path.zsh.inc
+source /opt/homebrew/share/google-cloud-sdk/completion.zsh.inc
 
 # Testcontainers
 export TESTCONTAINERS_RYUK_DISABLED=true

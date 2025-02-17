@@ -140,6 +140,7 @@
         name:
           - adns
           - asciinema
+          - asdf
           - automake
           - avrdude
           - bat
