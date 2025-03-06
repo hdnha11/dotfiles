@@ -44,29 +44,18 @@
       community.general.homebrew_cask:
         state: present
         name:
-          - adobe-acrobat-reader
-          - alacritty
           - android-file-transfer
           - android-studio
-          - atom
           - basictex
           - bitwarden
           - blackhole-16ch
-          - boost-note
           - calibre
           - dbeaver-community
           - dotnet-sdk
-          - dropbox
           - evkey
           - figma
           - firefox
-          - font-fantasque-sans-mono
-          - font-fira-code
           - font-iosevka
-          - font-jetbrains-mono
-          - font-symbols-only-nerd-font
-          - font-victor-mono
-          - framer
           - ghidra
           - ghostty
           - google-chrome
@@ -74,34 +63,20 @@
           - google-drive
           - hammerspoon
           - handbrake
-          - hyper
           - imhex
           - iterm2
           - kitty
-          - lapce
           - logitech-options
-          - microsoft-auto-update
           - mockoon
-          - neovide
           - ngrok
           - obsidian
           - omnidisksweeper
-          - postico
           - postman
-          - postman-agent
           - pritunl
           - qmk-toolbox
           - racket
-          - robo-3t
-          - sequel-ace
-          - sketch
-          - skype
-          - slack
           - smlnj
-          - sourcetree
           - spotify
-          - standard-notes
-          - teamviewer
           - telegram
           - the-unarchiver
           - visual-studio-code
@@ -110,9 +85,7 @@
           - wireshark
           - wkhtmltopdf
           - zalo
-          - zed
           - zoom
-          - zotero
       register: result
       until: result is successful
       when: homebrew_check.stat.exists
