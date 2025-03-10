@@ -50,6 +50,7 @@
           - bitwarden
           - blackhole-16ch
           - calibre
+          - cursor
           - dbeaver-community
           - dotnet-sdk
           - evkey
@@ -182,6 +183,7 @@
           - nghttp2
           - nomad
           - nushell
+          - ollama
           - opam
           - openapi-generator
           - openjdk@17
