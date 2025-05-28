@@ -172,7 +172,7 @@
           - libtermkey
           - libxml2
           - llvm
-          - lua-language-server
+          - luarocks
           - lynx
           - maven
           - mercurial

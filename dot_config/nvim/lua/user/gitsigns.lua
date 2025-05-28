@@ -5,25 +5,25 @@ end
 
 gitsigns.setup {
   signs = {
-    add          = { text = '┃' },
-    change       = { text = '┃' },
-    delete       = { text = '_' },
-    topdelete    = { text = '‾' },
+    add = { text = '┃' },
+    change = { text = '┃' },
+    delete = { text = '_' },
+    topdelete = { text = '‾' },
     changedelete = { text = '~' },
-    untracked    = { text = '┆' },
+    untracked = { text = '┆' },
   },
   signs_staged = {
-    add          = { text = '┃' },
-    change       = { text = '┃' },
-    delete       = { text = '_' },
-    topdelete    = { text = '‾' },
+    add = { text = '┃' },
+    change = { text = '┃' },
+    delete = { text = '_' },
+    topdelete = { text = '‾' },
     changedelete = { text = '~' },
-    untracked    = { text = '┆' },
+    untracked = { text = '┆' },
   },
   signs_staged_enable = true,
   signcolumn = true, -- toggle with `:Gitsigns toggle_signs`
-  numhl = false,     -- toggle with `:Gitsigns toggle_numhl`
-  linehl = false,    -- toggle with `:Gitsigns toggle_linehl`
+  numhl = false, -- toggle with `:Gitsigns toggle_numhl`
+  linehl = false, -- toggle with `:Gitsigns toggle_linehl`
   word_diff = false, -- toggle with `:Gitsigns toggle_word_diff`
   watch_gitdir = {
     interval = 1000,

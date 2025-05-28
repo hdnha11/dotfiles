@@ -3,7 +3,7 @@ if not status_ok then
   return
 end
 
-local filename = require('tabby.filename')
+local filename = require 'tabby.filename'
 
 local cwd = function()
   return '  ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t') .. ' '
@@ -13,7 +13,7 @@ local line = {
   hl = 'TabLineFill',
   layout = 'active_wins_at_tail',
   head = {
-    { cwd,   hl = 'UserTLHead' },
+    { cwd, hl = 'UserTLHead' },
     { '', hl = 'UserTLHeadSep' },
   },
   active_tab = {
@@ -57,7 +57,7 @@ local line = {
     right_sep = { '', hl = 'UserTLLineSep' },
   },
   tail = {
-    { '',   hl = 'UserTLHeadSep' },
+    { '', hl = 'UserTLHeadSep' },
     { '  ', hl = 'UserTLHead' },
   },
 }

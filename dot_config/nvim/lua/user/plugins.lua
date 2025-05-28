@@ -4,7 +4,11 @@ local fn = vim.fn
 local install_path = fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
   PACKER_BOOTSTRAP = fn.system {
-    'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+    'git',
+    'clone',
+    '--depth',
+    '1',
+    'https://github.com/wbthomason/packer.nvim',
     install_path,
   }
   print 'Installing packer close and reopen Neovim...'
@@ -39,7 +43,7 @@ return packer.startup(function(use)
   -- Have packer manage itself
   use 'wbthomason/packer.nvim'
 
-  use 'nvim-lua/popup.nvim'   -- an implementation of the Popup API from Vim in Neovim
+  use 'nvim-lua/popup.nvim' -- an implementation of the Popup API from Vim in Neovim
   use 'nvim-lua/plenary.nvim' -- useful Lua functions used by lots of plugins
   use 'windwp/nvim-autopairs' -- autopairs, integrates with both Cmp and Treesitter
   use 'numToStr/Comment.nvim' -- easily comment stuff
@@ -49,7 +53,7 @@ return packer.startup(function(use)
   use 'moll/vim-bbye'
   use 'nvim-lualine/lualine.nvim'
   use 'akinsho/toggleterm.nvim'
-  use 'ahmedkhalf/project.nvim'
+  use 'hdnha11/project.nvim'
   use 'lewis6991/impatient.nvim'
   use 'lukas-reineke/indent-blankline.nvim'
   use 'goolord/alpha-nvim'
@@ -64,24 +68,27 @@ return packer.startup(function(use)
   use { 'catppuccin/nvim', as = 'catppuccin' }
 
   -- Completion
-  use 'hrsh7th/nvim-cmp'         -- completion plugin
-  use 'hrsh7th/cmp-buffer'       -- buffer completions
-  use 'hrsh7th/cmp-path'         -- path completions
-  use 'hrsh7th/cmp-cmdline'      -- cmdline completions
-  use 'hrsh7th/cmp-nvim-lsp'     -- lsp completions
-  use 'hrsh7th/cmp-nvim-lua'     -- neovim lua api
+  use 'hrsh7th/nvim-cmp' -- completion plugin
+  use 'hrsh7th/cmp-buffer' -- buffer completions
+  use 'hrsh7th/cmp-path' -- path completions
+  use 'hrsh7th/cmp-cmdline' -- cmdline completions
+  use 'hrsh7th/cmp-nvim-lsp' -- lsp completions
+  use 'hrsh7th/cmp-nvim-lua' -- neovim lua api
   use 'saadparwaiz1/cmp_luasnip' -- snippet completions
 
   -- Snippets
-  use 'L3MON4D3/LuaSnip'             -- snippet engine
+  use 'L3MON4D3/LuaSnip' -- snippet engine
   use 'rafamadriz/friendly-snippets' -- a bunch of snippets to use
 
   -- LSP
-  use 'neovim/nvim-lspconfig'           -- enable lsp
-  use 'williamboman/mason.nvim'         -- simple to use language server installer
-  use 'williamboman/mason-lspconfig.nvim'
-  use 'tamago324/nlsp-settings.nvim'    -- configue lsp using json/yaml
-  use 'jose-elias-alvarez/null-ls.nvim' -- formatters and linters
+  use 'neovim/nvim-lspconfig' -- enable lsp
+  use 'williamboman/mason.nvim' -- simple to use language server installer
+
+  -- Linter
+  use 'mfussenegger/nvim-lint'
+
+  -- Formatter
+  use 'stevearc/conform.nvim'
 
   -- Telescope
   use 'nvim-telescope/telescope.nvim'

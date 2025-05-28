@@ -21,6 +21,12 @@ keymap('n', '<C-Down>', ':resize +2<CR>', opts)
 keymap('n', '<C-Left>', ':vertical resize -2<CR>', opts)
 keymap('n', '<C-Right>', ':vertical resize +2<CR>', opts)
 
+-- Diagnostic
+keymap('n', '<Leader>d', '<Cmd>lua vim.diagnostic.open_float()<CR>', opts)
+keymap('n', '<Leader>q', '<Cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+keymap('n', '[d', '<Cmd>lua vim.diagnostic.jump { count = -1, float = true }<CR>', opts)
+keymap('n', ']d', '<Cmd>lua vim.diagnostic.jump { count = 1, float = true }<CR>', opts)
+
 -- Navigate buffers
 keymap('n', ']b', ':bnext<CR>', opts)
 keymap('n', '[b', ':bprevious<CR>', opts)

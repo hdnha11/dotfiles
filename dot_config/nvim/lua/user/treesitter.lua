@@ -5,13 +5,13 @@ end
 
 configs.setup {
   ensure_installed = 'all', -- 'all', or a list of languages
-  sync_install = false,     -- install languages synchronously (only applied to `ensure_installed`)
-  ignore_install = { '' },  -- list of parsers to ignore installing
+  sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
+  ignore_install = { '' }, -- list of parsers to ignore installing
   autopairs = {
     enable = true,
   },
   highlight = {
-    enable = true,    -- false will disable the whole extension
+    enable = true, -- false will disable the whole extension
     disable = { '' }, -- list of language that will be disabled
     additional_vim_regex_highlighting = true,
   },
@@ -19,7 +19,7 @@ configs.setup {
   playground = {
     enable = true,
     disable = {},
-    updatetime = 25,         -- debounced time for highlighting nodes in the playground from source code
+    updatetime = 25, -- debounced time for highlighting nodes in the playground from source code
     persist_queries = false, -- whether the query persists across vim sessions
     keybindings = {
       toggle_query_editor = 'o',

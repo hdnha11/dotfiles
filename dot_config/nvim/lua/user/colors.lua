@@ -93,10 +93,10 @@ local function generate_pallet_from_colorscheme()
     pallet[name] = M.get_highlight(value.hl).fg or value.default
   end
 
-  pallet.sl = M.get_highlight('StatusLine')
-  pallet.tab = M.get_highlight('TabLine')
-  pallet.sel = M.get_highlight('TabLineSel')
-  pallet.fill = M.get_highlight('TabLineFill')
+  pallet.sl = M.get_highlight 'StatusLine'
+  pallet.tab = M.get_highlight 'TabLine'
+  pallet.sel = M.get_highlight 'TabLineSel'
+  pallet.fill = M.get_highlight 'TabLineFill'
 
   return pallet
 end

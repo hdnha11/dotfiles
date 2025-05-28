@@ -37,7 +37,7 @@ project.setup {
 
   -- Path where project.nvim will store the project history for use in
   -- telescope
-  datapath = vim.fn.stdpath('data'),
+  datapath = vim.fn.stdpath 'data',
 }
 
 local telescope_status_ok, telescope = pcall(require, 'telescope')
@@ -45,4 +45,4 @@ if not telescope_status_ok then
   return
 end
 
-telescope.load_extension('projects')
+telescope.load_extension 'projects'

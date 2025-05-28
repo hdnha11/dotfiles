@@ -20,7 +20,7 @@ local diff = {
   'diff',
   colored = false,
   symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
-  cond = hide_in_width
+  cond = hide_in_width,
 }
 
 local filetype = {
@@ -55,7 +55,7 @@ lualine.setup {
     lualine_c = { 'filename' },
     lualine_x = { spaces, 'encoding', 'fileformat', filetype },
     lualine_y = { 'progress' },
-    lualine_z = { 'location' }
+    lualine_z = { 'location' },
   },
   inactive_sections = {
     lualine_a = {},
