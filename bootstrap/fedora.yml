@@ -25,9 +25,9 @@
           - blender
           - bzip2
           - bzip2-devel
-          - "@C Development Tools and Libraries"
+          - "@c-development"
           - croc
-          - "@Development Tools"
+          - "@development-tools"
           - dotnet-sdk-9.0
           - emacs
           - fastfetch
@@ -47,6 +47,7 @@
           - java-latest-openjdk
           - java-latest-openjdk-devel
           - kitty
+          - luarocks
           - "@multimedia"
           - nasm
           - ncurses
