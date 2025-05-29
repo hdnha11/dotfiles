@@ -50,6 +50,7 @@ local packages_to_install = {
   'prettierd',
   'rubyfmt',
   'shfmt',
+  'sleek',
   'stylua',
 
   -- Linters

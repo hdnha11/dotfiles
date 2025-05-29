@@ -16,6 +16,7 @@ conform.setup {
     ruby = { 'rubyfmt', 'rubocop', stop_after_first = true },
     rust = { 'rustfmt' },
     sh = { 'shfmt' },
+    sql = { 'sleek' },
     typescript = { 'prettierd', 'prettier', stop_after_first = true },
   },
 }
