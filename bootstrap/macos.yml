@@ -207,7 +207,6 @@
           - qt@5
           - radare2
           - rclone
-          - reattach-to-user-namespace
           - redis
           - ripgrep
           - ruby-build
