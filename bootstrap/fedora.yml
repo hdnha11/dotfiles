@@ -232,6 +232,7 @@
           - md.obsidian.Obsidian
           - org.audacityteam.Audacity
           - org.gimp.GIMP
+          - org.signal.Signal
           - org.sqlitebrowser.sqlitebrowser
           - org.standardnotes.standardnotes
           - org.telegram.desktop
