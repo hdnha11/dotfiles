@@ -35,6 +35,11 @@ end
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     -- Buffer-local key mappings
-    vim.keymap.set('n', 'grt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', { buffer = args.buf })
+    vim.keymap.set(
+      'n',
+      'grt',
+      '<Cmd>lua vim.lsp.buf.type_definition()<CR>',
+      { buffer = args.luf, desc = 'vim.lsp.buf.type_definition()' }
+    )
   end,
 })

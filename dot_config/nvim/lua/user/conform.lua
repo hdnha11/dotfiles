@@ -36,7 +36,9 @@ end, { range = true })
 
 -- Key mappings
 
-local opts = { noremap = true, silent = true }
 local keymap = vim.api.nvim_set_keymap
+local function opts(desc)
+  return { desc = desc, noremap = true, silent = true }
+end
 
-keymap('n', '<Leader>f', '<Cmd>Format<CR>', opts)
+keymap('n', '<Leader>f', '<Cmd>Format<CR>', opts "Format")

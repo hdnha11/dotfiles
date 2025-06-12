@@ -7,49 +7,58 @@
 --   command_mode = 'c'
 
 local keymap = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
+local function opts(desc)
+  return { desc = desc, noremap = true, silent = true }
+end
 
 -- Map leader key
-keymap('', '<Space>', '<Nop>', opts)
+keymap('', '<Space>', '<Nop>', opts())
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Normal --
 -- Resize with arrows
-keymap('n', '<C-Up>', ':resize -2<CR>', opts)
-keymap('n', '<C-Down>', ':resize +2<CR>', opts)
-keymap('n', '<C-Left>', ':vertical resize -2<CR>', opts)
-keymap('n', '<C-Right>', ':vertical resize +2<CR>', opts)
+keymap('n', '<C-Up>', ':resize -2<CR>', opts 'Resize: Up')
+keymap('n', '<C-Down>', ':resize +2<CR>', opts 'Resize: Down')
+keymap('n', '<C-Left>', ':vertical resize -2<CR>', opts 'Resize: Left')
+keymap('n', '<C-Right>', ':vertical resize +2<CR>', opts 'Resize: Right')
 
 -- Diagnostic
-keymap('n', '<Leader>d', '<Cmd>lua vim.diagnostic.open_float()<CR>', opts)
-keymap('n', '<Leader>q', '<Cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-keymap('n', '[d', '<Cmd>lua vim.diagnostic.jump { count = -1, float = true }<CR>', opts)
-keymap('n', ']d', '<Cmd>lua vim.diagnostic.jump { count = 1, float = true }<CR>', opts)
+keymap('n', '<Leader>d', '<Cmd>lua vim.diagnostic.open_float()<CR>', opts 'Open Diagnostic Float')
+keymap('n', '<Leader>q', '<Cmd>lua vim.diagnostic.setloclist()<CR>', opts 'Show Diagnostic Location List')
+keymap(
+  'n',
+  ']d',
+  '<Cmd>lua vim.diagnostic.jump { count = 1, float = true }<CR>',
+  opts 'Jump to the next diagnostic in the current buffer'
+)
+keymap(
+  'n',
+  '[d',
+  '<Cmd>lua vim.diagnostic.jump { count = -1, float = true }<CR>',
+  opts 'Jump to the previous diagnostic in the current buffer'
+)
 
 -- Navigate buffers
-keymap('n', ']b', ':bnext<CR>', opts)
-keymap('n', '[b', ':bprevious<CR>', opts)
+keymap('n', ']b', ':bnext<CR>', opts 'bnext')
+keymap('n', '[b', ':bprevious<CR>', opts 'bprevious')
 
 -- Find
-keymap('n', '<C-p>', '<Cmd>Telescope find_files<CR>', opts)
-keymap('n', '<C-n>', '<Cmd>Telescope live_grep<CR>', opts)
-
--- Explore
-keymap('n', '<Leader>e', ':NvimTreeFindFileToggle<CR>', opts)
+keymap('n', '<C-p>', '<Cmd>Telescope find_files<CR>', opts 'Telescope: Find Files')
+keymap('n', '<C-n>', '<Cmd>Telescope live_grep<CR>', opts 'Telescope: Live Grep')
 
 -- Visual --
 -- Stay in indent mode
-keymap('v', '<', '<gv', opts)
-keymap('v', '>', '>gv', opts)
+keymap('v', '<', '<gv', opts 'Indent: Left')
+keymap('v', '>', '>gv', opts 'Indent: Right')
 
 -- Move text up and down
-keymap('v', '<A-j>', ':m .+1<CR>==', opts)
-keymap('v', '<A-k>', ':m .-2<CR>==', opts)
+keymap('v', '<A-j>', ':m .+1<CR>==', opts 'Move: Down')
+keymap('v', '<A-k>', ':m .-2<CR>==', opts 'Move: Up')
 
 -- Visual Block --
 -- Move text up and down
-keymap('x', 'J', ":move '>+1<CR>gv-gv", opts)
-keymap('x', 'K', ":move '<-2<CR>gv-gv", opts)
-keymap('x', '<A-j>', ":move '>+1<CR>gv-gv", opts)
-keymap('x', '<A-k>', ":move '<-2<CR>gv-gv", opts)
+keymap('x', 'J', ":move '>+1<CR>gv-gv", opts 'Move: Down')
+keymap('x', 'K', ":move '<-2<CR>gv-gv", opts 'Move: Up')
+keymap('x', '<A-j>', ":move '>+1<CR>gv-gv", opts 'Move: Down')
+keymap('x', '<A-k>', ":move '<-2<CR>gv-gv", opts 'Move: Up')
