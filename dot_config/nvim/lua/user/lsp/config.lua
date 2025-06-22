@@ -18,8 +18,8 @@ local servers = {
   'ocamllsp', -- OCaml
   'pyright', -- Python
   'racket_langserver', -- Racket
+  'ruby_lsp', -- Ruby
   'rust_analyzer', -- Rust
-  'solargraph', -- Ruby
   'sqlls', -- SQL
   'svelte', -- Svelte
   'tailwindcss', -- Tailwind CSS
