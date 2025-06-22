@@ -47,6 +47,7 @@
           - java-latest-openjdk
           - java-latest-openjdk-devel
           - kitty
+          - libxcrypt-compat
           - libyaml
           - libyaml-devel
           - luarocks
