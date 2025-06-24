@@ -13,7 +13,7 @@ conform.setup {
     javascript = { 'prettierd', 'prettier', stop_after_first = true },
     lua = { 'stylua' },
     python = { 'isort', 'black' },
-    ruby = { 'rubyfmt', 'rubocop', stop_after_first = true },
+    ruby = { 'rubocop', 'rubyfmt', stop_after_first = true },
     rust = { 'rustfmt' },
     sh = { 'shfmt' },
     sql = { 'sleek' },
@@ -41,4 +41,4 @@ local function opts(desc)
   return { desc = desc, noremap = true, silent = true }
 end
 
-keymap('n', '<Leader>f', '<Cmd>Format<CR>', opts "Format")
+keymap('n', '<Leader>f', '<Cmd>Format<CR>', opts 'Format')
