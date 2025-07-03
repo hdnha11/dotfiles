@@ -321,3 +321,29 @@
 
         - name: Enable Syncthing service
           ansible.builtin.shell: "systemctl enable syncthing@{{ username }}.service"
+
+        - name: Install ASDF Node.js
+          ansible.builtin.shell: |
+            asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+            asdf install nodejs 18.19.1
+            asdf set -u nodejs 18.19.1
+
+        - name: Install ASDF Ruby
+          ansible.builtin.shell: |
+            asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
+            asdf install ruby 3.4.2
+            asdf set -u ruby 3.4.2
+
+        - name: Install ASDF Golang
+          ansible.builtin.shell: |
+            asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
+            asdf set -u golang system
+
+        - name: Install ASDF Zig
+          ansible.builtin.shell: |
+            asdf plugin add zig https://github.com/asdf-community/asdf-zig.git
+            asdf set -u zig system
+
+        - name: Install ASDF Flutter
+          ansible.builtin.shell: asdf plugin add flutter https://github.com/asdf-community/asdf-flutter.git
+
