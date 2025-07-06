@@ -47,6 +47,12 @@ keymap('n', '[b', ':bprevious<CR>', opts 'bprevious')
 keymap('n', '<C-p>', '<Cmd>Telescope find_files<CR>', opts 'Telescope: Find Files')
 keymap('n', '<C-n>', '<Cmd>Telescope live_grep<CR>', opts 'Telescope: Live Grep')
 
+-- LSP
+-- Workaround: Ruby ftplugin's <C-]> conflicts with Neovim LSP.
+-- Preempt `runtime/ftplugin/ruby.vim` by mapping <C-]> to itself *before* ftplugins load.
+-- Ref: https://github.com/neovim/neovim/issues/30160
+keymap('n', '<C-]>', '<C-]>', opts())
+
 -- Visual --
 -- Stay in indent mode
 keymap('v', '<', '<gv', opts 'Indent: Left')
