@@ -279,3 +279,7 @@
     - name: Install ASDF Flutter
       ansible.builtin.shell: asdf plugin add flutter https://github.com/asdf-community/asdf-flutter.git
 
+    - name: Install Ruby Gems
+      ansible.builtin.shell: |
+        gem install tmuxinator
+        gem install rails

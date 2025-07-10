@@ -198,14 +198,6 @@
         name: ghostty
         state: present
 
-    - name: Enable Fedora Copr for Tmuxinator
-      command: dnf copr enable -y fcsm/tmuxinator
-
-    - name: Install Tmuxinator
-      ansible.builtin.dnf:
-        name: tmuxinator
-        state: present
-
     - name: Enable Fedora Copr for Iosevka
       command: dnf copr enable -y peterwu/iosevka
 
@@ -347,3 +339,7 @@
         - name: Install ASDF Flutter
           ansible.builtin.shell: asdf plugin add flutter https://github.com/asdf-community/asdf-flutter.git
 
+        - name: Install Ruby Gems
+          ansible.builtin.shell: |
+            gem install tmuxinator
+            gem install rails
