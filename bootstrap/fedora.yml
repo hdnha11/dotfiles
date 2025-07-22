@@ -182,16 +182,8 @@
         append: true
       when: not quick_setup
 
-    - name: Enable Fedora Copr for Lua Language Server
-      command: dnf copr enable -y yorickpeterse/lua-language-server
-
-    - name: Install Lua Language Server
-      ansible.builtin.dnf:
-        name: lua-language-server
-        state: present
-
     - name: Enable Fedora Copr for Ghostty
-      command: dnf copr enable -y pgdev/ghostty
+      command: dnf copr enable -y scottames/ghostty
 
     - name: Install Ghostty
       ansible.builtin.dnf:
