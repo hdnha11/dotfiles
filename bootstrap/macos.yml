@@ -77,6 +77,7 @@
           - qmk-toolbox
           - racket
           - signal
+          - slack
           - smlnj
           - spotify
           - telegram
@@ -85,7 +86,6 @@
           - whatsapp
           - windows-app
           - wireshark
-          - wkhtmltopdf
           - zalo
           - zoom
       register: result
