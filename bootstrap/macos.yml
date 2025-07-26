@@ -102,7 +102,6 @@
           - goles/battery
           - helix-editor/helix
           - heroku/brew
-          - homebrew/services
           - lokalise/cli-2
           - mongodb/brew
           - osx-cross/avr
