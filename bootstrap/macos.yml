@@ -181,14 +181,13 @@
           - mysql-client@8.4
           - nasm
           - nghttp2
-          - nomad
           - nushell
           - ollama
           - opam
           - openapi-generator
           - openjdk@17
           - openldap
-          - openssl@1.1
+          - openssl
           - openvino
           - pandoc
           - perl
