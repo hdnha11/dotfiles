@@ -30,6 +30,9 @@ test -r "$HOME/.opam/opam-init/init.zsh" && . "$HOME/.opam/opam-init/init.zsh" >
 
 export LC_ALL=en_US.UTF-8
 
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # My bin
 export PATH=$PATH:~/.bin
 
