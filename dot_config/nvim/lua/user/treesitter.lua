@@ -1,3 +1,6 @@
+-- TODO migrate to the `main` branch
+-- The master branch is frozen and provided for backward compatibility only.
+-- All future updates happen on the main branch, which will become the default branch in the future.
 local status_ok, configs = pcall(require, 'nvim-treesitter.configs')
 if not status_ok then
   return
@@ -6,7 +9,7 @@ end
 configs.setup {
   ensure_installed = 'all', -- 'all', or a list of languages
   sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
-  ignore_install = { '' }, -- list of parsers to ignore installing
+  ignore_install = { 'ipkg' }, -- list of parsers to ignore installing
   autopairs = {
     enable = true,
   },
