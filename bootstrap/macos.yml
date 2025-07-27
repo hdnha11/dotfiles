@@ -198,8 +198,8 @@
           - protobuf
           - protoc-gen-go
           - pv
-          - python-tk
-          - python
+          - python-tk@3.13
+          - python@3.13
           - qemu
           - qt
           - radare2
