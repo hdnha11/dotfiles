@@ -178,14 +178,14 @@
           - minikube
           - mlton
           - mysql
-          - mysql-client@8.4
+          - mysql-client
           - nasm
           - nghttp2
           - nushell
           - ollama
           - opam
           - openapi-generator
-          - openjdk@17
+          - openjdk
           - openldap
           - openssl
           - openvino
@@ -193,16 +193,15 @@
           - perl
           - podman
           - polyml
-          - postgresql@14
+          - postgresql
           - pre-commit
-          - protobuf@21
+          - protobuf
           - protoc-gen-go
           - pv
-          - python-tk@3.10
-          - python@3.9
+          - python-tk
+          - python
           - qemu
           - qt
-          - qt@5
           - radare2
           - rclone
           - redis
@@ -231,12 +230,10 @@
           - whalebrew
           - yarn
           - zig
-          - zsh-autosuggestions
-          - zsh-syntax-highlighting
           - browsh-org/browsh/browsh
           - goles/battery/battery
           - heroku/brew/heroku
-          - osx-cross/avr/avr-gcc@9
+          - osx-cross/avr/avr-gcc
           - lokalise/cli-2/lokalise2
           - mongodb/brew/mongodb-community-shell
           - px4/px4/gcc-arm-none-eabi
@@ -252,6 +249,30 @@
     - name: Install Oh My Zsh
       ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc --skip-chsh
       when: not oh_my_zsh_check.stat.exists
+
+    - name: Ensuring Oh My Zsh zsh-autosuggestions installed
+      ansible.builtin.stat:
+        path: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+      register: zsh_autosuggestions_check
+
+    - name: Install Oh My Zsh zsh-autosuggestions
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
+        dest: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        depth: 1
+      when: not zsh_autosuggestions_check.stat.exists
+
+    - name: Ensuring Oh My Zsh zsh-syntax-highlighting installed
+      ansible.builtin.stat:
+        path: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+      register: zsh_syntax_highlighting_check
+
+    - name: Install Oh My Zsh zsh-syntax-highlighting
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+        dest: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        depth: 1
+      when: not zsh_syntax_highlighting_check.stat.exists
 
     - name: Install ASDF Node.js
       ansible.builtin.shell: |
