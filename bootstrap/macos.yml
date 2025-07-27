@@ -233,7 +233,7 @@
           - browsh-org/browsh/browsh
           - goles/battery/battery
           - heroku/brew/heroku
-          - osx-cross/avr/avr-gcc
+          - osx-cross/avr/avr-gcc@9
           - lokalise/cli-2/lokalise2
           - mongodb/brew/mongodb-community-shell
           - px4/px4/gcc-arm-none-eabi
