@@ -241,6 +241,10 @@
       until: result is successful
       when: homebrew_check.stat.exists
 
+    - name: For the system Java wrappers to find OpenJDK
+      ansible.builtin.shell: |
+        sudo ln -sfn /opt/homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+
     - name: Ensuring Oh My Zsh is installed
       ansible.builtin.stat:
         path: ~/.oh-my-zsh
