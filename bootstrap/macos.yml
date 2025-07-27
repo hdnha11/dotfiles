@@ -150,8 +150,8 @@
           - gobject-introspection
           - gocloc
           - gradle
-          - gtk+
           - gtk-mac-integration
+          - gtk+
           - guile
           - haskell-stack
           - helix
@@ -180,6 +180,7 @@
           - mysql
           - mysql-client
           - nasm
+          - neovim
           - nghttp2
           - nushell
           - ollama
@@ -207,7 +208,6 @@
           - redis
           - ripgrep
           - ruby-build
-          - rustup
           - sbt
           - sops
           - syncthing
@@ -233,9 +233,9 @@
           - browsh-org/browsh/browsh
           - goles/battery/battery
           - heroku/brew/heroku
-          - osx-cross/avr/avr-gcc@9
           - lokalise/cli-2/lokalise2
           - mongodb/brew/mongodb-community-shell
+          - osx-cross/avr/avr-gcc@9
           - px4/px4/gcc-arm-none-eabi
       register: result
       until: result is successful
@@ -277,6 +277,15 @@
         dest: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
         depth: 1
       when: not zsh_syntax_highlighting_check.stat.exists
+
+    - name: Ensuring Rustup is installed
+      ansible.builtin.stat:
+        path: "~/.rustup"
+      register: rustup_check
+
+    - name: Install Rustup
+      ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      when: not rustup_check.stat.exists
 
     - name: Install ASDF Node.js
       ansible.builtin.shell: |
