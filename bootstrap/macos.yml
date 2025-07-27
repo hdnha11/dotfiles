@@ -144,6 +144,7 @@
           - flyway
           - folderify
           - fzf
+          - gemini-cli
           - git
           - gnu-typist
           - go

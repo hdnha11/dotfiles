@@ -2,6 +2,20 @@
 
 This repo contains the configuration to setup my machines. This is using [Chezmoi](https://chezmoi.io), the dotfile manager to setup the install.
 
+## Prerequisites
+
+Before running the install script, make sure you have the following installed:
+
+- **Xcode Command Line Tools**:
+  ```shell
+  xcode-select --install
+  ```
+
+- **Rosetta 2** (for Apple Silicon):
+  ```shell
+  sudo softwareupdate --install-rosetta --agree-to-license
+  ```
+
 ## Install
 
 ```shell
