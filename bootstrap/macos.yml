@@ -193,7 +193,7 @@
           - perl
           - podman
           - polyml
-          - postgresql
+          - postgresql@14
           - pre-commit
           - protobuf
           - protoc-gen-go
