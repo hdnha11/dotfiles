@@ -52,7 +52,6 @@
           - wl-clipboard
           - xxd
           - xz-utils
-          - yarnpkg
           - zsh
         state: present
 

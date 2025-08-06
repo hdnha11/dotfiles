@@ -86,7 +86,6 @@
           - xxd
           - xz
           - xz-devel
-          - yarnpkg
           - zig
           - zlib
           - zlib-devel

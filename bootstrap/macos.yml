@@ -230,7 +230,6 @@
           - watchman
           - wget
           - whalebrew
-          - yarn
           - zig
           - browsh-org/browsh/browsh
           - goles/battery/battery
