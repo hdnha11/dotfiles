@@ -33,7 +33,9 @@ local packages_to_install = {
   'lua-language-server',
   'ocaml-lsp',
   'pyright',
-  'ruby-lsp',
+  -- For now, manually install `gem install ruby-lsp`, as Mason doesn't yet have full support for multiple Ruby versions.
+  -- Ref: https://github.com/mason-org/mason.nvim/issues/1777
+  -- 'ruby-lsp',
   'rust-analyzer',
   'sqlls',
   'svelte-language-server',
@@ -62,7 +64,9 @@ local packages_to_install = {
   'luacheck',
   'markdownlint',
   'pylint',
-  'rubocop',
+  -- For now, manually install `gem install rubocop`, as Mason doesn't yet have full support for multiple Ruby versions.
+  -- Ref: https://github.com/mason-org/mason.nvim/issues/1777
+  -- 'rubocop',
   'shellcheck',
   'vale',
 }
