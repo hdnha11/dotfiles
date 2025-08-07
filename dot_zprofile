@@ -1,5 +1,10 @@
 source ~/.profile
 
+# Check if a local profile exists and source it
+if [ -f ~/.profile_local ]; then
+    source ~/.profile_local
+fi
+
 # Load secrets from chezmoi keyring if .secrets config exists
 if [ -f ~/.secrets ] && [ -x ~/.local/bin/load-secrets ]; then
     source <(~/.local/bin/load-secrets ~/.secrets 2>/dev/null)
