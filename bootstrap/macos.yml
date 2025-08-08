@@ -291,8 +291,8 @@
     - name: Install ASDF Node.js
       ansible.builtin.shell: |
         asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-        asdf install nodejs 18.19.1
-        asdf set -u nodejs 18.19.1
+        asdf install nodejs 22.18.0
+        asdf set -u nodejs 22.18.0
 
     - name: Install ASDF Ruby
       ansible.builtin.shell: |
