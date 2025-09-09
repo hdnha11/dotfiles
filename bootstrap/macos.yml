@@ -223,6 +223,7 @@
           - tokei
           - tree
           - unixodbc
+          - uv
           - vala
           - vim
           - wakatime-cli
