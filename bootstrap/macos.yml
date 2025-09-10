@@ -107,6 +107,7 @@
           - mongodb/brew
           - osx-cross/avr
           - px4/px4
+          - sst/tap
       when: homebrew_check.stat.exists
 
     - name: Install Homebrew packages
@@ -239,6 +240,7 @@
           - mongodb/brew/mongodb-community-shell
           - osx-cross/avr/avr-gcc@9
           - px4/px4/gcc-arm-none-eabi
+          - sst/tap/opencode
       register: result
       until: result is successful
       when: homebrew_check.stat.exists
