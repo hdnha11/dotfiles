@@ -1,7 +1,10 @@
 # ~/.tmuxinator/project.yml
+# Usage: txs project <path-to-the-project-folder>
 
-name: <%= @args[0] %>
-root: <%= @settings['baseDir'] %>/<%= @args[0] %>
+<% project_path = File.absolute_path(@args[0]) %>
+
+name: <%= File.basename(project_path) %>
+root: <%= project_path %>
 startup_pane: 1
 
 windows:
