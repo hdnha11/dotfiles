@@ -51,6 +51,7 @@
           - libyaml
           - libyaml-devel
           - luarocks
+          - man-pages-posix
           - "@multimedia"
           - nasm
           - ncurses
