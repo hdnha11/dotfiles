@@ -36,6 +36,7 @@
           - firefox
           - fzf
           - git
+          - glycin-thumbnailer
           - gnome-tweaks
           - go
           - go-task
