@@ -2,9 +2,13 @@
 
 name: dotfiles
 root: {{ .chezmoi.sourceDir }}
-startup_window: neovim
+startup_window: editor
 startup_pane: 1
 
 windows:
-  - console: chezmoi status
-  - editor: nvim
+  - editor:
+      layout: main-vertical
+      panes:
+        - nvim
+        - chezmoi status
+  - terminal:

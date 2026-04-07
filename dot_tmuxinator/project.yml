@@ -8,10 +8,14 @@ root: <%= project_path %>
 startup_pane: 1
 
 windows:
-  - console:
+  - editor:
+      layout: main-vertical
+      panes:
+        - nvim
+        - #empty
+  - terminal:
       layout: main-vertical
       panes:
         - #empty
         - #empty
         - #empty
-  - editor: nvim
