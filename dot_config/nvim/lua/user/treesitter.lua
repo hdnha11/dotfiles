@@ -1,42 +1,80 @@
--- TODO migrate to the `main` branch
--- The master branch is frozen and provided for backward compatibility only.
--- All future updates happen on the main branch, which will become the default branch in the future.
-local status_ok, configs = pcall(require, 'nvim-treesitter.configs')
+local status_ok, mgr = pcall(require, 'tree-sitter-manager')
 if not status_ok then
   return
 end
 
-configs.setup {
-  ensure_installed = 'all', -- 'all', or a list of languages
-  sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
-  ignore_install = { 'ipkg' }, -- list of parsers to ignore installing
-  autopairs = {
-    enable = true,
-  },
-  highlight = {
-    enable = true, -- false will disable the whole extension
-    disable = { '' }, -- list of language that will be disabled
-    additional_vim_regex_highlighting = true,
-  },
-  indent = { enable = true, disable = { 'yaml' } },
-  playground = {
-    enable = true,
-    disable = {},
-    updatetime = 25, -- debounced time for highlighting nodes in the playground from source code
-    persist_queries = false, -- whether the query persists across vim sessions
-    keybindings = {
-      toggle_query_editor = 'o',
-      toggle_hl_groups = 'i',
-      toggle_injected_languages = 't',
-      toggle_anonymous_nodes = 'a',
-      toggle_language_display = 'I',
-      focus_language = 'f',
-      unfocus_language = 'F',
-      update = 'R',
-      goto_node = '<CR>',
-      show_help = '?',
-    },
-  },
+mgr.setup {
+  -- Default Options
+  ensure_installed = {
+    'asm',
+    'bash',
+    'awk',
+    'c',
+    'c_sharp',
+    'clojure',
+    'cmake',
+    'cpp',
+    'css',
+    'csv',
+    'dart',
+    'diff',
+    'dockerfile',
+    'fsharp',
+    'go',
+    'gomod',
+    'gosum',
+    'gotmpl',
+    'gowork',
+    'graphql',
+    'haskell',
+    'hcl',
+    'helm',
+    'html',
+    'java',
+    'javadoc',
+    'javascript',
+    'jq',
+    'jsdoc',
+    'json',
+    'json5',
+    'jsx',
+    'kitty',
+    'latex',
+    'llvm',
+    'lua',
+    'luadoc',
+    'make',
+    'markdown',
+    'mermaid',
+    'nasm',
+    'nginx',
+    'ocaml',
+    'php',
+    'proto',
+    'python',
+    'r',
+    'racket',
+    'regex',
+    'ruby',
+    'rust',
+    'scheme',
+    'sql',
+    'tmux',
+    'toml',
+    'typescript',
+    'vim',
+    'vimdoc',
+    'xml',
+    'yaml',
+    'zig',
+    'zsh',
+  }, -- list of parsers to install at the start of a neovim session
+  border = 'rounded', -- border style for the window (e.g. "rounded", "single"), if nil, use the default border style defined by 'vim.o.winborder'. See :h 'winborder' for more info.
+  auto_install = true, -- if enabled, install missing parsers when editing a new file
+  highlight = true, -- treesitter highlighting is enabled by default
+  -- languages = {}, -- override or add new parser sources
+  -- parser_dir = vim.fn.stdpath("data") .. "/site/parser",
+  -- query_dir = vim.fn.stdpath("data") .. "/site/queries",
 }
 
 require('ts_context_commentstring').setup {

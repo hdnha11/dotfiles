@@ -81,6 +81,7 @@
           - tk-devel
           - tmux
           - toilet
+          - tree-sitter-cli
           - unar
           - vim
           - "@virtualization"

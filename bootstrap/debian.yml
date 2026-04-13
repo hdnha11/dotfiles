@@ -44,6 +44,7 @@
           - libsqlite3-dev
           - syncthing
           - tig
+          - tree-sitter-cli
           - tmux
           - vim
           - qemu-kvm # Virtualization
