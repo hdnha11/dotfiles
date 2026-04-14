@@ -27,7 +27,6 @@ ibl.setup {
       'lspinfo',
       'man',
       'neogitstatus',
-      'packer',
       'startify',
     },
   },

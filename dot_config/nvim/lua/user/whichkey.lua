@@ -224,13 +224,6 @@ local mappings = {
   { '<Leader>ls', '<Cmd>Telescope lsp_document_symbols<CR>', desc = 'Document Symbols' },
   { '<Leader>lw', '<Cmd>Telescope lsp_workspace_diagnostics<CR>', desc = 'Workspace Diagnostics' },
 
-  { '<Leader>p', group = 'Packer' },
-  { '<Leader>pS', '<Cmd>PackerStatus<CR>', desc = 'Status' },
-  { '<Leader>pc', '<Cmd>PackerCompile<CR>', desc = 'Compile' },
-  { '<Leader>pi', '<Cmd>PackerInstall<CR>', desc = 'Install' },
-  { '<Leader>ps', '<Cmd>PackerSync<CR>', desc = 'Sync' },
-  { '<Leader>pu', '<Cmd>PackerUpdate<CR>', desc = 'Update' },
-
   { '<Leader>s', group = 'Search' },
   { '<Leader>sC', '<Cmd>Telescope commands<CR>', desc = 'Commands' },
   { '<Leader>sM', '<Cmd>Telescope man_pages<CR>', desc = 'Man Pages' },
