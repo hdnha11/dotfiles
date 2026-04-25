@@ -67,6 +67,7 @@
           - pkg-config
           - podman-compose
           - poetry
+          - raylib-devel
           - readline
           - readline-devel
           - remove-retired-packages

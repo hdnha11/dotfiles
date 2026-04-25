@@ -207,6 +207,7 @@
           - qemu
           - qt
           - radare2
+          - raylib
           - rclone
           - redis
           - ripgrep
