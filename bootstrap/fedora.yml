@@ -47,6 +47,7 @@
           - ImageMagick
           - java-latest-openjdk
           - java-latest-openjdk-devel
+          - kicad
           - kitty
           - libxcrypt-compat
           - libyaml
@@ -213,6 +214,7 @@
           - com.jetbrains.DataGrip
           - com.jetbrains.IntelliJ-IDEA-Community
           - com.obsproject.Studio
+          - com.simulide.simulide
           - com.spotify.Client
           - com.valvesoftware.Steam
           - edu.mit.Scratch
