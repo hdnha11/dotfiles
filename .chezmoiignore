@@ -15,7 +15,7 @@ README.md
 
 # Linux only
 {{- if ne .chezmoi.os "linux" }}
-bin
+.config/appimagelauncher.cfg
 {{- end }}
 
 # Debian only

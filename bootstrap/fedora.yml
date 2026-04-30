@@ -234,6 +234,22 @@
           - us.zoom.Zoom
       when: not quick_setup
 
+    - name: Download AppImageLauncher RPM
+      get_url:
+        url: "https://github.com/TheAssassin/AppImageLauncher/releases/download/continuous/appimagelauncher_3.0.0-beta-2-gha298.4daf93f_x86_64.rpm"
+        dest: /tmp/appimagelauncher.rpm
+
+    - name: Install AppImageLauncher
+      dnf:
+        name: /tmp/appimagelauncher.rpm
+        state: present
+        disable_gpg_check: yes
+
+    - name: Clean up temporary RPM file
+      file:
+        path: /tmp/appimagelauncher.rpm
+        state: absent
+
     - name: "Running tasks as {{ username }}"
       become: true
       become_user: "{{ username }}"
