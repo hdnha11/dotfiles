@@ -62,6 +62,7 @@
           - ncurses-devel
           - neovim
           - opam
+          - openocd
           - openssl
           - openssl-devel
           - patch
