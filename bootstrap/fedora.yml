@@ -158,7 +158,7 @@
       ansible.builtin.yum_repository:
         name: docker
         description: Docker repo
-        baseurl: "https://download.docker.com/linux/fedora/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/stable"
+        baseurl: "https://download.docker.com/linux/fedora/{{ ansible_facts['distribution_major_version'] }}/{{ ansible_facts['architecture'] }}/stable"
         gpgkey: "https://download.docker.com/linux/fedora/gpg"
         gpgcheck: true
         enabled: true
