@@ -79,6 +79,7 @@
           - ruby-devel
           - sqlite
           - sqlite-devel
+          - stlink
           - syncthing
           - tig
           - tk
