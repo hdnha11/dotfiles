@@ -24,6 +24,7 @@
           - bat
           - bear
           - blender
+          - boost-devel
           - bzip2
           - bzip2-devel
           - "@c-development"
