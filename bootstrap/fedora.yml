@@ -84,6 +84,7 @@
           - sqlite-devel
           - stlink
           - syncthing
+          - telnet
           - tig
           - tk
           - tk-devel
