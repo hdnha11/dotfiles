@@ -71,6 +71,8 @@
           - pkg-config
           - podman-compose
           - poetry
+          - qemu-system-arm
+          - qemu-system-arm-core
           - raylib-devel
           - readline
           - readline-devel
