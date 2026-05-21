@@ -101,17 +101,21 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-export EDITOR='nvim'
+export EDITOR="nvim"
 # if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
+#   export EDITOR="vim"
 # else
-#   export EDITOR='nvim'
+#   export EDITOR="nvim"
 # fi
 
 # Preferred key bindings
 # Zsh does not use readline, it does not read /etc/inputrc or ~/.inputrc
-bindkey -e # Emacs
-# bindkey -v # vi
+# Emacs
+bindkey -e
+bindkey "^U" backward-kill-line
+
+# vi
+# bindkey -v
 
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
