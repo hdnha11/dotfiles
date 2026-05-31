@@ -51,6 +51,7 @@
           - java-latest-openjdk-devel
           - kicad
           - kitty
+          - libtsan
           - libxcrypt-compat
           - libyaml
           - libyaml-devel
