@@ -87,6 +87,7 @@
           - stlink
           - syncthing
           - telnet
+          - texinfo
           - tig
           - tk
           - tk-devel
