@@ -75,6 +75,8 @@
           - poetry
           - qemu-system-arm
           - qemu-system-arm-core
+          - qemu-system-riscv
+          - qemu-system-riscv-core
           - raylib-devel
           - readline
           - readline-devel
