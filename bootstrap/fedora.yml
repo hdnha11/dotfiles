@@ -32,6 +32,7 @@
           - "@development-tools"
           - dotnet-sdk-9.0
           - emacs
+          - expat-devel
           - fastfetch
           - fd-find
           - ffmpeg-free
