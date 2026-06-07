@@ -28,6 +28,7 @@
           - bzip2
           - bzip2-devel
           - "@c-development"
+          - cloc
           - croc
           - "@development-tools"
           - dotnet-sdk-9.0
