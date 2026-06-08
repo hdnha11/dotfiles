@@ -86,7 +86,6 @@
           - visual-studio-code
           - whatsapp
           - windows-app
-          - wireshark
           - zalo
           - zoom
       register: result
@@ -96,7 +95,6 @@
     - name: Install Homebrew taps
       community.general.homebrew_tap:
         name:
-          - browsh-org/browsh
           - clojure/tools
           - dart-lang/dart
           - domq/gdb
@@ -107,6 +105,7 @@
           - mongodb/brew
           - osx-cross/avr
           - px4/px4
+          - riscv/riscv
           - sst/tap
       when: homebrew_check.stat.exists
 
@@ -120,7 +119,9 @@
           - automake
           - avrdude
           - bat
+          - bear
           - berkeley-db
+          - bison
           - bitwarden-cli
           - black
           - ccat
@@ -140,14 +141,19 @@
           - docker-credential-helper
           - evince
           - exercism
+          - expat
           - fastfetch
           - fd
           - ffmpeg
+          - flock
           - flyway
           - folderify
           - fzf
+          - gawk
           - gemini-cli
           - git
+          - gmp
+          - gnu-sed
           - gnu-typist
           - go
           - gobject-introspection
@@ -160,6 +166,7 @@
           - helix
           - htop
           - httpie
+          - isl
           - jansson
           - jmeter
           - jq
@@ -169,22 +176,29 @@
           - leiningen
           - libffi
           - libmaxminddb
+          - libmpc
           - libproxy
+          - libslirp
           - libsmi
           - libtermkey
           - libxml2
           - llvm
           - luarocks
           - lynx
+          - m4
+          - make
           - maven
           - mercurial
           - minikube
           - mlton
+          - mpfr
           - mysql
           - mysql-client
           - nasm
+          - ncurses
           - neovim
           - nghttp2
+          - ninja
           - nushell
           - ollama
           - opam
@@ -235,21 +249,22 @@
           - wget
           - whalebrew
           - zig
-          - browsh-org/browsh/browsh
+          - zlib
           - goles/battery/battery
           - heroku/brew/heroku
           - lokalise/cli-2/lokalise2
           - mongodb/brew/mongodb-community-shell
           - osx-cross/avr/avr-gcc@9
           - px4/px4/gcc-arm-none-eabi
+          - riscv/riscv/riscv-tools
           - sst/tap/opencode
       register: result
       until: result is successful
       when: homebrew_check.stat.exists
 
-    - name: For the system Java wrappers to find OpenJDK
-      ansible.builtin.shell: |
-        sudo ln -sfn /opt/homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+    # - name: For the system Java wrappers to find OpenJDK
+    #   ansible.builtin.shell: |
+    #     sudo ln -sfn /opt/homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
 
     - name: Ensuring Oh My Zsh is installed
       ansible.builtin.stat:
