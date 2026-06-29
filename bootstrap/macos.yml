@@ -216,6 +216,7 @@
           - pre-commit
           - protobuf
           - protoc-gen-go
+          - pstree
           - pv
           - python-tk@3.13
           - python@3.13
