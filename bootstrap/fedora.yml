@@ -53,6 +53,7 @@
           - java-latest-openjdk
           - java-latest-openjdk-devel
           - kde-connect
+          - kf6-kitemmodels
           - kicad
           - kitty
           - libtsan
