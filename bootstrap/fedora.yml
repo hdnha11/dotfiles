@@ -52,6 +52,7 @@
           - ImageMagick
           - java-latest-openjdk
           - java-latest-openjdk-devel
+          - kde-connect
           - kicad
           - kitty
           - libtsan
