@@ -238,6 +238,7 @@
           - the_silver_searcher
           - tig
           - tmux
+          - tmuxinator
           - tokei
           - tree
           - tree-sitter-cli
