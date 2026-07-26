@@ -28,6 +28,7 @@
           - bzip2
           - bzip2-devel
           - "@c-development"
+          - clang
           - cloc
           - croc
           - "@development-tools"
@@ -60,6 +61,7 @@
           - libxcrypt-compat
           - libyaml
           - libyaml-devel
+          - lldb
           - luarocks
           - man-pages-posix
           - mpfr-devel
