@@ -167,6 +167,7 @@
           - helix
           - htop
           - httpie
+          - hunk
           - isl
           - jansson
           - jmeter
@@ -227,6 +228,7 @@
           - rclone
           - redis
           - ripgrep
+          - rtk
           - ruby-build
           - sbt
           - sops
