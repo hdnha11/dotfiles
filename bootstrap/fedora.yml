@@ -82,6 +82,7 @@
           - poetry
           - qemu
           - raylib-devel
+          - rclone
           - readline
           - readline-devel
           - remove-retired-packages

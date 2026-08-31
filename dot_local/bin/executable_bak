@@ -1,0 +1,442 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ── constants ──────────────────────────────────────────────────────────────────
+readonly CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/bak"
+readonly CONFIG_FILE="$CONFIG_DIR/config"
+readonly IGNORE_FILE="$CONFIG_DIR/ignore"
+readonly KEYRING_INDEX="$CONFIG_DIR/keyring-index"
+
+# ── defaults (overridden by config file, then env, then CLI flags) ─────────────
+SOURCE="$HOME"
+BACKUPS_DIR="$HOME/.backups/bak"
+REMOTE=""
+KEEP=5
+
+# ── helpers ────────────────────────────────────────────────────────────────────
+die()     { echo "bak: error: $*" >&2; exit 1; }
+info()    { echo "bak: $*"; }
+has_cmd() { command -v "$1" >/dev/null 2>&1; }
+require_cmd() { has_cmd "$1" || die "'$1' is required but not installed"; }
+
+load_config() {
+    [[ -f "$CONFIG_FILE" ]] && source "$CONFIG_FILE"
+    SOURCE="${BAK_SOURCE:-$SOURCE}"
+    BACKUPS_DIR="${BAK_BACKUPS_DIR:-$BACKUPS_DIR}"
+    REMOTE="${BAK_REMOTE:-$REMOTE}"
+    KEEP="${BAK_KEEP:-$KEEP}"
+}
+
+ensure_config() {
+    mkdir -p "$CONFIG_DIR"
+
+    if [[ ! -f "$CONFIG_FILE" ]]; then
+        cat > "$CONFIG_FILE" <<'EOF'
+# bak configuration — edit as needed
+SOURCE="$HOME"
+BACKUPS_DIR="$HOME/.backups/bak"
+REMOTE=""   # e.g. "myremote:backups" — leave empty to skip upload
+KEEP=5
+EOF
+        info "Created config: $CONFIG_FILE"
+    fi
+
+    if [[ ! -f "$IGNORE_FILE" ]]; then
+        cat > "$IGNORE_FILE" <<'EOF'
+node_modules/
+.cache/
+.npm/
+.yarn/cache/
+__pycache__/
+*.pyc
+.cargo/registry/
+target/
+dist/
+build/
+.DS_Store
+*.log
+*.tmp
+.local/share/Trash/
+.mozilla/firefox/*/Cache/
+.config/BraveSoftware/
+EOF
+        info "Created ignore file: $IGNORE_FILE"
+    fi
+}
+
+# ── passphrase management ──────────────────────────────────────────────────────
+PASS_FILE=""
+
+setup_pass_file() {
+    PASS_FILE=$(mktemp)
+    chmod 600 "$PASS_FILE"
+}
+
+get_passphrase_entry() {
+    chezmoi secret keyring get --service=bak --user="$1" 2>/dev/null
+}
+
+# Write a keyring entry to PASS_FILE and test it decrypts the archive. Returns 0/1.
+_try_entry() {  # archive entry_name
+    local val
+    val=$(get_passphrase_entry "$2") || return 1
+    printf '%s' "$val" > "$PASS_FILE"
+    local gpg_exit
+    set +o pipefail
+    gpg --batch --passphrase-file "$PASS_FILE" --decrypt --quiet "$1" 2>/dev/null \
+        | head -c 1 > /dev/null
+    gpg_exit=${PIPESTATUS[0]}
+    set -o pipefail
+    [[ $gpg_exit -eq 0 ]]
+}
+
+# Try current passphrase then retired ones (newest-first). Returns 1 if none work.
+find_working_passphrase() {
+    local archive="$1"
+
+    _try_entry "$archive" "gpg-passphrase" && return 0
+
+    [[ -f "$KEYRING_INDEX" ]] || return 1
+    local entry
+    while IFS= read -r entry; do
+        [[ -z "$entry" ]] && continue
+        if _try_entry "$archive" "$entry"; then
+            info "Using retired passphrase: $entry"
+            return 0
+        fi
+    done < <(tac "$KEYRING_INDEX" 2>/dev/null || tail -r "$KEYRING_INDEX")
+
+    return 1
+}
+
+# ── archive helpers ────────────────────────────────────────────────────────────
+
+# Resolves a local-or-remote path to a local file.
+# Sets globals ARCHIVE and TMP_ARCHIVE (non-empty if a temp file was downloaded).
+ARCHIVE="" TMP_ARCHIVE=""
+open_archive() {
+    local from="$1"
+    TMP_ARCHIVE=""
+    if [[ "$from" == *:* ]]; then
+        require_cmd rclone
+        TMP_ARCHIVE=$(mktemp)
+        info "Downloading $from..."
+        rclone copyto "$from" "$TMP_ARCHIVE"
+        ARCHIVE="$TMP_ARCHIVE"
+    else
+        ARCHIVE="$from"
+    fi
+    [[ -f "$ARCHIVE" ]] || die "Archive not found: $from"
+}
+
+archive_name() {
+    local date
+    date=$(date +%Y-%m-%d-%H%M)
+    echo "${USER}_${HOSTNAME%%.*}-${date}.tar.gz.gpg"
+}
+
+list_local_archives() {
+    ls -1t "$BACKUPS_DIR"/*.tar.gz.gpg 2>/dev/null || true
+}
+
+prune_local() {
+    local i=0
+    while IFS= read -r f; do
+        i=$((i + 1))
+        [[ $i -le $KEEP ]] && continue
+        info "Deleting old local: ${f##*/}"
+        rm -f "$f"
+    done < <(list_local_archives)
+}
+
+prune_remote() {
+    local dest="$1" i=0
+    while IFS= read -r file; do
+        [[ -z "$file" ]] && continue
+        i=$((i + 1))
+        [[ $i -le $KEEP ]] && continue
+        info "Deleting old remote: $file"
+        rclone deletefile "$dest/$file"
+    done < <(rclone lsf "$dest" --files-only 2>/dev/null | sort -r || true)
+}
+
+# ── subcommands ────────────────────────────────────────────────────────────────
+
+cmd_backup() {
+    local no_upload=false dry_run=false
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --source)      SOURCE="$2";      shift 2 ;;
+            --backup-dir)  BACKUPS_DIR="$2"; shift 2 ;;
+            --no-upload)   no_upload=true;   shift ;;
+            --dry-run)     dry_run=true;     shift ;;
+            *) die "Unknown flag: $1" ;;
+        esac
+    done
+
+    require_cmd tar
+    require_cmd gpg
+    require_cmd chezmoi
+
+    [[ -d "$SOURCE" ]] || die "Source not found: $SOURCE"
+
+    local archive backup_path
+    archive=$(archive_name)
+    backup_path="$BACKUPS_DIR/$archive"
+
+    if $dry_run; then
+        info "[dry-run] Source:  $SOURCE"
+        info "[dry-run] Archive: $backup_path"
+        info "[dry-run] Ignore:  $IGNORE_FILE"
+        $no_upload || [[ -z "$REMOTE" ]] || info "[dry-run] Upload:  ${REMOTE}/${HOSTNAME%%.*}"
+        return
+    fi
+
+    setup_pass_file
+    trap 'rm -f "$PASS_FILE"' EXIT
+
+    local val
+    val=$(get_passphrase_entry "gpg-passphrase") || die "No passphrase found — run: bak setup --key"
+    printf '%s' "$val" > "$PASS_FILE"
+
+    mkdir -p "$BACKUPS_DIR"
+
+    info "Source:  $SOURCE"
+    info "Archive: $backup_path"
+
+    local exclude_args=()
+    [[ -f "$IGNORE_FILE" ]] && exclude_args+=("--exclude-from=$IGNORE_FILE")
+
+    info "Creating encrypted archive..."
+    tar -C "$(dirname "$SOURCE")" -czf - "${exclude_args[@]}" "$(basename "$SOURCE")" \
+        | gpg --symmetric --batch --compress-algo none --cipher-algo AES256 \
+              --passphrase-file "$PASS_FILE" -o "$backup_path"
+
+    local size
+    size=$(du -sh "$backup_path")
+    info "Done. Size: ${size%%$'\t'*}"
+
+    if ! $no_upload; then
+        if [[ -z "$REMOTE" ]]; then
+            info "No remote configured — skipping upload (set REMOTE in $CONFIG_FILE)"
+        elif ! has_cmd rclone; then
+            info "rclone not installed — skipping upload"
+        else
+            local dest="${REMOTE}/${HOSTNAME%%.*}"
+            info "Uploading to $dest..."
+            rclone copy "$backup_path" "$dest"
+            info "Upload complete"
+            prune_remote "$dest"
+        fi
+    fi
+
+    prune_local
+}
+
+cmd_restore() {
+    local from="" to="$HOME" list=false dry_run=false
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --from)     from="$2";    shift 2 ;;
+            --to)       to="$2";      shift 2 ;;
+            --list)     list=true;    shift ;;
+            --dry-run)  dry_run=true; shift ;;
+            *) die "Unknown flag: $1" ;;
+        esac
+    done
+
+    require_cmd gpg
+    require_cmd rsync
+
+    if $list; then
+        echo "=== Local ($BACKUPS_DIR) ==="
+        local archives; archives=$(list_local_archives)
+        echo "${archives:-(none)}"
+        if [[ -n "$REMOTE" ]] && has_cmd rclone; then
+            local dest="${REMOTE}/${HOSTNAME%%.*}"
+            echo "=== Remote ($dest) ==="
+            rclone lsf "$dest" --files-only 2>/dev/null | sort -r || echo "(none)"
+        fi
+        return
+    fi
+
+    [[ -z "$from" ]] && die "Specify archive with --from <path|remote:path> (or use --list)"
+
+    setup_pass_file
+    local scratch
+    scratch=$(mktemp -d)
+    trap 'rm -f "$PASS_FILE" "${TMP_ARCHIVE:-}"; rm -rf "${scratch:-}"' EXIT
+
+    open_archive "$from"
+
+    info "Finding working passphrase..."
+    find_working_passphrase "$ARCHIVE" \
+        || die "No passphrase could decrypt this archive — check keyring or run: bak rotate-key"
+
+    if $dry_run; then
+        info "[dry-run] Would decrypt $ARCHIVE"
+        info "[dry-run] Would rsync $scratch/<archive-root>/ → $to/"
+        return
+    fi
+
+    info "Decrypting and extracting..."
+    gpg --batch --passphrase-file "$PASS_FILE" --decrypt --quiet "$ARCHIVE" \
+        | tar -xzf - -C "$scratch"
+
+    local root
+    root=$(ls "$scratch" | head -1)
+    local restore_from="$scratch/$root/"
+    [[ -d "$restore_from" ]] || die "Archive appears empty or malformed"
+
+    if [[ "$(basename "$to")" != "$root" ]]; then
+        info "Archive root is '$root/', restoring into '$to/' (differs from original location)."
+        read -r -p "bak: Continue? [y/N] " reply
+        [[ "$reply" == [yY] ]] || { info "Aborted."; exit 0; }
+    fi
+
+    info "Restoring to $to/..."
+    rsync -av --info=progress2 "$restore_from" "$to/"
+    info "Restore complete"
+}
+
+cmd_contents() {
+    local from=""
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --from) from="$2"; shift 2 ;;
+            *) die "Unknown flag: $1" ;;
+        esac
+    done
+
+    [[ -z "$from" ]] && die "Specify archive with --from <path|remote:path>"
+
+    require_cmd gpg
+
+    setup_pass_file
+    trap 'rm -f "$PASS_FILE" "${TMP_ARCHIVE:-}"' EXIT
+
+    open_archive "$from"
+
+    find_working_passphrase "$ARCHIVE" \
+        || die "No passphrase could decrypt this archive — check keyring or run: bak rotate-key"
+
+    gpg --batch --passphrase-file "$PASS_FILE" --decrypt --quiet "$ARCHIVE" \
+        | tar -tzf -
+}
+
+cmd_setup() {
+    local setup_key=false setup_remote=false
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --key)    setup_key=true;    shift ;;
+            --remote) setup_remote=true; shift ;;
+            *) die "Unknown flag: $1" ;;
+        esac
+    done
+
+    ensure_config
+
+    if $setup_key; then
+        require_cmd chezmoi
+        info "Storing GPG passphrase (service=bak, user=gpg-passphrase)..."
+        chezmoi secret keyring set --service=bak --user=gpg-passphrase
+        info "Passphrase stored."
+    fi
+
+    if $setup_remote; then
+        require_cmd rclone
+        rclone config
+    fi
+
+    if ! $setup_key && ! $setup_remote; then
+        info "Config:  $CONFIG_FILE"
+        info "Ignore:  $IGNORE_FILE"
+        info "Run 'bak setup --key' to store the encryption passphrase."
+        info "Run 'bak setup --remote' to configure an rclone remote."
+    fi
+}
+
+cmd_rotate_key() {
+    require_cmd chezmoi
+    ensure_config
+
+    local current
+    current=$(get_passphrase_entry "gpg-passphrase") \
+        || die "No current passphrase found — run: bak setup --key"
+
+    local retired_user="gpg-passphrase-$(date +%Y%m%d)"
+
+    info "Archiving current passphrase as: $retired_user"
+    printf '%s' "$current" \
+        | chezmoi secret keyring set --service=bak --user="$retired_user"
+
+    echo "$retired_user" >> "$KEYRING_INDEX"
+
+    info "Enter new passphrase:"
+    chezmoi secret keyring set --service=bak --user=gpg-passphrase
+
+    info "Key rotated. Old archives remain decryptable via retired passphrase entries."
+}
+
+# ── usage ──────────────────────────────────────────────────────────────────────
+usage() {
+    cat <<EOF
+Usage: bak <command> [options]
+
+Commands:
+  backup      Create an encrypted archive and optionally upload via rclone
+  restore     Decrypt and restore an archive using rsync
+  setup       Initialise config or store credentials
+  contents    List files inside an encrypted archive
+  rotate-key  Rotate GPG passphrase (retains old entries for restoring old archives)
+
+contents:
+  --from <file>         Local path or remote:path/file.tar.gz.gpg
+
+backup:
+  --source <path>       Source to archive (default: \$HOME)
+  --backup-dir <path>   Local archive directory (default: \$HOME/.backups/bak)
+  --no-upload           Skip rclone upload
+  --dry-run             Show what would happen without doing it
+
+restore:
+  --from <file>         Local path or remote:path/file.tar.gz.gpg
+  --to <path>           Restore destination (default: \$HOME)
+  --list                List available archives (local and remote)
+  --dry-run             Rsync dry-run (show changes, no writes)
+
+setup:
+  --key                 Store/update GPG passphrase in OS keyring
+  --remote              Launch rclone config to add a remote
+
+Archive format:  <user>_<hostname>-<YYYY-MM-DD-HHmm>.tar.gz.gpg
+Remote path:     <REMOTE>/<hostname>/<archive>
+
+Config:  \$XDG_CONFIG_HOME/bak/config   (or ~/.config/bak/config)
+Ignore:  \$XDG_CONFIG_HOME/bak/ignore
+EOF
+}
+
+# ── main ───────────────────────────────────────────────────────────────────────
+main() {
+    [[ $# -eq 0 ]] && { usage; exit 0; }
+
+    local cmd="$1"; shift
+    load_config
+
+    case "$cmd" in
+        backup)     cmd_backup "$@" ;;
+        restore)    cmd_restore "$@" ;;
+        contents)   cmd_contents "$@" ;;
+        setup)      cmd_setup "$@" ;;
+        rotate-key) cmd_rotate_key "$@" ;;
+        -h|--help)  usage ;;
+        *) die "Unknown command: '$cmd' — run: bak --help" ;;
+    esac
+}
+
+main "$@"
