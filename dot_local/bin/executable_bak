@@ -43,22 +43,7 @@ EOF
 
     if [[ ! -f "$IGNORE_FILE" ]]; then
         cat > "$IGNORE_FILE" <<'EOF'
-node_modules/
-.cache/
-.npm/
-.yarn/cache/
-__pycache__/
-*.pyc
-.cargo/registry/
-target/
-dist/
-build/
-.DS_Store
-*.log
-*.tmp
-.local/share/Trash/
-.mozilla/firefox/*/Cache/
-.config/BraveSoftware/
+node_modules*
 EOF
         info "Created ignore file: $IGNORE_FILE"
     fi
@@ -163,7 +148,7 @@ prune_remote() {
 # ── subcommands ────────────────────────────────────────────────────────────────
 
 cmd_backup() {
-    local no_upload=false dry_run=false
+    local no_upload=false dry_run=false verbose=false
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -171,6 +156,7 @@ cmd_backup() {
             --backup-dir)  BACKUPS_DIR="$2"; shift 2 ;;
             --no-upload)   no_upload=true;   shift ;;
             --dry-run)     dry_run=true;     shift ;;
+            --verbose|-v)  verbose=true;     shift ;;
             *) die "Unknown flag: $1" ;;
         esac
     done
@@ -205,11 +191,11 @@ cmd_backup() {
     info "Source:  $SOURCE"
     info "Archive: $backup_path"
 
-    local exclude_args=()
-    [[ -f "$IGNORE_FILE" ]] && exclude_args+=("--exclude-from=$IGNORE_FILE")
-
     info "Creating encrypted archive..."
-    tar -C "$(dirname "$SOURCE")" -czf - "${exclude_args[@]}" "$(basename "$SOURCE")" \
+    local tar_flags=(-czf -)
+    $verbose && tar_flags=(-czvf -)
+    [[ -f "$IGNORE_FILE" ]] && tar_flags+=(--exclude-from="$IGNORE_FILE")
+    tar -C "$(dirname "$SOURCE")" "${tar_flags[@]}" "$(basename "$SOURCE")" \
         | gpg --symmetric --batch --compress-algo none --cipher-algo AES256 \
               --passphrase-file "$PASS_FILE" -o "$backup_path"
 
@@ -235,14 +221,15 @@ cmd_backup() {
 }
 
 cmd_restore() {
-    local from="" to="$HOME" list=false dry_run=false
+    local from="" to="$HOME" list=false dry_run=false verbose=false
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --from)     from="$2";    shift 2 ;;
-            --to)       to="$2";      shift 2 ;;
-            --list)     list=true;    shift ;;
-            --dry-run)  dry_run=true; shift ;;
+            --from)       from="$2";    shift 2 ;;
+            --to)         to="$2";      shift 2 ;;
+            --list)       list=true;    shift ;;
+            --dry-run)    dry_run=true; shift ;;
+            --verbose|-v) verbose=true; shift ;;
             *) die "Unknown flag: $1" ;;
         esac
     done
@@ -297,7 +284,9 @@ cmd_restore() {
     fi
 
     info "Restoring to $to/..."
-    rsync -av --info=progress2 "$restore_from" "$to/"
+    local rsync_flags=(-a --info=progress2)
+    $verbose && rsync_flags=(-av --info=progress2)
+    rsync "${rsync_flags[@]}" "$restore_from" "$to/"
     info "Restore complete"
 }
 
@@ -402,12 +391,14 @@ backup:
   --backup-dir <path>   Local archive directory (default: \$HOME/.backups/bak)
   --no-upload           Skip rclone upload
   --dry-run             Show what would happen without doing it
+  --verbose, -v         Print each file as it is archived
 
 restore:
   --from <file>         Local path or remote:path/file.tar.gz.gpg
   --to <path>           Restore destination (default: \$HOME)
   --list                List available archives (local and remote)
   --dry-run             Rsync dry-run (show changes, no writes)
+  --verbose, -v         Print each file as it is restored
 
 setup:
   --key                 Store/update GPG passphrase in OS keyring
