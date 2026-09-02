@@ -93,6 +93,7 @@
           - sqlite-devel
           - stlink
           - syncthing
+          - sysstat
           - telnet
           - texinfo
           - tig
